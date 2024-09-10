@@ -1,4 +1,4 @@
-@extends('templates.main', ['menu' => "admin", 'submenu' => "Novo Curso"])
+@extends('templates.main')
 
 @section('conteudo')
 
