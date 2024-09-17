@@ -9,15 +9,15 @@
                 <div class="form-floating mb-3">
                 <input 
                     type="text" 
-                    class="form-control @if($errors->has('nome')) is-invalid @endif" 
-                    name="nome" 
-                    placeholder="Nome"
-                    value="{{old('nome')}}"
+                    class="form-control @if($errors->has('email')) is-invalid @endif" 
+                    name="email" 
+                    placeholder="email"
+                    value="{{old('email')}}"
                 />
-                <label for="nome">Nome</label>
-                @if($errors->has('nome'))
+                <label for="email">Email</label>
+                @if($errors->has('email'))
                     <div class='invalid-feedback'>
-                        {{ $errors->first('nome') }}
+                        {{ $errors->first('email') }}
                     </div>
                 @endif
                 </div>

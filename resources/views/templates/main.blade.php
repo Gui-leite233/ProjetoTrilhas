@@ -12,7 +12,7 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="">ProjetoTrilhas</a>
+    <a class="navbar-brand ms-2" href="">ProjetoTrilhas</a>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav ms-auto">
                     <li class="nav-item dropdown ps-2">
@@ -39,7 +39,9 @@
         </div>
     </nav>
 
-
+    <section class="container mt-3">
+        @yield('conteudo')
+    </section>
 
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
