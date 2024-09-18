@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('curso.index');
+    return view('welcome');
 });
 
 Route::get('/create', function () {
