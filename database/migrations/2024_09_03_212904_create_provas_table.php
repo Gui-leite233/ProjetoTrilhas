@@ -15,8 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('titulo');
             $table->text('descricao');
-            $table->unsignedBigInteger('curso_id');
-            $table->foreign('curso_id')->references('id')->on('cursos');
+            $table->string('documento');
             $table->timestamps();
         });
     }

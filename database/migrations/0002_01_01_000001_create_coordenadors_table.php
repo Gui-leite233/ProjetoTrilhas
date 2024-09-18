@@ -13,8 +13,10 @@ return new class extends Migration
     {
         Schema::create('coordenadors', function (Blueprint $table) {
             $table->id();
-            $table->string('nome');
-            $table->string('email');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->unsignedBigInteger('curso_id');
+            $table->foreign('curso_id')->references('id')->on('cursos');
             $table->timestamps();
         });
     }

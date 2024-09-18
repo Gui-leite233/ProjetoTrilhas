@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('bolsas', function (Blueprint $table) {
             $table->id();
+            $table->string('titulo');
+            $table->text('descricao');
+            $table->unsignedBigInteger('curso_id');
+            $table->foreign('curso_id')->references('id')->on('cursos');
+            $table->boolean('ativo');
             $table->timestamps();
         });
     }

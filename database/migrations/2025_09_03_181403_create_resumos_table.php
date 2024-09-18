@@ -13,12 +13,8 @@ return new class extends Migration
     {
         Schema::create('resumos', function (Blueprint $table) {
             $table->id();
-            $table->string('titulo');
-            $table->text('descricao');
             $table->unsignedBigInteger('curso_id');
             $table->foreign('curso_id')->references('id')->on('cursos');
-            $table->unsignedBigInteger('aluno_id');
-            $table->foreign('aluno_id')->references('id')->on('alunos');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
