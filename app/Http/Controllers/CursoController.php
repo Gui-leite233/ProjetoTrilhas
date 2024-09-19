@@ -27,30 +27,34 @@ class CursoController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        $regras = [
-            'nome' => 'required|max:100|min:10',
-        ];
 
-        $msgs = [
-            "required" => "O preenchimento do campo [:attribute] é obrigatório!",
-            "max" => "O campo [:attribute] possui tamanho máximo de [:max] caracteres!",
-            "min" => "O campo [:attribute] possui tamanho mínimo de [:min] caracteres!",
-        ];
 
-        $request->validate($regras, $msgs);
-
-        if($request->hasFile('foto')) {
-
-            // Insert no Banco
-            $reg = new Curso();
-            $reg->nome = $request->nome;
-           
-        }
-        
-        return redirect()->route('curso.index');
-    }
+     public function store($nome)
+     {
+         $regras = [
+             'nome' => 'required|max:100|min:10',
+         ];
+     
+         $msgs = [
+             "required" => "O preenchimento do campo [:attribute] é obrigatório!",
+             "max" => "O campo [:attribute] possui tamanho máximo de [:max] caracteres!",
+             "min" => "O campo [:attribute] possui tamanho mínimo de [:min] caracteres!",
+         ];
+     
+         //$validator = Validator::make(['nome' => $nome], $regras, $msgs);
+     
+        //  if ($validator->fails()) {
+        //      return redirect()->back()->withErrors($validator);
+        //  }
+     
+         $reg = new Curso();
+         $reg->nome = $nome;
+         $reg->save();
+     
+         return redirect()->route('curso.index');
+     }
+     
+    
 
     /**
      * Display the specified resource.

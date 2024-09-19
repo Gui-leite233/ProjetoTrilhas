@@ -9,7 +9,7 @@
                 <div class="form-floating mb-3">
                 <input 
                     type="text" 
-                    class="form-control @if($errors->has('emailnome')) is-invalid @endif" 
+                    class="form-control @if($errors->has('nome')) is-invalid @endif" 
                     name="nome" 
                     placeholder="nome"
                     value="{{old('nome')}}"
@@ -21,6 +21,11 @@
                     </div>
                 @endif
                 </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <button type="submit" class="btn btn-primary">Salvar Curso</button>
             </div>
         </div>
     </form>
