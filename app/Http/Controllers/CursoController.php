@@ -27,9 +27,7 @@ class CursoController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-
-
-     public function store($nome)
+     public function store(Request $request)
      {
          $regras = [
              'nome' => 'required|max:100|min:10',
@@ -41,14 +39,10 @@ class CursoController extends Controller
              "min" => "O campo [:attribute] possui tamanho mínimo de [:min] caracteres!",
          ];
      
-         //$validator = Validator::make(['nome' => $nome], $regras, $msgs);
-     
-        //  if ($validator->fails()) {
-        //      return redirect()->back()->withErrors($validator);
-        //  }
+         $request->validate($regras, $msgs);
      
          $reg = new Curso();
-         $reg->nome = $nome;
+         $reg->nome = $request->nome;
          $reg->save();
      
          return redirect()->route('curso.index');
