@@ -1,4 +1,4 @@
-@extends('template.main', ['menu' => "home", "submenu" => "Cursos"])
+@extends('templates.main', ['menu' => "home", "submenu" => "Cursos"])
 
 @section('titulo') Desenvolvimento Web @endsection
 

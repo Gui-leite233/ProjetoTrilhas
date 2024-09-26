@@ -9,7 +9,7 @@ class SiteController extends Controller {
     
     public function getCursos() {
 
-        $data = Curso::orderBy('data')->get();
+        $data = Curso::orderBy('nome')->get();
         return view('site.curso', compact('data'));
     }
 
