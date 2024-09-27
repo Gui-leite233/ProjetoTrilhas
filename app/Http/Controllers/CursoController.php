@@ -27,28 +27,40 @@ class CursoController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-     public function store(Request $request)
-     {
-         $regras = [
-             'nome' => 'required|max:100|min:10',
-         ];
-     
-         $msgs = [
-             "required" => "O preenchimento do campo [:attribute] é obrigatório!",
-             "max" => "O campo [:attribute] possui tamanho máximo de [:max] caracteres!",
-             "min" => "O campo [:attribute] possui tamanho mínimo de [:min] caracteres!",
-         ];
-     
-         $request->validate($regras, $msgs);
-     
-         $reg = new Curso();
-         $reg->nome = $request->nome;
-         $reg->save();
-     
-         return redirect()->route('curso.index');
-     }
-     
-    
+    public function store(Request $request)
+    {
+        $regras = [
+            'nome' => 'required|max:100|min:10',
+        ];
+
+        $msgs = [
+            "required" => "O preenchimento do campo [:attribute] é obrigatório!",
+            "max" => "O campo [:attribute] possui tamanho máximo de [:max] caracteres!",
+            "min" => "O campo [:attribute] possui tamanho mínimo de [:min] caracteres!",
+        ];
+
+        $request->validate($regras, $msgs);
+
+        try {
+            $reg = new Curso();
+            $reg->nome = $request->nome;
+            $result = $reg->save();
+
+            \Log::info('Curso save result: ' . ($result ? 'success' : 'failure'));
+
+            if (!$result) {
+                \Log::error('Failed to save Curso: ' . $reg->getErrors());
+            }
+        } catch (\Exception $e) {
+            \Log::error('Exception when saving Curso: ' . $e->getMessage());
+            // Optionally, you could redirect back with an error message
+            // return redirect()->back()->with('error', 'Failed to save the course.');
+        }
+
+        //return redirect()->route('curso.index');
+    }
+
+
 
     /**
      * Display the specified resource.
