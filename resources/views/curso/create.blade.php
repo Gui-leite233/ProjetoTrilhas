@@ -1,4 +1,4 @@
-@extends('templates.main', ['menu' => "admin", 'submenu' => "Novo Curso"])
+@extends('template.main', ['menu' => "admin", 'submenu' => "Novo curso"])
 
 @section('conteudo')
 
@@ -23,6 +23,44 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col">
+            <div class="form-floating mb-3">
+                <textarea
+                    type="text"
+                    class="form-control @if($errors->has('descricao')) is-invalid @endif"
+                    name="descricao"
+                    placeholder="Descrição"
+                    style="min-height: 100px"
+                >{{old('descricao')}}</textarea>
+                <label for="descricao">Descrição</label>
+                @if($errors->has('descricao'))
+                    <div class='invalid-feedback'>
+                        {{ $errors->first('descricao') }}
+                    </div>
+                @endif
+            </div>
+        </div>
+    </div>
+    <!--<div class="row">
+        <div class="col">
+            <div class="form-floating mb-3">
+                <input
+                    type="date"
+                    class="form-control @if($errors->has('data')) is-invalid @endif"
+                    name="data"
+                    placeholder="Data"
+                    value="{{old('data')}}"
+                />
+                <label for="data">Data</label>
+                @if($errors->has('data'))
+                    <div class='invalid-feedback'>
+                        {{ $errors->first('data') }}
+                    </div>
+                @endif
+            </div>
+        </div>
+    </div>-->
     <div class="row">
         <div class="col">
             <a href="{{route('curso.index')}}" class="btn btn-secondary btn-block align-content-center">
