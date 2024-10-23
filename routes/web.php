@@ -8,10 +8,10 @@ Route::get('/', function () {
     return view('index');
 })->name('index');
 
-Route::resource('curso', CursoController::class);
+Route::resource('curso', 'CursoController');
 
 Route::prefix('/site')->group(function() {
-    Route::get('/curso', [SiteController::class, 'getCursos'])->name('site.curso');
+    Route::get('/curso', 'SiteController@getCursos')->name('site.curso');
 });
 
 
