@@ -9,5 +9,5 @@ use Illuminate\Database\Eloquent\Model;
 class Curso extends Model
 {
     use HasFactory;
-    protected $fillable = ['nome'];
+    protected $fillable = ['nome', 'descricao'];
 }

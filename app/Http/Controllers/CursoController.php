@@ -31,6 +31,7 @@ class CursoController extends Controller
     {
         $regras = [
             'nome' => 'required|max:100|min:10',
+            'descricao' => 'required|max:200|min:10',
         ];
 
         $msgs = [
@@ -44,6 +45,7 @@ class CursoController extends Controller
         try {
             $reg = new Curso();
             $reg->nome = $request->nome;
+            $reg->descricao = $request->descricao;
             $result = $reg->save();
 
             \Log::info('Curso save result: ' . ($result ? 'success' : 'failure'));
