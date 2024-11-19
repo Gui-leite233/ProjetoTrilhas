@@ -59,7 +59,7 @@ class CursoController extends Controller
             // return redirect()->back()->with('error', 'Failed to save the course.');
         }
 
-        //return redirect()->route('curso.index');
+        return redirect()->route('curso.index');
     }
 
 
