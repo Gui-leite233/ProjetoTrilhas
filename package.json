@@ -11,5 +11,9 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@vitejs/plugin-vue": "^5.2.0",
+    "laravel-vite-plugin": "^1.0.6"
+  }
 }

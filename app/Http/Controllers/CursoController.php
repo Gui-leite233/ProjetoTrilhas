@@ -27,11 +27,12 @@ class CursoController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         $regras = [
             'nome' => 'required|max:100|min:10',
-            'descricao' => 'required|max:200|min:10',
+            'descricao' => 'required|max:1000|min:20',
+            'data'=> 'required',
+            'foto' => 'required'
         ];
 
         $msgs = [
@@ -42,23 +43,12 @@ class CursoController extends Controller
 
         $request->validate($regras, $msgs);
 
-        try {
-            $reg = new Curso();
-            $reg->nome = $request->nome;
-            $reg->descricao = $request->descricao;
-            $result = $reg->save();
-
-            \Log::info('Curso save result: ' . ($result ? 'success' : 'failure'));
-
-            if (!$result) {
-                \Log::error('Failed to save Curso: ' . $reg->getErrors());
-            }
-        } catch (\Exception $e) {
-            \Log::error('Exception when saving Curso: ' . $e->getMessage());
-            // Optionally, you could redirect back with an error message
-            // return redirect()->back()->with('error', 'Failed to save the course.');
-        }
-
+        // Insert no Banco
+        $reg = new Curso();
+        $reg->nome = $request->nome;
+        $reg->descricao = $request->descricao;
+        $reg->save();
+        
         return redirect()->route('curso.index');
     }
 

@@ -1,17 +1,15 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CursoController;
-use App\Http\Controllers\SiteController;
 
 Route::get('/', function () {
     return view('index');
 })->name('index');
 
-Route::resource('curso', App\Http\Controllers\CursoController::class);
+Route::resource('curso', 'CursoController');
 
 Route::prefix('/site')->group(function() {
-    Route::get('/curso', [App\Http\Controllers\SiteController::class, 'getCursos'])->name('site.curso');
+    Route::get('/curso', 'SiteController@getCursos')->name('site.curso');
 });
 
 
