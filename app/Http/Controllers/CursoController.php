@@ -12,7 +12,7 @@ class CursoController extends Controller
      */
     public function index()
     {
-        $data = Curso::all();
+        $data = Curso::orderBy('nome')->get();
         return view('curso.index', compact('data'));
     }
 
@@ -27,12 +27,11 @@ class CursoController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         $regras = [
             'nome' => 'required|max:100|min:10',
             'descricao' => 'required|max:1000|min:20',
-            'data'=> 'required',
-            'foto' => 'required'
         ];
 
         $msgs = [
@@ -48,7 +47,7 @@ class CursoController extends Controller
         $reg->nome = $request->nome;
         $reg->descricao = $request->descricao;
         $reg->save();
-        
+
         return redirect()->route('curso.index');
     }
 
@@ -67,7 +66,11 @@ class CursoController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $dados = Curso::find($id);
+
+        if (isset($dados)) {
+            return view('curso.edit', compact('dados'));
+        }
     }
 
     /**
@@ -75,14 +78,45 @@ class CursoController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $obj = Curso::find($id);
+
+        if (!isset($obj)) {
+            return "<h1>ID: $id não encontrado!</h1>";
+        }
+
+        $regras = [
+            'nome' => 'required|max:100|min:10',
+            'descricao' => 'required|max:1000|min:20'
+        ];
+
+        $msgs = [
+            "required" => "O preenchimento do campo :attribute é obrigatório!",
+            "max" => "O campo :attribute possui tamanho máximo de [:max] caracteres!",
+            "min" => "O campo :attribute possui tamanho mínimo de [:min] caracteres!",
+        ];
+
+        $request->validate($regras, $msgs);
+
+        $obj->nome = $request->nome;
+        $obj->descricao = $request->descricao;
+        $obj->save();
+
+        return redirect()->route('curso.index');
     }
+
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
-        //
+        $obj = Curso::find($id);
+
+        if (!isset($obj)) {
+            return "<h1>ID: $id não encontrado!";
+        }
+
+        $obj->destroy($id);
+        return redirect()->route('curso.index');
     }
 }

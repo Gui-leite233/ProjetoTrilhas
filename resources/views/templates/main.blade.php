@@ -12,7 +12,7 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand ms-2" href="">ProjetoTrilhas</a>
+    <a class="navbar-brand ms-2" href="{{ route('index') }}">ProjetoTrilhas</a>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav ms-auto">
                     <li class="nav-item dropdown ps-2">

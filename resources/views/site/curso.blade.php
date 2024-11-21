@@ -12,7 +12,11 @@
                     <h2 class="accordion-header" id="flush-headingOne">
                     <span class="text-success fs-10">Curso: {{ $item->nome }}</span>
                     </h2>
+                    <h2 class="accordion-header" id="flush-headingOne">
+                    <span class="text-success fs-10">descrição: {{ $item->descricao }}</span>
+                    </h2>
                 </div>
+               
             @endforeach
         </div>
     </div>
