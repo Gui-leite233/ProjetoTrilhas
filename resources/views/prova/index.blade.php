@@ -1,4 +1,4 @@
-@extends('templates.main', ['menu' => "admin", 'submenu' => "Cursos", 'rota' => "curso.create"])
+@extends('templates.main', ['menu' => "admin", 'submenu' => "Provass", 'rota' => "Provas.create"])
 
 @section('titulo') Desenvolvimento Web @endsection
 
@@ -7,10 +7,10 @@
 <div class="row">
     <div class="col">
         <table class="table align-middle caption-top table-striped">
-            <caption>Tabela de <b>Cursos</b></caption>
+            <caption>Tabela de <b>Provass</b></caption>
             <thead>
                 <div class="d-flex justify-content-between align-items-center mb-2">
-                    <a href="{{ route('curso.create') }}" class="btn btn-primary"> <svg
+                    <h5>Descrição</h5> <a href="{{ route('prova.create') }}" class="btn btn-primary"> <svg
                             xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             class="bi bi-plus-circle" viewBox="0 0 16 16">
                             <path
@@ -21,6 +21,7 @@
                     <th scope="col" class="d-none d-md-table-cell">ID</th>
                     <th scope="col">NOME</th>
                     <th scope="col" class="d-none d-md-table-cell">DESCRIÇÃO</th>
+                    <th scope="col">DOCUMENTO</th>
 
                 </tr>
             </thead>
@@ -31,7 +32,7 @@
                         <td>{{ $item->nome }}</td>
                         <td class="d-none d-md-table-cell">{{ $item->descricao }}</td>
                         <td>
-                            <a href="{{ route('curso.edit', $item->id) }}" class="btn btn-success">
+                            <a href="{{ route('prova.edit', $item->id) }}" class="btn btn-success">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#FFF"
                                     class="bi bi-arrow-counterclockwise" viewBox="0 0 16 16">
                                     <path fill-rule="evenodd"
@@ -49,7 +50,7 @@
                                 </svg>
                             </a>
                         </td>
-                        <form action="{{ route('curso.destroy', $item->id) }}" method="POST" id="form_{{$item->id}}">
+                        <form action="{{ route('prova.destroy', $item->id) }}" method="POST" id="form_{{$item->id}}">
                             @csrf
                             @method('DELETE')
                         </form>

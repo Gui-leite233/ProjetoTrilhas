@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class Prova extends Model
 {
     use HasFactory;
+    protected $fillable = ['titulo', 'descricao', 'documento'];
 }
