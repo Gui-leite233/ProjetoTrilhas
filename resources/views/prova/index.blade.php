@@ -1,36 +1,76 @@
 @extends('templates.main', ['menu' => "admin", 'submenu' => "Provass", 'rota' => "Provas.create"])
 
-@section('titulo') Desenvolvimento Web @endsection
+@section('titulo') 
+Desenvolvimento Web
+@endsection
 
 @section('conteudo')
-
 <div class="row">
+    <!-- Tabela de Provas -->
     <div class="col">
-        <table class="table align-middle caption-top table-striped">
+        <table class="table align-middle caption-top table-striped" style="table-layout: fixed; width: 100%;">
             <caption>Tabela de <b>Provass</b></caption>
             <thead>
+                <!-- Cabeçalho da Tabela -->
+                <tr>
+                    <th scope="col" class="d-none d-md-table-cell" style="min-width: 100px;">ID</th>
+                    <th scope="col" style="min-width: 150px;">NOME</th>
+                    <th scope="col" class="d-none d-md-table-cell" style="min-width: 200px;">DESCRIÇÃO</th>
+                    <th scope="col" style="min-width: 100px;">DOCUMENTO</th>
+                </tr>
+                <!-- Ação para Adicionar Nova Prova -->
                 <div class="d-flex justify-content-between align-items-center mb-2">
-                    <h5>Descrição</h5> <a href="{{ route('prova.create') }}" class="btn btn-primary"> <svg
-                            xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    <h5>Descrição</h5>
+                    <a href="{{ route('prova.create') }}" class="btn btn-primary">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             class="bi bi-plus-circle" viewBox="0 0 16 16">
                             <path
                                 d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zM7.5 4.5a.5.5 0 0 1 1 0v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3z" />
-                        </svg> Adicionar </a>
+                        </svg> Adicionar
+                    </a>
                 </div>
-                <tr>
-                    <th scope="col" class="d-none d-md-table-cell">ID</th>
-                    <th scope="col">NOME</th>
-                    <th scope="col" class="d-none d-md-table-cell">DESCRIÇÃO</th>
-                    <th scope="col">DOCUMENTO</th>
-
-                </tr>
             </thead>
             <tbody>
+                <!-- Loop através dos itens para exibir as provas -->
                 @foreach ($data as $item)
                     <tr>
-                        <td class="d-none d-md-table-cell">{{ $item->id }}</td>
-                        <td>{{ $item->nome }}</td>
-                        <td class="d-none d-md-table-cell">{{ $item->descricao }}</td>
+                        <!-- Exibindo dados da prova -->
+                        <td class="d-none d-md-table-cell" style="word-wrap: break-word;">{{ $item->id }}</td>
+                        <td style="word-wrap: break-word;">{{ $item->nome }}</td>
+
+                        <!-- Descrição com "Ver mais" -->
+                        <td class="d-none d-md-table-cell">
+                            <div class="description-summary" id="desc_{{$item->id}}">
+                                {{ \Str::limit($item->descricao, 100) }} <!-- Exibe os primeiros 100 caracteres -->
+                                @if (strlen($item->descricao) > 100)
+                                    <a href="javascript:void(0)" onclick="toggleDescription({{ $item->id }})"
+                                        class="btn btn-link">Ver mais</a>
+                                @endif
+                            </div>
+                            <div class="description-full d-none" id="desc_full_{{$item->id}}">
+                                {{ $item->descricao }}
+                                <a href="javascript:void(0)" onclick="toggleDescription({{ $item->id }})"
+                                    class="btn btn-link">Ver menos</a>
+                            </div>
+                        </td>
+
+                        <td>
+                            <!-- Link para o Documento PDF -->
+                            @if ($item->documento) <!-- Verifica se há um documento -->
+                                <a href="{{ asset('storage/' . $item->documento) }}" target="_blank" class="btn btn-info">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#FFF"
+                                        class="bi bi-file-earmark-pdf" viewBox="0 0 16 16">
+                                        <path
+                                            d="M5.5 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5H1a.5.5 0 0 1-.5-.5V.5A.5.5 0 0 1 1 0h4.5zM1 3V1h4.5v2H1z" />
+                                        <path d="M4 1h10a.5.5 0 0 1 .5.5v13a.5.5 0 0 1-.5.5H4a.5.5 0 0 1-.5-.5V1z" />
+                                    </svg>
+                                    Visualizar PDF
+                                </a>
+                            @else
+                                <span class="text-muted">Sem Documento</span>
+                            @endif
+                        </td>
+                        <!-- Botões de Ação -->
                         <td>
                             <a href="{{ route('prova.edit', $item->id) }}" class="btn btn-success">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#FFF"
@@ -50,15 +90,27 @@
                                 </svg>
                             </a>
                         </td>
-                        <form action="{{ route('prova.destroy', $item->id) }}" method="POST" id="form_{{$item->id}}">
-                            @csrf
-                            @method('DELETE')
-                        </form>
                     </tr>
+                    <!-- Formulário para Deletar a Prova -->
+                    <form action="{{ route('prova.destroy', $item->id) }}" method="POST" id="form_{{$item->id}}">
+                        @csrf
+                        @method('DELETE')
+                    </form>
                 @endforeach
             </tbody>
         </table>
     </div>
 </div>
 
+<!-- Script para alternar entre "Ver mais" e "Ver menos" -->
+<script>
+    function toggleDescription(id) {
+        var summary = document.getElementById('desc_' + id);
+        var full = document.getElementById('desc_full_' + id);
+
+        if (summary.style.display === "none") {
+            summary.style.display = "block";
+            full.style.display = "none";
+        }
+    }
 @endsection
