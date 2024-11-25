@@ -31,8 +31,7 @@ class ProvaController extends Controller
     {
         $regras = [
             'titulo' => 'required|max:100|min:10',
-            'descricao' => 'required|max:1000|min:20',
-            'data' => 'required|max:1000|min:20',
+            'descricao' => 'required|max:1000|min:20'
         ];
 
         $msgs = [
@@ -41,15 +40,21 @@ class ProvaController extends Controller
             "min" => "O campo [:attribute] possui tamanho mínimo de [:min] caracteres!",
         ];
 
-        $request->validate($regras, $msgs);
-        // Insert no Banco
-        $reg = new Prova();
-        $reg->titulo = $request->titulo;
-        $reg->descricao = $request->descricao;
-        $reg->data = $request->data;
-        $reg->save();
+        if($request->hasFile('documento')) {
+            $request->validate($regras, $msgs);
+            $reg = new Prova();
+            $reg->titulo = $request->titulo;
+            $reg->descricao = $request->descricao;
+            $reg->save();
 
-        return redirect()->route('prova.index');
+            $extensao_arq = $request->file('documento')->getClientOriginalExtension();
+            $nome_arq = $reg->id . '_' . time() . '.' . $extensao_arq;
+            $request->file('documento')->storeAs("public/", $nome_arq);
+            $reg->documento = $nome_arq;
+            $reg->save();
+            return redirect()->route('prova.index');
+        }
+        return "<h1>ERRO: Prova NÃO CADASTRADA!</h1>";
     }
 
     /**
@@ -117,7 +122,7 @@ class ProvaController extends Controller
         }
 
         $obj->destroy($id);
-        
+
         return redirect()->route('prova.index');
     }
 }

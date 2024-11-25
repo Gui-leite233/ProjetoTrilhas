@@ -10,15 +10,15 @@
             <div class="form-floating mb-3">
                 <input 
                     type="text" 
-                    class="form-control @if($errors->has('nome')) is-invalid @endif" 
-                    name="nome" 
-                    placeholder="Nome"
-                    value="{{ old('nome') }}"
+                    class="form-control" 
+                    name="titulo" 
+                    placeholder="titulo"
+                    value="{{ old('titulo') }}"
                 />
-                <label for="nome">Nome</label>
-                @if($errors->has('nome'))
+                <label for="titulo">titulo</label>
+                @if($errors->has('titulo'))
                     <div class='invalid-feedback'>
-                        {{ $errors->first('nome') }}
+                        {{ $errors->first('titulo') }}
                     </div>
                 @endif
             </div>
@@ -29,7 +29,7 @@
             <div class="form-floating mb-3">
                 <textarea
                     type="text"
-                    class="form-control @if($errors->has('descricao')) is-invalid @endif"
+                    class="form-control"
                     name="descricao"
                     placeholder="Descrição"
                     style="min-height: 100px"
@@ -45,6 +45,7 @@
     </div>
     <div class="row">
         <div class="col">
+
             <div class="form-floating mb-3">
                 <input 
                     type="file" 
