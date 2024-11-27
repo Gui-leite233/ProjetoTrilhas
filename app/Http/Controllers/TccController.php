@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Prova;
-use App\Models\Curso;
 
-class ProvaController extends Controller
+use Illuminate\Http\Request;
+use App\Models\Tcc;
+
+class TccController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $data = Prova::orderBy('titulo')->get();
-        return view('prova.index', compact('data'));
+        $data = Tcc::orderBy('titulo')->get();
+        return view('tcc.index', compact('data'));
     }
 
     /**
@@ -22,7 +22,7 @@ class ProvaController extends Controller
      */
     public function create()
     {
-        return view('prova.create');
+        return view('tcc.create');
     }
 
     /**
@@ -41,20 +41,19 @@ class ProvaController extends Controller
             "min" => "O campo [:attribute] possui tamanho mínimo de [:min] caracteres!",
         ];
         $request->validate($regras, $msgs);
-        $reg = new Prova();
+        $reg = new Tcc();
         $reg->titulo = $request->titulo;
         $reg->descricao = $request->descricao;
         $reg->save();
 
-        if ($request->hasFile('documento')) {
-            $extensao_arq = $request->file('documento')->getClientOriginalExtension();
-            $nome_arq = $reg->id . '_' . time() . '.' . $extensao_arq;
-            $request->file('documento')->storeAs("public/", $nome_arq);
-            $reg->documento = $nome_arq;
-            $reg->save();
-        }
-        return redirect()->route('prova.index');
+        $extensao_arq = $request->file('documento')->getClientOriginalExtension();
+        $nome_arq = $reg->id . '_' . time() . '.' . $extensao_arq;
+        $request->file('documento')->storeAs("public/", $nome_arq);
+        $reg->documento = $nome_arq;
+        $reg->save();
+        return redirect()->route('tcc.index');
     }
+
     /**
      * Display the specified resource.
      */
@@ -79,48 +78,46 @@ class ProvaController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
-{
-    $obj = Prova::find($id);
+    {
+        $obj = Prova::find($id);
 
-    if (!isset($obj)) {
-        return "<h1>ID: $id não encontrado!</h1>";
-    }
+        if (!isset($obj)) {
+            return "<h1>ID: $id não encontrado!</h1>";
+        }
 
-    $regras = [
-        'titulo' => 'required|max:100|min:10',
-        'descricao' => 'required|max:1000|min:20',
-    ];
+        $regras = [
+            'titulo' => 'required|max:100|min:10',
+            'descricao' => 'required|max:1000|min:20',
+        ];
 
-    $msgs = [
-        "required" => "O preenchimento do campo :attribute é obrigatório!",
-        "max" => "O campo :attribute possui tamanho máximo de [:max] caracteres!",
-        "min" => "O campo :attribute possui tamanho mínimo de [:min] caracteres!",
-    ];
+        $msgs = [
+            "required" => "O preenchimento do campo :attribute é obrigatório!",
+            "max" => "O campo :attribute possui tamanho máximo de [:max] caracteres!",
+            "min" => "O campo :attribute possui tamanho mínimo de [:min] caracteres!",
+        ];
 
-    //$request->validate($regras, $msgs);
-    $obj->titulo = $request->titulo;
-    $obj->descricao = $request->descricao;
-    $obj->save();
+        $request->validate($regras, $msgs);
 
-    // Add check for file existence before processing
-    if ($request->hasFile('documento')) {
+        $obj->titulo = $request->titulo;
+        $obj->descricao = $request->descricao;
+        $obj->data = $request->data;
+        $obj->save();
+
         $extensao_arq = $request->file('documento')->getClientOriginalExtension();
         $nome_arq = $obj->id . '_' . time() . '.' . $extensao_arq;
         $request->file('documento')->storeAs("public/", $nome_arq);
         $obj->documento = $nome_arq;
         $obj->save();
+
+        return redirect()->route('tcc.index');
     }
-
-    return redirect()->route('prova.index');
-}
-
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
-        $obj = Prova::find($id);
+        $obj = Tcc::find($id);
 
         if (!isset($obj)) {
             return "<h1>ID: $id não encontrado!";
@@ -128,6 +125,6 @@ class ProvaController extends Controller
 
         $obj->destroy($id);
 
-        return redirect()->route('prova.index');
+        return redirect()->route('tcc.index');
     }
 }

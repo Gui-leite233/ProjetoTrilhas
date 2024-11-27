@@ -19,8 +19,7 @@ Desenvolvimento Web
                     <th scope="col" style="min-width: 100px;">DOCUMENTO</th>
                 </tr>
                 <!-- Ação para Adicionar Nova Prova -->
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                    <h5>Descrição</h5>
+                <div class="d-flex justify-content-end mb-2">
                     <a href="{{ route('prova.create') }}" class="btn btn-primary">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             class="bi bi-plus-circle" viewBox="0 0 16 16">
@@ -36,7 +35,7 @@ Desenvolvimento Web
                     <tr>
                         <!-- Exibindo dados da prova -->
                         <td class="d-none d-md-table-cell" style="word-wrap: break-word;">{{ $item->id }}</td>
-                        <td style="word-wrap: break-word;">{{ $item->nome }}</td>
+                        <td style="word-wrap: break-word;">{{ $item->titulo }}</td>
 
                         <!-- Descrição com "Ver mais" -->
                         <td class="d-none d-md-table-cell">
@@ -91,12 +90,24 @@ Desenvolvimento Web
                             </a>
                         </td>
                     </tr>
-                    <!-- Formulário para Deletar a Prova -->
                     <form action="{{ route('prova.destroy', $item->id) }}" method="POST" id="form_{{$item->id}}">
                         @csrf
                         @method('DELETE')
                     </form>
+
                 @endforeach
+                <div class="row">
+                    <div class="col">
+                        <a href="{{route('index')}}" class="btn btn-secondary btn-block align-content-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                                class="bi bi-arrow-left-square-fill" viewBox="0 0 16 16">
+                                <path
+                                    d="M16 14a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12zm-4.5-6.5H5.707l2.147-2.146a.5.5 0 1 0-.708-.708l-3 3a.5.5 0 0 0 0 .708l3 3a.5.5 0 0 0 .708-.708L5.707 8.5H11.5a.5.5 0 0 0 0-1z" />
+                            </svg>
+                            &nbsp; Voltar
+                        </a>
+                    </div>
+                </div>
             </tbody>
         </table>
     </div>
@@ -113,4 +124,4 @@ Desenvolvimento Web
             full.style.display = "none";
         }
     }
-@endsection
+    @endsection
