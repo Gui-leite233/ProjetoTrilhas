@@ -67,10 +67,10 @@ class TccController extends Controller
      */
     public function edit(string $id)
     {
-        $data = Prova::find($id);
+        $data = Tcc::find($id);
 
         if (isset($data)) {
-            return view('prova.edit', compact('data'));
+            return view('Tcc.edit', compact('data'));
         }
     }
 
@@ -79,7 +79,7 @@ class TccController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $obj = Prova::find($id);
+        $obj = Tcc::find($id);
 
         if (!isset($obj)) {
             return "<h1>ID: $id não encontrado!</h1>";
