@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class Tcc extends Model
 {
     use HasFactory;
+    protected $fillable = ['titulo', 'descricao', 'documento'];
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Curso;
 use App\Models\Prova;
+use App\Models\Tcc;
 use Illuminate\Http\Request;
 
 class SiteController extends Controller {
@@ -17,6 +18,12 @@ class SiteController extends Controller {
 
         $data = Prova::orderBy('titulo')->get();
         return view('site.prova', compact('data'));
+    }
+
+    public function getTccs() {
+
+        $data = Tcc::orderBy('titulo')->get();
+        return view('site.tcc', compact('data'));
     }
     
 }
