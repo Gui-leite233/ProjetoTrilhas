@@ -46,12 +46,14 @@ class TccController extends Controller
         $reg->descricao = $request->descricao;
         $reg->save();
 
-        if ($request->hasFile('documento') && $request->file('documento')->isValid()) {
+        if ($request->hasFile('documento')) {
             $extensao_arq = $request->file('documento')->getClientOriginalExtension();
             $nome_arq = $reg->id . '_' . time() . '.' . $extensao_arq;
             $request->file('documento')->storeAs("public/", $nome_arq);
             $reg->documento = $nome_arq;
             $reg->save();
+        }else{
+            echo("erro");
         }
         return redirect()->route('tcc.index');
     }
@@ -72,7 +74,7 @@ class TccController extends Controller
         $data = Tcc::find($id);
 
         if (isset($data)) {
-            return view('Tcc.edit', compact('data'));
+            return view('tcc.edit', compact('data'));
         }
     }
 
@@ -81,9 +83,9 @@ class TccController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $obj = Tcc::find($id);
+        $data = Tcc::find($id);
 
-        if (!isset($obj)) {
+        if (!isset($data)) {
             return "<h1>ID: $id não encontrado!</h1>";
         }
 
@@ -100,17 +102,17 @@ class TccController extends Controller
 
         $request->validate($regras, $msgs);
 
-        $obj->titulo = $request->titulo;
-        $obj->descricao = $request->descricao;
-        $obj->data = $request->data;
-        $obj->save();
+        $data->titulo = $request->titulo;
+        $data->descricao = $request->descricao;
+        $data->data = $request->data;
+        $data->save();
 
             if ($request->hasFile('documento') && $request->file('documento')->isValid()) {
                 $extensao_arq = $request->file('documento')->getClientOriginalExtension();
-                $nome_arq = $obj->id . '_' . time() . '.' . $extensao_arq;
+                $nome_arq = $data->id . '_' . time() . '.' . $extensao_arq;
                 $request->file('documento')->storeAs("public/", $nome_arq);
-                $obj->documento = $nome_arq;
-                $obj->save();
+                $data->documento = $nome_arq;
+                $data->save();
             }
 
         return redirect()->route('tcc.index');
