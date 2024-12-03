@@ -10,7 +10,7 @@
             <div class="form-floating mb-3">
                 <input 
                     type="text" 
-                    class="form-control" 
+                    class="form-control {{ $errors->has('titulo') ? 'is-invalid' : '' }}" 
                     name="titulo" 
                     placeholder="titulo"
                     value="{{ old('titulo') }}"
@@ -31,7 +31,7 @@
                     type="text"
                     class="form-control"
                     name="descricao"
-                    placeholder="Descrição"
+                    placeholder="Descrição {{ $errors->has('descricao') ? 'is-invalid' : '' }}"
                     style="min-height: 100px"
                 >{{ old('descricao') }}</textarea>
                 <label for="descricao">Descrição</label>

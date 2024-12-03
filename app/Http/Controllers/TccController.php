@@ -41,6 +41,7 @@ class TccController extends Controller
             "min" => "O campo [:attribute] possui tamanho mínimo de [:min] caracteres!",
         ];
         $request->validate($regras, $msgs);
+        
         $reg = new Tcc();
         $reg->titulo = $request->titulo;
         $reg->descricao = $request->descricao;
@@ -52,8 +53,8 @@ class TccController extends Controller
             $request->file('documento')->storeAs("public/", $nome_arq);
             $reg->documento = $nome_arq;
             $reg->save();
-        }else{
-            echo("erro");
+        } else {
+            echo ("erro");
         }
         return redirect()->route('tcc.index');
     }
@@ -83,9 +84,9 @@ class TccController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $data = Tcc::find($id);
+        $obj = Tcc::find($id);
 
-        if (!isset($data)) {
+        if (!isset($obj)) {
             return "<h1>ID: $id não encontrado!</h1>";
         }
 
@@ -102,21 +103,21 @@ class TccController extends Controller
 
         $request->validate($regras, $msgs);
 
-        $data->titulo = $request->titulo;
-        $data->descricao = $request->descricao;
-        $data->data = $request->data;
-        $data->save();
+        $obj->titulo = $request->titulo;
+        $obj->descricao = $request->descricao;
+        $obj->save();
 
-            if ($request->hasFile('documento') && $request->file('documento')->isValid()) {
-                $extensao_arq = $request->file('documento')->getClientOriginalExtension();
-                $nome_arq = $data->id . '_' . time() . '.' . $extensao_arq;
-                $request->file('documento')->storeAs("public/", $nome_arq);
-                $data->documento = $nome_arq;
-                $data->save();
-            }
+        if ($request->hasFile('documento')) {
+            $extensao_arq = $request->file('documento')->getClientOriginalExtension();
+            $nome_arq = $obj->id . '_' . time() . '.' . $extensao_arq;
+            $request->file('documento')->storeAs("public/", $nome_arq);
+            $obj->documento = $nome_arq;
+            $obj->save();
+        }
 
         return redirect()->route('tcc.index');
     }
+
 
     /**
      * Remove the specified resource from storage.

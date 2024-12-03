@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Bolsa extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'titulo',
+        'descricao',
+        'curso_id',
+        'ativo',
+    ];
 }

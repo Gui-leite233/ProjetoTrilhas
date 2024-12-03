@@ -45,14 +45,13 @@ class ProvaController extends Controller
         $reg->titulo = $request->titulo;
         $reg->descricao = $request->descricao;
         $reg->save();
-
-        if ($request->hasFile('documento')) {
-            $extensao_arq = $request->file('documento')->getClientOriginalExtension();
-            $nome_arq = $reg->id . '_' . time() . '.' . $extensao_arq;
-            $request->file('documento')->storeAs("public/", $nome_arq);
-            $reg->documento = $nome_arq;
-            $reg->save();
-        }
+        $extensao_arq = $request->file('documento')->getClientOriginalExtension();
+        $nome_arq = $reg->id . '_' . time() . '.' . $extensao_arq;
+        $request->file('documento')->storeAs("public/", $nome_arq);
+        $reg->documento = $nome_arq;
+        $reg->save();
+        /*if ($request->hasFile('documento')) {
+        }*/
         return redirect()->route('prova.index');
     }
     /**
@@ -79,40 +78,40 @@ class ProvaController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
-{
-    $obj = Prova::find($id);
+    {
+        $obj = Prova::find($id);
 
-    if (!isset($obj)) {
-        return "<h1>ID: $id não encontrado!</h1>";
-    }
+        if (!isset($obj)) {
+            return "<h1>ID: $id não encontrado!</h1>";
+        }
 
-    $regras = [
-        'titulo' => 'required|max:100|min:10',
-        'descricao' => 'required|max:1000|min:20',
-    ];
+        $regras = [
+            'titulo' => 'required|max:100|min:10',
+            'descricao' => 'required|max:1000|min:20',
+        ];
 
-    $msgs = [
-        "required" => "O preenchimento do campo :attribute é obrigatório!",
-        "max" => "O campo :attribute possui tamanho máximo de [:max] caracteres!",
-        "min" => "O campo :attribute possui tamanho mínimo de [:min] caracteres!",
-    ];
+        $msgs = [
+            "required" => "O preenchimento do campo :attribute é obrigatório!",
+            "max" => "O campo :attribute possui tamanho máximo de [:max] caracteres!",
+            "min" => "O campo :attribute possui tamanho mínimo de [:min] caracteres!",
+        ];
 
-    //$request->validate($regras, $msgs);
-    $obj->titulo = $request->titulo;
-    $obj->descricao = $request->descricao;
-    $obj->save();
-
-    // Add check for file existence before processing
-    if ($request->hasFile('documento')) {
-        $extensao_arq = $request->file('documento')->getClientOriginalExtension();
-        $nome_arq = $obj->id . '_' . time() . '.' . $extensao_arq;
-        $request->file('documento')->storeAs("public/", $nome_arq);
-        $obj->documento = $nome_arq;
+        //$request->validate($regras, $msgs);
+        $obj->titulo = $request->titulo;
+        $obj->descricao = $request->descricao;
         $obj->save();
-    }
 
-    return redirect()->route('prova.index');
-}
+        
+        if ($request->hasFile('documento')) {
+            $extensao_arq = $request->file('documento')->getClientOriginalExtension();
+            $nome_arq = $obj->id . '_' . time() . '.' . $extensao_arq;
+            $request->file('documento')->storeAs("public/", $nome_arq);
+            $obj->documento = $nome_arq;
+            $obj->save();
+        }
+
+        return redirect()->route('prova.index');
+    }
 
 
     /**
