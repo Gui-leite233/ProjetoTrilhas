@@ -4,10 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-//use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Curso extends Model
 {
     use HasFactory;
+
     protected $fillable = ['nome', 'descricao'];
+
+    
+    public function bolsas()
+    {
+        return $this->hasMany(Bolsa::class);
+    }
 }

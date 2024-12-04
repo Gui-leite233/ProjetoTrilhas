@@ -8,21 +8,19 @@ use App\Models\Curso;
 
 class BolsaController extends Controller
 {
-    
     public function index()
     {
-        $data = Bolsa::orderBy('titulo')->get();
+        // Carrega os dados de bolsas e seus cursos relacionados
+        $data = Bolsa::with('curso')->orderBy('titulo')->get();
         return view('bolsa.index', compact('data'));
     }
 
-   
     public function create()
     {
         $cursos = Curso::orderBy('nome')->pluck('nome', 'id');
         return view('bolsa.create', compact(['cursos']));
     }
 
-    
     public function store(Request $request)
     {
         $regras = [
@@ -40,7 +38,7 @@ class BolsaController extends Controller
             "boolean" => "O campo [:attribute] deve ser verdadeiro ou falso!",
         ];
 
-        //$request->validate($regras, $msgs);
+        $request->validate($regras, $msgs);
 
         $reg = new Bolsa();
         $reg->titulo = $request->titulo;
@@ -52,31 +50,17 @@ class BolsaController extends Controller
         return redirect()->route('bolsa.index');
     }
 
-    
-    public function show(string $id)
-    {
-        $data = Bolsa::find($id);
-
-        if (!isset($data)) {
-            return "<h1>ID: $id não encontrado!</h1>";
-        }
-
-        return view('bolsa.show', compact('data'));
-    }
-
-    
     public function edit(string $id)
     {
         $data = Bolsa::find($id);
-
         if (!isset($data)) {
             return "<h1>ID: $id não encontrado!</h1>";
         }
 
-        return view('bolsa.edit', compact('data'));
+        $cursos = Curso::orderBy('nome')->pluck('nome', 'id');
+        return view('bolsa.edit', compact('data', 'cursos'));
     }
 
-    
     public function update(Request $request, string $id)
     {
         $obj = Bolsa::find($id);
@@ -111,19 +95,14 @@ class BolsaController extends Controller
         return redirect()->route('bolsa.index')->with('success', 'Bolsa atualizada com sucesso!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         $obj = Bolsa::find($id);
-
         if (!isset($obj)) {
             return "<h1>ID: $id não encontrado!</h1>";
         }
 
         $obj->delete();
-
         return redirect()->route('bolsa.index');
     }
 }

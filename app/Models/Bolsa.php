@@ -9,10 +9,11 @@ class Bolsa extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'titulo',
-        'descricao',
-        'curso_id',
-        'ativo',
-    ];
+    protected $fillable = ['titulo', 'descricao', 'curso_id', 'ativo'];
+
+    
+    public function curso()
+    {
+        return $this->belongsTo(Curso::class);
+    }
 }

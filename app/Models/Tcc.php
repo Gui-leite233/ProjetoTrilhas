@@ -8,5 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Tcc extends Model
 {
     use HasFactory;
-    protected $fillable = ['titulo', 'descricao', 'documento'];
+
+    protected $fillable = ['titulo', 'descricao', 'aluno_id', 'documento'];
+
+    
+    public function aluno()
+    {
+        return $this->belongsTo(Aluno::class); 
+    }
 }
+

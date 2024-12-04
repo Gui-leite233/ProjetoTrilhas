@@ -13,8 +13,11 @@ class TccController extends Controller
      */
     public function index()
     {
-        $data = Tcc::orderBy('titulo')->get();
-        return view('tcc.index', compact('data'));
+        // Busca todos os TCCs do banco de dados
+        $tccs = Tcc::with('aluno')->get(); // Inclua a relação 'aluno' se ela existir
+        
+        // Retorna a view com a variável $tccs
+        return view('tcc.index', compact('tccs'));
     }
 
     /**

@@ -18,6 +18,7 @@
                     <h2 class="accordion-header" id="flush-headingThree">
                         <span class="text-success fs-10">Status: {{ $item->ativo ? 'Ativo' : 'Inativo' }}</span>
                     </h2>
+                    
                 </div>
             @endforeach
         </div>
