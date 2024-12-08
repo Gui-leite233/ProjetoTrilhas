@@ -1,40 +1,36 @@
-# Use a imagem base do PHP com Apache
-FROM php:8.2-apache
-
-# Instale as dependências do sistema
-RUN apt-get update && apt-get install -y \
-    libzip-dev \
-    zip \
-    unzip \
-    && docker-php-ext-install pdo_mysql zip \
-    && apt-get clean
-
-# Ative o mod_rewrite do Apache
-RUN a2enmod rewrite
+# Use uma imagem base do PHP 8.2
+FROM php:8.2-fpm
 
 # Defina o diretório de trabalho
-WORKDIR /var/www/html
+WORKDIR /var/www
 
-# Verifique arquivos no contexto (apenas para depuração)
-RUN ls -la
+# Instale dependências do sistema e o Composer
+RUN apt-get update && apt-get install -y \
+    curl \
+    git \
+    unzip \
+    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
-# Copie os arquivos necessários para instalar dependências
-COPY composer.json composer.lock ./
+# Adicione o grupo 'sail' com um ID de grupo específico
+RUN groupadd --force -g 1001 sail
 
-# Instale o Composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+# Adicione um usuário 'sail' e adicione-o ao grupo 'sail'
+RUN useradd -m -g sail sail
+
+# Copie os arquivos do Composer
+COPY composer.lock ./
+COPY composer.json ./
+
+# Copie todos os arquivos do diretório atual
+COPY . .
 
 # Instale as dependências do Composer
 RUN composer install --no-dev --optimize-autoloader --no-interaction
 
-# Copie o restante do código da aplicação
-COPY . .
+# Exponha a porta 9000
+EXPOSE 9000
 
-# Ajuste as permissões
-RUN chown -R www-data:www-data /var/www/html
-
-# Exponha a porta 80
-EXPOSE 80
-
-# Inicie o Apache
-CMD ["apache2-foreground"]
+# Comando para iniciar o PHP-FPM
+CMD ["php-fpm"]
