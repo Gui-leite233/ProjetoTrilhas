@@ -11,7 +11,7 @@ services:
     extra_hosts:
       - 'host.docker.internal:host-gateway'
     ports:
-      - '${APP_PORT:-13500}:8080'
+      - '${APP_PORT:-13500}:80'
       - '${VITE_PORT:-5173}:${VITE_PORT:-5173}'
     environment:
       WWWUSER: '${WWWUSER}'
@@ -23,13 +23,23 @@ services:
       - '.:/var/www/html:delegated'
     networks:
       - sail
+    deploy:
+      resources:
+        limits:
+          cpus: '1.00'
+          memory: '1000M'
     depends_on:
       - mysql
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
   mysql:
     image: 'mysql/mysql-server:8.0'
     ports:
-      - '3306:3306'  # Porta corrigida para MySQL
+      - '3306:3306'
     environment:
       MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
       MYSQL_ROOT_HOST: '%'
@@ -42,14 +52,16 @@ services:
       - './vendor/laravel/sail/database/mysql/create-testing-database.sh:/docker-entrypoint-initdb.d/10-create-testing-database.sh'
     networks:
       - sail
+    deploy:
+      resources:
+        limits:
+          cpus: '2.00'
+          memory: '2G'
     healthcheck:
-      test:
-        - CMD
-        - mysqladmin
-        - ping
-        - '-p${DB_PASSWORD}'
-      retries: 3
-      timeout: 5s
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -p${DB_PASSWORD} || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
 networks:
   sail:
