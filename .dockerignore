@@ -1,8 +1,14 @@
-**/.classpath
-**/.dockerignore
-**/.env
+# Allow composer files
+!composer.json
+!composer.lock
+
+# Keep existing exclusions
 **/.git
 **/.gitignore
+**/.env
+**/node_modules
+**/.classpath
+**/.dockerignore
 **/.project
 **/.settings
 **/.toolstarget
@@ -13,10 +19,7 @@
 **/*.jfm
 **/bin
 **/charts
-**/docker-compose*
 **/compose*
-**/Dockerfile*
-**/node_modules
 **/npm-debug.log
 **/obj
 **/secrets.dev.yaml
