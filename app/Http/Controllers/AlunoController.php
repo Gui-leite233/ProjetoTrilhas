@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Aluno;
+use App\Models\Curso;
+use App\Models\User;
 
 class AlunoController extends Controller
 {
@@ -25,7 +27,7 @@ class AlunoController extends Controller
         ];
     }
 
-    public function index() 
+    public function index()
     {
         $data = Aluno::with(['usuario', 'curso'])->orderBy('ano', 'desc')->get();
         return view('aluno.index', compact('data'));
@@ -33,6 +35,8 @@ class AlunoController extends Controller
 
     public function create()
     {
+        $usuarios = User::orderBy('name')->get();
+        $cursos = Curso::orderBy('nome')->get(); 
         return view('aluno.create');
     }
 

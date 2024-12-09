@@ -2,7 +2,7 @@
 
 @section('conteudo')
 
-<form action="{{ route('alunos.store') }}" method="POST" enctype="multipart/form-data">
+<form action="{{ route('aluno.store') }}" method="POST" enctype="multipart/form-data">
     @csrf  
 
     <div class="row">
