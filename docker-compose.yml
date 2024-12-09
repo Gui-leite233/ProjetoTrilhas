@@ -23,11 +23,6 @@ services:
       - '.:/var/www/html:delegated'
     networks:
       - sail
-    deploy:
-      resources:
-        limits:
-          cpus: '1.00'
-          memory: '1000M'
     depends_on:
       - mysql
     healthcheck:
