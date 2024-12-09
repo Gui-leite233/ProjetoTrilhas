@@ -46,12 +46,7 @@ services:
       - 'sail-mysql:/var/lib/mysql'
       - './vendor/laravel/sail/database/mysql/create-testing-database.sh:/docker-entrypoint-initdb.d/10-create-testing-database.sh'
     networks:
-      - sail
-    deploy:
-      resources:
-        limits:
-          cpus: '2.00'
-          memory: '2G'
+      - sail  
     healthcheck:
       test: [ "CMD-SHELL", "mysqladmin ping -h localhost -u root -p${DB_PASSWORD} || exit 1" ]
       interval: 30s
