@@ -10,4 +10,6 @@ class Aluno extends Model
 {
     use HasFactory;
     use SoftDeletes;
+
+    protected $fillable = ['ano', 'usuario_id', 'curso_id'];
 }

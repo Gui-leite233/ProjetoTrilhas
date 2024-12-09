@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Aluno;
 use App\Models\Bolsa;
 use App\Models\Curso;
 use App\Models\Prova;
@@ -32,5 +33,9 @@ class SiteController extends Controller {
         $data = Bolsa::orderBy('titulo')->get();
         return view('site.bolsa', compact('data'));
     }
-    
+    public function getAlunos() {
+
+        $data = Aluno::orderBy('titulo')->get();
+        return view('site.aluno', compact('data'));
+    }
 }
