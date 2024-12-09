@@ -31,7 +31,7 @@ services:
     depends_on:
       - mysql
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost || exit 1"]
+      test: [ "CMD-SHELL", "curl -f http://localhost || exit 1" ]
       interval: 30s
       timeout: 10s
       retries: 5
@@ -58,7 +58,7 @@ services:
           cpus: '2.00'
           memory: '2G'
     healthcheck:
-      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -p${DB_PASSWORD} || exit 1"]
+      test: [ "CMD-SHELL", "mysqladmin ping -h localhost -u root -p${DB_PASSWORD} || exit 1" ]
       interval: 30s
       timeout: 10s
       retries: 5
