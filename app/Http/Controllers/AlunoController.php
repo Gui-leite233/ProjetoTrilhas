@@ -29,15 +29,22 @@ class AlunoController extends Controller
 
     public function index()
     {
-        $data = Aluno::with(['usuario', 'curso'])->orderBy('ano', 'desc')->get();
+        $data = Aluno::with(['usuario:id,nome,email', 'curso:id,nome'])
+            ->select('id', 'ano', 'usuario_id', 'curso_id')
+            ->orderBy('ano', 'desc')
+            ->paginate(15);
         return view('aluno.index', compact('data'));
     }
 
     public function create()
     {
-        $usuarios = User::orderBy('name')->get();
-        $cursos = Curso::orderBy('nome')->get(); 
-        return view('aluno.create');
+        $usuarios = User::select('id', 'nome')
+            ->orderBy('nome')
+            ->get();
+        $cursos = Curso::select('id', 'nome')
+            ->orderBy('nome')
+            ->get(); 
+        return view('aluno.create', compact('usuarios', 'cursos'));
     }
 
     public function store(Request $request)
