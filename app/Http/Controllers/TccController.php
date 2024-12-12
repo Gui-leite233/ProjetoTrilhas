@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-
 use Illuminate\Http\Request;
 use App\Models\Tcc;
 use App\Models\Aluno;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class TccController extends Controller
 {
@@ -60,6 +60,11 @@ class TccController extends Controller
         } else {
             echo ("erro");
         }
+
+        $pdf = PDF::loadView('relatorio-horas-turma', ['tcc' => $reg]);
+        $pdf->render();
+        $pdf->stream("relatorio-horas-turma.pdf", array("Attachment" => false));
+
         return redirect()->route('tcc.index');
     }
 

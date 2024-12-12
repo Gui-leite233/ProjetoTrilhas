@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Prova;
 use App\Models\Curso;
+use Barryvdh\DomPDF\Facade as PDF;
 
 class ProvaController extends Controller
 {
@@ -45,13 +46,22 @@ class ProvaController extends Controller
         $reg->titulo = $request->titulo;
         $reg->descricao = $request->descricao;
         $reg->save();
+
         $extensao_arq = $request->file('documento')->getClientOriginalExtension();
         $nome_arq = $reg->id . '_' . time() . '.' . $extensao_arq;
         $request->file('documento')->storeAs("public/", $nome_arq);
         $reg->documento = $nome_arq;
         $reg->save();
+
         /*if ($request->hasFile('documento')) {
         }*/
+
+
+        /*$pdf = PDF::loadView('pdf_view', $reg);
+
+        $pdf->render();
+        $pdf->stream("relatorio-horas-turma.pdf", array("Attachment" => false));*/
+
         return redirect()->route('prova.index');
     }
     /**
@@ -101,7 +111,7 @@ class ProvaController extends Controller
         $obj->descricao = $request->descricao;
         $obj->save();
 
-        
+
         if ($request->hasFile('documento')) {
             $extensao_arq = $request->file('documento')->getClientOriginalExtension();
             $nome_arq = $obj->id . '_' . time() . '.' . $extensao_arq;
