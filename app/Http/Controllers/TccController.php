@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Tcc;
+use App\Models\Aluno;
 
 class TccController extends Controller
 {
@@ -25,7 +26,7 @@ class TccController extends Controller
      */
     public function create()
     {
-        return view('tcc.create');
+        return view('tcc.create') ;
     }
 
     /**
