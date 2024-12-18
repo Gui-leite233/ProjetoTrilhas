@@ -58,9 +58,12 @@ class CursoController extends Controller
     }
 
     public function destroy(string $id)
-    {
-        $obj = Curso::findOrFail($id);
-        $obj->delete();
-        return redirect()->route('curso.index');
-    }
+{
+    $curso = Curso::findOrFail($id);
+    $curso->bolsas()->delete();
+    $curso->delete();
+    
+    return redirect()->route('curso.index');
+}
+
 }

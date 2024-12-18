@@ -61,9 +61,9 @@ class TccController extends Controller
             echo ("erro");
         }
 
-        $pdf = PDF::loadView('relatorio-horas-turma', ['tcc' => $reg]);
+        $pdf = PDF::loadView(['tcc' => $reg]);
         $pdf->render();
-        $pdf->stream("relatorio-horas-turma.pdf", array("Attachment" => false));
+        $pdf->stream(array("Attachment" => false));
 
         return redirect()->route('tcc.index');
     }
