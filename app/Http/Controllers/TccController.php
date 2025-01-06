@@ -5,13 +5,18 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Tcc;
 use App\Models\Aluno;
-use Barryvdh\DomPDF\Facade\Pdf;
+//use Barryvdh\DomPDF\Facade\Pdf;
+use Dompdf\Dompdf;
 
 class TccController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    private $dompdf;
+
+    public function __construct() {
+        $this->dompdf = new Dompdf();
+        $this->dompdf->setPaper('A4', 'portrait');  // opcional
+    }
+
     public function index()
     {
         // Busca todos os TCCs do banco de dados
@@ -35,12 +40,12 @@ class TccController extends Controller
     public function store(Request $request)
     {
         $regras = [
-            'titulo' => 'required|max:100|min:10',
-            'descricao' => 'required|max:1000|min:20'
+            'titulo' => 'required|max:255',
+            'descricao' => 'required',
+            'documento' => 'file|mimes:pdf,doc,docx|max:2048',
         ];
-
         $msgs = [
-            "required" => "O preenchimento do campo [:attribute] é obrigatório!",
+            "required" => "O campo [:attribute] é obrigatório!",
             "max" => "O campo [:attribute] possui tamanho máximo de [:max] caracteres!",
             "min" => "O campo [:attribute] possui tamanho mínimo de [:min] caracteres!",
         ];
@@ -60,10 +65,6 @@ class TccController extends Controller
         } else {
             echo ("erro");
         }
-
-        $pdf = PDF::loadView(['tcc' => $reg]);
-        $pdf->render();
-        $pdf->stream(array("Attachment" => false));
 
         return redirect()->route('tcc.index');
     }
@@ -127,6 +128,28 @@ class TccController extends Controller
         return redirect()->route('tcc.index');
     }
 
+    public function viewPdf($id)
+    {
+        $tcc = Tcc::find($id);
+
+        if (!$tcc || !$tcc->documento) {
+            return redirect()->route('tcc.index')->with('error', 'TCC ou documento não encontrado.');
+        }
+
+        $filePath = storage_path('app/public/' . $tcc->documento);
+
+        if (!file_exists($filePath)) {
+            return redirect()->route('tcc.index')->with('error', 'Arquivo não encontrado.');
+        }
+
+        // Carrega o conteúdo do PDF
+        $pdfContent = file_get_contents($filePath);
+
+        // Renderiza o PDF no navegador
+        $this->dompdf->loadHtml($pdfContent);
+        $this->dompdf->render();
+        return $this->dompdf->stream($tcc->documento, ["Attachment" => false]);
+    }
 
     /**
      * Remove the specified resource from storage.
