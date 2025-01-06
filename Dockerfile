@@ -23,8 +23,29 @@ RUN useradd -m -g sail sail
 COPY composer.lock ./
 COPY composer.json ./
 
-# Copie todos os arquivos do diretório atual
-COPY . .
+# Copie o script de correção de permissões
+COPY fix_permissions.sh ./
+
+# Execute o script de correção de permissões
+RUN chmod +x fix_permissions.sh && ./fix_permissions.sh
+
+# Debugging: List files and permissions before copying
+RUN ls -lR /var/www
+
+# Copie todos os arquivos do diretório atual, exceto .env
+COPY . ./
+
+# Debugging: List files and permissions after copying
+RUN ls -lR /var/www
+
+# Defina permissões para o arquivo .env e remova-o
+RUN chmod 644 .env && rm -f .env
+
+# Defina permissões para arquivos e diretórios após copiar os arquivos
+RUN ./fix_permissions.sh
+
+# Debugging: List files and permissions after fixing permissions
+RUN ls -lR /var/www
 
 # Instale as dependências do Composer
 RUN composer install --no-dev --optimize-autoloader --no-interaction

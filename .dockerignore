@@ -26,3 +26,21 @@
 **/values.dev.yaml
 LICENSE
 README.md
+
+.git
+node_modules
+vendor
+.env
+.env.*
+storage/logs
+
+# Exclude unnecessary files from the build context
+**/*.bak
+**/*.tmp
+**/*.swp
+
+# Exclude additional hidden directories and files
+**/.venv
+**/.cache
+**/.pytest_cache
+**/.mypy_cache
