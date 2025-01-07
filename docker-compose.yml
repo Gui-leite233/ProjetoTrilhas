@@ -37,7 +37,7 @@ services:
   mysql:
     image: 'mysql/mysql-server:8.0'
     ports:
-      - '3306:3306'
+      - '3307:3306'  # Change the host port to 3307
     environment:
       MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
       MYSQL_ROOT_HOST: '%'
