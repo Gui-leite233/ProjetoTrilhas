@@ -1,61 +1,18 @@
 {
-    "name": "projetotrilhas",
-    "version": "1.0.0",
-    "description": "<p align=\"center\"><a href=\"https://laravel.com\" target=\"_blank\"><img src=\"https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg\" width=\"400\" alt=\"Laravel Logo\"></a></p>",
-    "main": "index.js",
-    "directories": {
-        "test": "tests"
-    },
-    "private": true,
-    "type": "module",
-    "scripts": {
-        "dev": "vite",
-        "build": "vite build"
-    },
-    "devDependencies": {
-        "@tailwindcss/forms": "^0.5.2",
-        "alpinejs": "^3.4.2",
-        "autoprefixer": "^10.4.2",
-        "axios": "^1.1.2",
-        "laravel-vite-plugin": "^0.8.0",    
-        "postcss": "^8.4.31",
-        "tailwindcss": "^3.1.0",
-        "vite": "^4.5.5"
-    },
-    "keywords": [],
-    "author": "",
-    "license": "ISC",
-    "services": {
-        "mysql": {
-            "image": "mysql/mysql-server:8.0",
-            "ports": [
-                "3306:3306"
-            ],
-            "environment": {
-                "MYSQL_ROOT_PASSWORD": "${DB_PASSWORD}",
-                "MYSQL_ROOT_HOST": "%",
-                "MYSQL_DATABASE": "${DB_DATABASE}",
-                "MYSQL_USER": "${DB_USERNAME}",
-                "MYSQL_PASSWORD": "${DB_PASSWORD}",
-                "MYSQL_ALLOW_EMPTY_PASSWORD": 1
-            },
-            "volumes": [
-                "sail-mysql:/var/lib/mysql",
-                "./vendor/laravel/sail/database/mysql/create-testing-database.sh:/docker-entrypoint-initdb.d/10-create-testing-database.sh"
-            ],
-            "networks": [
-                "sail"
-            ],
-            "command": "--default-authentication-plugin=mysql_native_password",
-            "cap_add": [
-                "SYS_NICE"
-            ],
-            "healthcheck": {
-                "test": ["CMD-SHELL", "mysqladmin ping -h localhost -u root -p${DB_PASSWORD} || exit 1"],
-                "interval": "10s",
-                "timeout": "5s",
-                "retries": 3
-            }
-        }
-    }
+  "private": true,
+  "scripts": {
+    "dev": "npm run development",
+    "development": "mix",
+    "watch": "mix watch",
+    "watch-poll": "mix watch -- --watch-options-poll=1000",
+    "hot": "mix watch --hot",
+    "prod": "npm run production",
+    "production": "mix --production"
+  },
+  "devDependencies": {
+    "axios": "^0.21.4",
+    "laravel-mix": "^6.0.49",
+    "lodash": "^4.17.21",
+    "postcss": "^8.4.49"
+  }
 }

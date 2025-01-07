@@ -1,13 +1,13 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
 use App\Http\Controllers\CursoController;
 use App\Http\Controllers\SiteController;
 use App\Http\Controllers\ProvaController;
 use App\Http\Controllers\TccController;
 use App\Http\Controllers\BolsaController;
 use App\Http\Controllers\AlunoController;
+
 
 
 Route::get('/', function () {
@@ -29,3 +29,4 @@ Route::prefix('/site')->group(function () {
     Route::get('/bolsa', [SiteController::class, 'getBolsas'])->name('site.bolsa');
     Route::get('/aluno', [SiteController::class, 'getAlunos'])->name('site.aluno');
 });
+require __DIR__.'/auth.php';
