@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Projeto extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['titulo', 'descricao', 'aluno_id'];
+
+    public function aluno()
+    {
+        return $this->belongsTo(Aluno::class);
+    }
 }

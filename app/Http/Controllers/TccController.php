@@ -7,6 +7,7 @@ use App\Models\Tcc;
 use App\Models\Aluno;
 //use Barryvdh\DomPDF\Facade\Pdf;
 use Dompdf\Dompdf;
+use Illuminate\Support\Facades\Storage;
 
 class TccController extends Controller
 {
@@ -142,13 +143,10 @@ class TccController extends Controller
             return redirect()->route('tcc.index')->with('error', 'Arquivo não encontrado.');
         }
 
-        // Carrega o conteúdo do PDF
-        $pdfContent = file_get_contents($filePath);
-
-        // Renderiza o PDF no navegador
-        $this->dompdf->loadHtml($pdfContent);
-        $this->dompdf->render();
-        return $this->dompdf->stream($tcc->documento, ["Attachment" => false]);
+        return response()->file($filePath, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="' . $tcc->documento . '"'
+        ]);
     }
 
     /**

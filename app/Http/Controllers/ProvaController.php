@@ -139,4 +139,24 @@ class ProvaController extends Controller
 
         return redirect()->route('prova.index');
     }
+
+    public function viewPdf($id)
+    {
+        $prova = Prova::find($id);
+
+        if (!$prova || !$prova->documento) {
+            return redirect()->route('prova.index')->with('error', 'Prova ou documento não encontrado.');
+        }
+
+        $filePath = storage_path('app/public/' . $prova->documento);
+
+        if (!file_exists($filePath)) {
+            return redirect()->route('prova.index')->with('error', 'Arquivo não encontrado.');
+        }
+
+        return response()->file($filePath, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="' . $prova->documento . '"'
+        ]);
+    }
 }

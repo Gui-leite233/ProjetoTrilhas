@@ -21,6 +21,8 @@ Route::resource('tcc', TccController::class);
 Route::resource('bolsa', BolsaController::class);
 Route::resource('aluno', AlunoController::class);
 
+Route::get('/tcc/viewPdf/{id}', [TccController::class, 'viewPdf'])->name('tcc.viewPdf');
+Route::get('/prova/viewPdf/{id}', [ProvaController::class, 'viewPdf'])->name('prova.viewPdf');
 
 Route::prefix('/site')->group(function () {
     Route::get('/curso', [SiteController::class, 'getCursos'])->name('site.curso');
