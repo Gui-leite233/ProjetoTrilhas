@@ -7,6 +7,7 @@ use App\Models\Bolsa;
 use App\Models\Curso;
 use App\Models\Prova;
 use App\Models\Tcc;
+use App\Models\Projeto;
 use Illuminate\Http\Request;
 
 class SiteController extends Controller {
@@ -37,5 +38,11 @@ class SiteController extends Controller {
 
         $data = Aluno::orderBy('titulo')->get();
         return view('site.aluno', compact('data'));
+    }
+
+    public function getProjetos() {
+
+        $data = Projeto::orderBy('titulo')->get();
+        return view('site.projeto', compact('data'));
     }
 }

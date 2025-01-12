@@ -3,15 +3,23 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Projeto;
+use Illuminate\Support\Facades\Storage;
 
 class ProjetoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
-        //
+        
+        $projeto = Projeto::all();
+
+        
+        return view('projeto.index', compact('projeto'));
     }
 
     /**
@@ -19,7 +27,7 @@ class ProjetoController extends Controller
      */
     public function create()
     {
-        //
+        return view('projeto.create'); // Corrected view path
     }
 
     /**
@@ -27,7 +35,25 @@ class ProjetoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $regras = [
+            'titulo' => 'required|max:255',
+            'descricao' => 'required',
+        ];
+
+        $msgs = [
+            "required" => "O campo [:attribute] é obrigatório!",
+            "max" => "O campo [:attribute] possui tamanho máximo de [:max] caracteres!",
+        ];
+
+        $request->validate($regras, $msgs);
+
+        $projeto = new Projeto();
+        $projeto->titulo = $request->titulo;
+        $projeto->descricao = $request->descricao;
+        $projeto->user_id = auth()->id(); // Set the authenticated user's ID
+        $projeto->save();
+
+        return redirect()->route('projeto.index'); 
     }
 
     /**
@@ -35,7 +61,13 @@ class ProjetoController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $projeto = Projeto::find($id);
+
+        if (!isset($projeto)) {
+            return redirect()->route('projeto.index')->with('error', 'Projeto não encontrado.');
+        }
+
+        return view('projeto.show', compact('projeto')); 
     }
 
     /**
@@ -43,7 +75,13 @@ class ProjetoController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $projeto = Projeto::find($id);
+
+        if (!isset($projeto)) {
+            return redirect()->route('projeto.index')->with('error', 'Projeto não encontrado.');
+        }
+
+        return view('projeto.edit', compact('projeto'));
     }
 
     /**
@@ -51,7 +89,32 @@ class ProjetoController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $projeto = Projeto::find($id);
+
+        if (!isset($projeto)) {
+            return redirect()->route('projeto.index')->with('error', 'Projeto não encontrado.');
+        }
+
+        $regras = [
+            'titulo' => 'required|max:255',
+            'descricao' => 'required',
+            // 'usuario_id' => 'required|exists:users,id', // Uncomment this line when login and register are working properly
+        ];
+
+        $msgs = [
+            "required" => "O campo [:attribute] é obrigatório!",
+            "max" => "O campo [:attribute] possui tamanho máximo de [:max] caracteres!",
+            // "exists" => "O campo [:attribute] deve ser um usuário válido!", // Uncomment this line when login and register are working properly
+        ];
+
+        $request->validate($regras, $msgs);
+
+        $projeto->titulo = $request->titulo;
+        $projeto->descricao = $request->descricao;
+        $projeto->usuario_id = $request->usuario_id;
+        $projeto->save();
+
+        return redirect()->route('projeto.index'); 
     }
 
     /**
@@ -59,6 +122,14 @@ class ProjetoController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $projeto = Projeto::find($id);
+
+        if (!isset($projeto)) {
+            return redirect()->route('projeto.index')->with('error', 'Projeto não encontrado.');
+        }
+
+        $projeto->delete();
+
+        return redirect()->route('projeto.index'); 
     }
 }

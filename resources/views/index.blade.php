@@ -85,6 +85,25 @@
                 </div>
             </div>
         </div>
+
+        <div class="col-md-6 col-lg-3">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-header text-white bg-dark py-3">
+                    <h5 class="card-title mb-0 text-center">Projetos</h5>
+                </div>
+                <div class="card-body d-flex align-items-center justify-content-center">
+                    <a href="{{route('site.projeto')}}" class="text-decoration-none">
+                        <div class="text-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor"
+                                class="bi bi-kanban mb-3 text-dark transition-transform hover-scale" viewBox="0 0 16 16">
+                                <path d="M2.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0v-9a.5.5 0 0 1 .5-.5zm4 0a.5.5 0 0 1 .5.5v5a.5.5 0 0 1-1 0v-5a.5.5 0 0 1 .5-.5zm4 0a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zm4-1a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h14zm0 1H1v10h14V3z"/>
+                            </svg>
+                            <p class="text-dark mb-0">Gerenciar Projetos</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 

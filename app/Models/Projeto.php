@@ -9,7 +9,11 @@ class Projeto extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['titulo', 'descricao', 'aluno_id'];
+    protected $fillable = [
+        'titulo',
+        'descricao',
+        'aluno_id',
+    ];
 
     public function aluno()
     {
