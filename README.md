@@ -47,14 +47,16 @@ Este projeto foi uma iniciativa do projeto Trilhas, onde o objetivo é diminuir 
 3. **Inicie os containers**:  
 
     *opcional
+   
     Caso esteja no Linux, execute no terminal: export PWD=$(pwd)
 
     *opcional
+   
     Caso esteja no Windows, execute no terminal: $env:PWD = (Get-Location).Path
 
     Execute no terminal: docker-compose up -d 
     
-4. **Verifique o container**:
+5. **Verifique o container**:
 
     Verifique se o container está em execução com o comando no terminal(todas as plataformas): 
 
@@ -62,7 +64,7 @@ Este projeto foi uma iniciativa do projeto Trilhas, onde o objetivo é diminuir 
 
     Certifique-se de que o container `projetotrilhas-laravel_app-1` está em execução no aplicativo Docker Desktop(Windows ou Mac).
 
-5. **Acesse a aplicação**:  
+6. **Acesse a aplicação**:  
 
     A aplicação estará disponível na porta `13500`. Abra o navegador e acesse:
     
