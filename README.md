@@ -46,12 +46,10 @@ Este projeto foi uma iniciativa do projeto Trilhas, onde o objetivo é diminuir 
     
 3. **Inicie os containers**:  
 
-    *opcional
-   
+    (opcional)
     Caso esteja no Linux, execute no terminal: export PWD=$(pwd)
 
-    *opcional
-   
+    (opcional)
     Caso esteja no Windows, execute no terminal: $env:PWD = (Get-Location).Path
 
     Execute no terminal: docker-compose up -d 
