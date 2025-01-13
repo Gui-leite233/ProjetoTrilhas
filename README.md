@@ -66,7 +66,7 @@ Este projeto foi uma iniciativa do projeto Trilhas, onde o objetivo é diminuir 
     
     http://localhost:13500
 
-## 🛠️ Instalação via Composer (XAMPP ou semelhantes)
+## 🛠️ Instalação via Composer com o XAMPP ou semelhantes
 
 1. **Clone o repositório**:
 
