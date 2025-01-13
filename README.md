@@ -45,7 +45,9 @@ Este projeto foi uma iniciativa do projeto Trilhas, onde o objetivo é diminuir 
     
 3. **Inicie os containers**:  
 
-    Execute no terminal: docker-compose up -d
+    Caso esteja no Linux, execute no terminal: export PWD=$(pwd)
+    Caso esteja no Windows, execute no terminal: $env:PWD = (Get-Location).Path
+    Execute no terminal: docker-compose up -d 
     
 4. **Verifique o container**:
 
@@ -120,38 +122,7 @@ Você também pode experimentar o [Laravel Bootcamp](https://bootcamp.laravel.co
 
 Se você não gosta de ler, o [Laracasts](https://laracasts.com) pode ajudar. O Laracasts contém milhares de tutoriais em vídeo sobre uma variedade de tópicos, incluindo Laravel, PHP moderno, testes unitários e JavaScript. Melhore suas habilidades explorando nossa biblioteca de vídeos abrangente.
 
-## Patrocinadores do Laravel
-
-Gostaríamos de agradecer aos seguintes patrocinadores por financiarem o desenvolvimento do Laravel. Se você estiver interessado em se tornar um patrocinador, visite o [programa de parceiros do Laravel](https://partners.laravel.com).
-
-### Parceiros Premium
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
-
 ## Contribuindo
+Os desenvolvedores são o Guilherme Leite que desenvolveu o backkend e a Isabelle Alves que desenvolveu o frontend. 
+Ambos desenvolveram a documentação(Diagramas e prototipação) do projeto e o README.md.
 
-Obrigado por considerar contribuir com o framework Laravel! O guia de contribuição pode ser encontrado na [documentação do Laravel](https://laravel.com/docs/contributions).
-
-## Código de Conduta
-
-Para garantir que a comunidade Laravel seja acolhedora para todos, revise e siga o [Código de Conduta](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Vulnerabilidades de Segurança
-
-Se você descobrir uma vulnerabilidade de segurança no Laravel, envie um e-mail para Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). Todas as vulnerabilidades de segurança serão tratadas prontamente.
-
-## Licença
-
-O framework Laravel é um software de código aberto licenciado sob a [licença MIT](https://opensource.org/licenses/MIT).
