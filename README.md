@@ -48,7 +48,7 @@ Este projeto foi uma iniciativa do projeto Trilhas, onde o objetivo é diminuir 
     Caso esteja no Linux, execute no terminal: export PWD=$(pwd)
 
     Caso esteja no Windows, execute no terminal: $env:PWD = (Get-Location).Path
-    
+
     Execute no terminal: docker-compose up -d 
     
 4. **Verifique o container**:
@@ -126,7 +126,20 @@ Você também pode experimentar o [Laravel Bootcamp](https://bootcamp.laravel.co
 
 Se você não gosta de ler, o [Laracasts](https://laracasts.com) pode ajudar. O Laracasts contém milhares de tutoriais em vídeo sobre uma variedade de tópicos, incluindo Laravel, PHP moderno, testes unitários e JavaScript. Melhore suas habilidades explorando nossa biblioteca de vídeos abrangente.
 
-## Contribuindo
-Os desenvolvedores são o Guilherme Leite que desenvolveu o backkend e a Isabelle Alves que desenvolveu o frontend. 
-Ambos desenvolveram a documentação(Diagramas e prototipação) do projeto e o README.md.
+## Contribuição
 
+Este projeto foi desenvolvido colaborativamente por dois desenvolvedores principais:
+
+Guilherme Leite ficou responsável pelo desenvolvimento do backend da aplicação, implementando toda a lógica de negócio, APIs e integração com o banco de dados utilizando o framework Laravel.
+Isabelle Alves liderou o desenvolvimento frontend da aplicação, criando toda a interface do usuário, além de realizar o trabalho de UX/UI com a prototipação das telas e elaboração dos diagramas do sistema.
+Em conjunto, ambos os desenvolvedores colaboraram na documentação técnica do projeto, incluindo:
+
+Criação e manutenção do README.md
+
+Elaboração dos diagramas técnicos e de arquitetura
+
+Desenvolvimento do diagrama de classes e diagramas de sequência
+
+Documentação das APIs e fluxos do sistema
+
+Esta estrutura colaborativa permitiu um desenvolvimento mais organizado e eficiente do projeto, combinando expertise tanto no backend quanto no frontend.
