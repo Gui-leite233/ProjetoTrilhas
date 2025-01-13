@@ -52,9 +52,8 @@ Este projeto foi uma iniciativa do projeto Trilhas, onde o objetivo é diminuir 
 4. **Verifique o container**:
 
     Verifique se o container está em execução com o comando no terminal(todas as plataformas): 
-    ''' bash
+    
     docker ps
-    '''
 
     Certifique-se de que o container `projetotrilhas-laravel_app-1` está em execução no aplicativo Docker Desktop(Windows ou Mac).
 
