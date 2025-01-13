@@ -7,33 +7,124 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
+# Projeto Trilhas
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 📋 Descrição
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Este projeto foi uma iniciativa do projeto Trilhas, onde o objetivo é diminuir a evasão mostrando tudo que a instituição, no qual o Trilhas pertence, tem a oferecer. Desenvolvido por dois estudantes e programadores.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## 🚀 Funcionalidades
 
-## Learning Laravel
+- Autenticação de usuários
+- CRUD completo
+- Validação de dados
+- Interface responsiva
+- Sistema de mensagens de feedback
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## 💻 Tecnologias Utilizadas
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+- Laravel
+- PHP
+- MySQL
+- HTML/CSS
+- Bootstrap
+- JavaScript
+- Docker
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
 
-## Laravel Sponsors
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## 🛠️ Instalação com Docker
 
-### Premium Partners
+1. **Clone o repositório**:
+    
+    git clone https://github.com/Gui-leite233/ProjetoTrilhas.git
+    
+2. **Configure o arquivo de ambiente**:  
+
+    Renomeie `.env.docker.example` para `.env`.
+    
+3. **Inicie os containers**:  
+
+    Execute no terminal: docker-compose up -d
+    
+4. **Verifique o container**:
+
+    Verifique se o container está em execução com o comando no terminal(todas as plataformas): docker ps
+
+    Certifique-se de que o container `projetotrilhas-laravel_app-1` está em execução no aplicativo Docker Desktop(Windows ou Mac).
+
+5. **Acesse a aplicação**:  
+
+    A aplicação estará disponível na porta `13500`. Abra o navegador e acesse:
+    
+    http://localhost:13500
+
+## 🛠️ Instalação via Composer (XAMPP ou semelhantes)
+
+1. **Clone o repositório**:
+
+    git clone https://github.com/Gui-leite233/ProjetoTrilhas.git
+    
+2. **Configure o arquivo de ambiente**:  
+
+    Renomeie `.env.example` para `.env`.
+    
+3. **Instale as dependências**:
+
+    composer install
+    
+4. **Gere a chave da aplicação**:
+    
+    php artisan key:generate
+    
+5. **Execute as migrações do banco de dados**:
+    
+    php artisan migrate
+    
+6. **Crie o link para o armazenamento**:
+
+    php artisan storage:link
+    
+7. **Inicie o servidor local**:
+
+    php artisan serve
+    
+8. **Acesse a aplicação**:  
+
+    Abra o navegador e acesse o endereço exibido no terminal.
+
+
+!!! ATENÇÃO !!!
+A aplicação não pode ser utilizada simultaneamente em ambas as formas de instalação.
+
+
+## Sobre o Laravel
+
+Laravel é um framework de aplicações web com uma sintaxe expressiva e elegante. Acreditamos que o desenvolvimento deve ser uma experiência agradável e criativa para ser verdadeiramente satisfatória. Laravel elimina as dores do desenvolvimento, simplificando tarefas comuns em muitos projetos web, como:
+
+- [Motor de roteamento simples e rápido](https://laravel.com/docs/routing).
+- [Container poderoso para injeção de dependências](https://laravel.com/docs/container).
+- Suporte a múltiplos back-ends para [sessão](https://laravel.com/docs/session) e [armazenamento de cache](https://laravel.com/docs/cache).
+- [ORM de banco de dados](https://laravel.com/docs/eloquent) expressivo e intuitivo.
+- [Migrações de esquema](https://laravel.com/docs/migrations) independentes de banco de dados.
+- [Processamento robusto de tarefas em background](https://laravel.com/docs/queues).
+- [Transmissão de eventos em tempo real](https://laravel.com/docs/broadcasting).
+
+Laravel é acessível, poderoso e fornece as ferramentas necessárias para grandes aplicações robustas.
+
+## Aprendendo Laravel
+
+Laravel tem a mais extensa e completa [documentação](https://laravel.com/docs) e biblioteca de tutoriais em vídeo entre todos os frameworks modernos para aplicações web, facilitando o aprendizado do framework.
+
+Você também pode experimentar o [Laravel Bootcamp](https://bootcamp.laravel.com), onde será guiado na construção de uma aplicação Laravel moderna do zero.
+
+Se você não gosta de ler, o [Laracasts](https://laracasts.com) pode ajudar. O Laracasts contém milhares de tutoriais em vídeo sobre uma variedade de tópicos, incluindo Laravel, PHP moderno, testes unitários e JavaScript. Melhore suas habilidades explorando nossa biblioteca de vídeos abrangente.
+
+## Patrocinadores do Laravel
+
+Gostaríamos de agradecer aos seguintes patrocinadores por financiarem o desenvolvimento do Laravel. Se você estiver interessado em se tornar um patrocinador, visite o [programa de parceiros do Laravel](https://partners.laravel.com).
+
+### Parceiros Premium
 
 - **[Vehikl](https://vehikl.com/)**
 - **[Tighten Co.](https://tighten.co)**
@@ -49,18 +140,18 @@ We would like to extend our thanks to the following sponsors for funding Laravel
 - **[byte5](https://byte5.de)**
 - **[OP.GG](https://op.gg)**
 
-## Contributing
+## Contribuindo
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Obrigado por considerar contribuir com o framework Laravel! O guia de contribuição pode ser encontrado na [documentação do Laravel](https://laravel.com/docs/contributions).
 
-## Code of Conduct
+## Código de Conduta
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Para garantir que a comunidade Laravel seja acolhedora para todos, revise e siga o [Código de Conduta](https://laravel.com/docs/contributions#code-of-conduct).
 
-## Security Vulnerabilities
+## Vulnerabilidades de Segurança
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Se você descobrir uma vulnerabilidade de segurança no Laravel, envie um e-mail para Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). Todas as vulnerabilidades de segurança serão tratadas prontamente.
 
-## License
+## Licença
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+O framework Laravel é um software de código aberto licenciado sob a [licença MIT](https://opensource.org/licenses/MIT).
