@@ -9,6 +9,7 @@
 
 # Projeto Trilhas
 
+
 ## 📋 Descrição
 
 Este projeto foi uma iniciativa do projeto Trilhas, onde o objetivo é diminuir a evasão mostrando tudo que a instituição, no qual o Trilhas pertence, tem a oferecer. Desenvolvido por dois estudantes e programadores.
