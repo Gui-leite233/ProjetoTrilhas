@@ -11,6 +11,7 @@
     <script>
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <style>
         #pdfViewerContainer {
             background-color: #525659;
@@ -154,9 +155,11 @@
         </div>
     </nav>
 
-    <section class="container mt-3">
+    <div class="container">
+        @yield('header')
         @yield('conteudo')
-    </section>
+    </div>
+
     <div class="modal fade" tabindex="-1" id="removeModal">
         <div class="modal-dialog">
             <div class="modal-content">
