@@ -5,17 +5,26 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Tcc;
 use App\Models\Aluno;
+use App\Models\Role;
+use Illuminate\Support\Facades\DB;
 //use Barryvdh\DomPDF\Facade\Pdf;
 use Dompdf\Dompdf;
-use Illuminate\Support\Facades\Storage;
 
-class TccController extends Controller
+
+
+use Illuminate\Routing\Controller as BaseController;
+
+class TccController extends BaseController
 {
     private $dompdf;
 
-    public function __construct() {
+    public function __construct() 
+    {
+        // Remove parent::__construct() - it's not needed
+        $this->middleware('auth', ['except' => ['index', 'show']]);
         $this->dompdf = new Dompdf();
-        $this->dompdf->setPaper('A4', 'portrait');  // opcional
+        $this->dompdf->setPaper('A4', 'portrait');
+        DB::enableQueryLog(); // Enable query logging for debugging
     }
 
     public function index()
@@ -32,29 +41,55 @@ class TccController extends Controller
      */
     public function create()
     {
-        return view('tcc.create') ;
+        $user = auth()->user();
+        
+        // Get alunos with role 'aluno' and their related data
+        $alunos = Aluno::whereHas('usuario.role', function($query) {
+            $query->where('name', 'aluno');
+        })->with(['usuario', 'curso'])->get();
+
+        // For debugging
+        \Log::info('Query Debug:', [
+            'user_id' => $user->id,
+            'user_role' => $user->role->name ?? 'no role',
+            'alunos_found' => $alunos->count(),
+            'alunos' => $alunos->map(function($aluno) {
+                return [
+                    'id' => $aluno->id,
+                    'user_id' => $aluno->user_id,
+                    'nome' => optional($aluno->usuario)->nome,
+                    'curso' => optional($aluno->curso)->nome
+                ];
+            })
+        ]);
+
+        return view('tcc.create', compact('alunos'));
     }
 
-    /**
-     * Store a newly created resource in storage.
+    /* Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
         $regras = [
             'titulo' => 'required|max:255',
             'descricao' => 'required',
+            'aluno_id' => 'required|exists:alunos,id',
             'documento' => 'file|mimes:pdf,doc,docx|max:2048',
         ];
+        
         $msgs = [
             "required" => "O campo [:attribute] é obrigatório!",
             "max" => "O campo [:attribute] possui tamanho máximo de [:max] caracteres!",
             "min" => "O campo [:attribute] possui tamanho mínimo de [:min] caracteres!",
+            "exists" => "O aluno selecionado não é válido!",
         ];
+        
         $request->validate($regras, $msgs);
         
         $reg = new Tcc();
         $reg->titulo = $request->titulo;
         $reg->descricao = $request->descricao;
+        $reg->aluno_id = $request->aluno_id;
         $reg->save();
 
         if ($request->hasFile('documento')) {
@@ -63,8 +98,6 @@ class TccController extends Controller
             $request->file('documento')->storeAs("public/", $nome_arq);
             $reg->documento = $nome_arq;
             $reg->save();
-        } else {
-            echo ("erro");
         }
 
         return redirect()->route('tcc.index');
@@ -84,10 +117,30 @@ class TccController extends Controller
     public function edit(string $id)
     {
         $data = Tcc::find($id);
-
-        if (isset($data)) {
-            return view('tcc.edit', compact('data'));
+        $user = auth()->user();
+        
+        // If user is aluno, only show their own record
+        if ($user->hasRole('aluno')) {
+            $alunos = Aluno::with(['usuario', 'curso'])
+                ->where('user_id', $user->id)
+                ->get();
+        } 
+        // If user is admin or other role, show all alunos
+        else {
+            $alunos = Aluno::with(['usuario', 'curso'])
+                ->whereHas('usuario.role', function($query) {
+                    $query->where('name', 'aluno');
+                })
+                ->orWhere('user_id', auth()->id())
+                ->get();
         }
+
+        if (!isset($data)) {
+            return redirect()->route('tcc.index')
+                ->with('error', 'TCC não encontrado');
+        }
+
+        return view('tcc.edit', compact('data', 'alunos'));
     }
 
     /**
@@ -156,8 +209,9 @@ class TccController extends Controller
     {
         $obj = Tcc::find($id);
 
+
         if (!isset($obj)) {
-            return "<h1>ID: $id não encontrado!";
+            return "<h1>ID: $id não encontrado!</h1>";
         }
 
         $obj->destroy($id);
@@ -165,3 +219,4 @@ class TccController extends Controller
         return redirect()->route('tcc.index');
     }
 }
+

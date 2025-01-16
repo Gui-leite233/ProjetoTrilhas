@@ -54,7 +54,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password.update'); // Change this line
+    Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password.update');
 });
 
 // Email Verification Routes
@@ -75,7 +75,6 @@ Route::middleware('auth')->group(function () {
 // Resource routes
 Route::resource('curso', CursoController::class);
 Route::resource('prova', ProvaController::class);
-Route::resource('tcc', TccController::class);
 Route::resource('bolsa', BolsaController::class);
 Route::resource('aluno', AlunoController::class);
 Route::resource('projeto', ProjetoController::class);
@@ -92,4 +91,8 @@ Route::prefix('/site')->group(function () {
     Route::get('/bolsa', [SiteController::class, 'getBolsas'])->name('site.bolsa');
     Route::get('/aluno', [SiteController::class, 'getAlunos'])->name('site.aluno');
     Route::get('/projeto', [SiteController::class, 'getProjetos'])->name('site.projeto');
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::resource('tcc', TccController::class);
 });

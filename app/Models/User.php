@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -20,7 +19,6 @@ class User extends Authenticatable
         'nome',
         'email',
         'password',
-        'nome',
         'role_id',
     ];
 
@@ -53,5 +51,21 @@ class User extends Authenticatable
     public function role()
     {
         return $this->belongsTo(Role::class);
+    }
+
+    /**
+     * Get the aluno associated with the user.
+     */
+    public function aluno()
+    {
+        return $this->hasOne(Aluno::class, 'user_id');
+    }
+
+    /**
+     * Check if user has specific role
+     */
+    public function hasRole($role)
+    {
+        return $this->role && $this->role->name === $role;
     }
 }

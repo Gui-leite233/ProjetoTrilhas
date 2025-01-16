@@ -13,11 +13,25 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        
+        // Check if roles exist and get aluno role ID
+        $alunoRole = \App\Models\Role::where('name', 'aluno')->first();
+        
+        if ($alunoRole) {
+            // Create a test user with aluno role
+            $user = \App\Models\User::create([
+                'nome' => 'Test Aluno',
+                'email' => 'aluno@test.com',
+                'password' => bcrypt('password'),
+                'role_id' => $alunoRole->id
+            ]);
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+            // Create corresponding Aluno record
+            \App\Models\Aluno::create([
+                'user_id' => $user->id,
+                'ano' => '2023'
+                // Add other required fields
+            ]);
+        }
     }
 }

@@ -37,8 +37,25 @@
     <div class="row">
         <div class="col">
             <div class="form-floating mb-3">
-                <input type="text" class="form-control" name="aluno_id" value="Aluno não informado" readonly disabled />
+                <select name="aluno_id" class="form-select @if($errors->has('aluno_id')) is-invalid @endif">
+                    <option value="">Selecione o Aluno</option>
+                    @foreach ($alunos as $aluno)
+                        <option value="{{ $aluno->id }}" {{ old('aluno_id') == $aluno->id ? 'selected' : '' }}>
+                            {{ optional($aluno->usuario)->nome ?? 'Nome não encontrado' }}
+                            ({{ optional($aluno->curso)->nome ?? 'Sem curso' }})
+                        </option>
+                    @endforeach
+                </select>
                 <label for="aluno_id">Aluno</label>
+                @if ($errors->has('aluno_id'))
+                    <div class='invalid-feedback'>
+                        {{ $errors->first('aluno_id') }}
+                    </div>
+                @endif
+                <!-- Debug info -->
+                @if(count($alunos) == 0)
+                    <small class="text-muted">Nenhum aluno encontrado</small>
+                @endif
             </div>
         </div>
     </div>

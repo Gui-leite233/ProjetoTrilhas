@@ -85,68 +85,6 @@
                 </div>
             </div>
         </div>
-
-        <div class="col-md-6 col-lg-3">
-            <div class="card h-100 border-0 shadow-sm" x-data="{ hover: false }" @mouseenter="hover = true" @mouseleave="hover = false">
-                <div class="card-header text-white bg-dark py-3">
-                    <h5 class="card-title mb-0 text-center">Login</h5>
-                </div>
-                <div class="card-body d-flex align-items-center justify-content-center">
-                    <a href="{{ route('login') }}" class="text-decoration-none">
-                        <div class="text-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor"
-                                class="bi bi-box-arrow-in-right mb-3 text-dark transition-transform hover-scale" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M6 3a.5.5 0 0 1 .5.5v2.5h5a.5.5 0 0 1 0 1h-5v2.5a.5.5 0 0 1-1 0v-6A.5.5 0 0 1 6 3zm-4 5a.5.5 0 0 1 .5-.5h7.793l-2.147-2.146a.5.5 0 0 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H2.5A.5.5 0 0 1 2 8z"/>
-                                <path fill-rule="evenodd" d="M13.5 15a1.5 1.5 0 0 0 1.5-1.5v-11A1.5 1.5 0 0 0 13.5 1h-11A1.5 1.5 0 0 0 1 2.5v11A1.5 1.5 0 0 0 2.5 15h11zM2 2.5A.5.5 0 0 1 2.5 2h11a.5.5 0 0 1 .5.5v11a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11z"/>
-                            </svg>
-                            <p class="text-dark mb-0" :class="{ 'text-primary': hover }">Login</p>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-6 col-lg-3">
-            <div class="card h-100 border-0 shadow-sm" x-data="{ hover: false }" @mouseenter="hover = true" @mouseleave="hover = false">
-                <div class="card-header text-white bg-dark py-3">
-                    <h5 class="card-title mb-0 text-center">Senha</h5>
-                </div>
-                <div class="card-body d-flex align-items-center justify-content-center">
-                    <a href="{{ route('password.request') }}" class="text-decoration-none">
-                        <div class="text-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor"
-                                class="bi bi-key mb-3 text-dark transition-transform hover-scale" viewBox="0 0 16 16">
-                                <path d="M3 8a5 5 0 1 1 9.9 1h.6a.5.5 0 0 1 0 1h-1.1a5.002 5.002 0 0 1-4.9 4 5 5 0 0 1-4.9-4H1.5a.5.5 0 0 1 0-1h.6A5 5 0 0 1 3 8zm5-4a4 4 0 1 0 0 8 4 4 0 0 0 0-8z"/>
-                                <path d="M7.5 8.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5z"/>
-                                <path d="M4.5 8.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5z"/>
-                                <path d="M10.5 8.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5z"/>
-                            </svg>
-                            <p class="text-dark mb-0" :class="{ 'text-primary': hover }">Esqueceu a Senha</p>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-6 col-lg-3">
-            <div class="card h-100 border-0 shadow-sm" x-data="{ hover: false }" @mouseenter="hover = true" @mouseleave="hover = false">
-                <div class="card-header text-white bg-dark py-3">
-                    <h5 class="card-title mb-0 text-center">Registrar</h5>
-                </div>
-                <div class="card-body d-flex align-items-center justify-content-center">
-                    <a href="{{ route('register') }}" class="text-decoration-none">
-                        <div class="text-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor"
-                                class="bi bi-person-plus mb-3 text-dark transition-transform hover-scale" viewBox="0 0 16 16">
-                                <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
-                                <path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z"/>
-                            </svg>
-                            <p class="text-dark mb-0" :class="{ 'text-primary': hover }">Registrar</p>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
 
