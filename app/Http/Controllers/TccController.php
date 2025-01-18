@@ -6,10 +6,10 @@ use Illuminate\Http\Request;
 use App\Models\Tcc;
 use App\Models\Aluno;
 use App\Models\Role;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
-//use Barryvdh\DomPDF\Facade\Pdf;
 use Dompdf\Dompdf;
-
+use Illuminate\Support\Collection;
 
 
 use Illuminate\Routing\Controller as BaseController;
@@ -29,10 +29,19 @@ class TccController extends BaseController
 
     public function index()
     {
-        // Busca todos os TCCs do banco de dados
-        $tccs = Tcc::with('aluno')->get(); // Inclua a relação 'aluno' se ela existir
+        $tccs = Tcc::with(['user', 'users' => function($query) {
+            $query->select('users.id', 'users.nome');  // Changed from name to nome
+        }])->get();
         
-        // Retorna a view com a variável $tccs
+        foreach ($tccs as $tcc) {
+            \Log::info('TCC details:', [
+                'id' => $tcc->id,
+                'titulo' => $tcc->titulo,
+                'main_user' => $tcc->user ? $tcc->user->only(['id', 'nome']) : null,
+                'other_users' => $tcc->users->where('id', '!=', $tcc->user_id)->pluck('nome')
+            ]);
+        }
+        
         return view('tcc.index', compact('tccs'));
     }
 
@@ -41,66 +50,73 @@ class TccController extends BaseController
      */
     public function create()
     {
-        $user = auth()->user();
-        
-        // Get alunos with role 'aluno' and their related data
-        $alunos = Aluno::whereHas('usuario.role', function($query) {
-            $query->where('name', 'aluno');
-        })->with(['usuario', 'curso'])->get();
-
-        // For debugging
-        \Log::info('Query Debug:', [
-            'user_id' => $user->id,
-            'user_role' => $user->role->name ?? 'no role',
-            'alunos_found' => $alunos->count(),
-            'alunos' => $alunos->map(function($aluno) {
-                return [
-                    'id' => $aluno->id,
-                    'user_id' => $aluno->user_id,
-                    'nome' => optional($aluno->usuario)->nome,
-                    'curso' => optional($aluno->curso)->nome
-                ];
+        $users = User::with('role')
+            ->whereHas('role', function($query) {
+                $query->where('name', 'Aluno');
             })
-        ]);
-
-        return view('tcc.create', compact('alunos'));
+            ->get();
+        
+        return view('tcc.create', ['users' => $users]);
     }
 
     /* Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        $regras = [
-            'titulo' => 'required|max:255',
-            'descricao' => 'required',
-            'aluno_id' => 'required|exists:alunos,id',
-            'documento' => 'file|mimes:pdf,doc,docx|max:2048',
-        ];
-        
-        $msgs = [
-            "required" => "O campo [:attribute] é obrigatório!",
-            "max" => "O campo [:attribute] possui tamanho máximo de [:max] caracteres!",
-            "min" => "O campo [:attribute] possui tamanho mínimo de [:min] caracteres!",
-            "exists" => "O aluno selecionado não é válido!",
-        ];
-        
-        $request->validate($regras, $msgs);
-        
-        $reg = new Tcc();
-        $reg->titulo = $request->titulo;
-        $reg->descricao = $request->descricao;
-        $reg->aluno_id = $request->aluno_id;
-        $reg->save();
+        try {
+            \Log::info('TCC Store Request:', ['request_data' => $request->all()]);
+            
+            $validated = $request->validate([
+                'titulo' => 'required',
+                'descricao' => 'required',
+                'user_ids' => 'required|array',
+                'documento' => 'nullable|file|mimes:pdf'
+            ]);
 
-        if ($request->hasFile('documento')) {
-            $extensao_arq = $request->file('documento')->getClientOriginalExtension();
-            $nome_arq = $reg->id . '_' . time() . '.' . $extensao_arq;
-            $request->file('documento')->storeAs("public/", $nome_arq);
-            $reg->documento = $nome_arq;
-            $reg->save();
+            DB::beginTransaction();
+
+            // Create TCC with first user as main
+            $tcc = Tcc::create([
+                'titulo' => $request->titulo,
+                'descricao' => $request->descricao,
+                'user_id' => $request->user_ids[0]
+            ]);
+
+            \Log::info('TCC created:', ['tcc' => $tcc->toArray()]);
+
+            // Sync all selected users
+            $tcc->users()->sync($request->user_ids);
+            
+            \Log::info('Users synced:', [
+                'tcc_id' => $tcc->id,
+                'user_ids' => $request->user_ids,
+                'pivot_records' => DB::table('tcc_user')->where('tcc_id', $tcc->id)->get()
+            ]);
+
+            // Handle document if present
+            if ($request->hasFile('documento')) {
+                $file = $request->file('documento');
+                $filename = $tcc->id . '_' . time() . '.' . $file->getClientOriginalExtension();
+                $file->storeAs('public', $filename);
+                $tcc->update(['documento' => $filename]);
+            }
+
+            DB::commit();
+
+            return redirect()->route('tcc.index')
+                ->with('success', 'TCC criado com sucesso!');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            \Log::error('Error creating TCC:', [
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            
+            return back()
+                ->withInput()
+                ->withErrors(['error' => 'Erro ao criar TCC: ' . $e->getMessage()]);
         }
-
-        return redirect()->route('tcc.index');
     }
 
     /**

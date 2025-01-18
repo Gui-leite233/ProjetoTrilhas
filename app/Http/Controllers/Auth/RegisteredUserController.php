@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Role;
+use App\Models\Curso;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -14,7 +15,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 
-
 class RegisteredUserController extends Controller
 {
     /**
@@ -23,7 +23,9 @@ class RegisteredUserController extends Controller
     public function create(): View
     {
         $roles = Role::all();
-        return view('auth/register', compact('roles'));
+        $users = User::with('role')->get();
+        $cursos = Curso::all();
+        return view('auth.register', compact('roles', 'users', 'cursos'));
     }
 
     /**
@@ -33,18 +35,25 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $request->validate([
+        $rules = [
             'nome' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'role_id' => ['required', 'integer'],
-        ]);
+            'role_id' => ['required', 'exists:roles,id']
+        ];
+
+        // Add curso_id validation for aluno role
+        if ($request->role_id == 3) { // Assuming 3 is the aluno role ID
+            $rules['curso_id'] = ['required', 'exists:cursos,id'];
+        }
+
+        $request->validate($rules);
 
         $user = User::create([
             'nome' => $request->nome,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role_id' => $request->role_id,
+            'role_id' => $request->role_id
         ]);
 
         event(new Registered($user));

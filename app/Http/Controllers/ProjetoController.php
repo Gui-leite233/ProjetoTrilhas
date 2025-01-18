@@ -4,9 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Projeto;
-use Illuminate\Support\Facades\Storage;
+use App\Models\User;
+use Illuminate\Routing\Controller as BaseController;
 
-class ProjetoController extends Controller
+class ProjetoController extends BaseController
 {
     public function __construct()
     {
@@ -15,19 +16,26 @@ class ProjetoController extends Controller
 
     public function index()
     {
+        $projeto = Projeto::with([
+            'users.curso',
+            'users.aluno.curso'
+        ])->get();
         
-        $projeto = Projeto::all();
-
+        // Uncomment to debug
+        // dd($projeto->first()->users->first());
         
         return view('projeto.index', compact('projeto'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        return view('projeto.create'); // Corrected view path
+        $users = User::with('role')
+            ->whereHas('role', function($query) {
+                $query->where('name', 'Aluno');
+            })
+            ->get();
+            
+        return view('projeto.create', compact('users'));
     }
 
     /**
@@ -38,11 +46,14 @@ class ProjetoController extends Controller
         $regras = [
             'titulo' => 'required|max:255',
             'descricao' => 'required',
+            'user_ids' => 'required|array',
+            'user_ids.*' => 'exists:users,id'
         ];
 
         $msgs = [
             "required" => "O campo [:attribute] é obrigatório!",
             "max" => "O campo [:attribute] possui tamanho máximo de [:max] caracteres!",
+            "exists" => "O usuário selecionado não existe no banco de dados!",
         ];
 
         $request->validate($regras, $msgs);
@@ -50,10 +61,13 @@ class ProjetoController extends Controller
         $projeto = new Projeto();
         $projeto->titulo = $request->titulo;
         $projeto->descricao = $request->descricao;
-        $projeto->user_id = auth()->id(); // Set the authenticated user's ID
+        $projeto->user_id = $request->user_ids[0]; // Primary user
         $projeto->save();
 
-        return redirect()->route('projeto.index'); 
+        // Sync all selected users
+        $projeto->users()->sync($request->user_ids);
+
+        return redirect()->route('projeto.index');
     }
 
     /**
@@ -98,13 +112,13 @@ class ProjetoController extends Controller
         $regras = [
             'titulo' => 'required|max:255',
             'descricao' => 'required',
-            // 'usuario_id' => 'required|exists:users,id', // Uncomment this line when login and register are working properly
+            'usuario_id' => 'required|exists:users,id', // Uncomment this line when login and register are working properly
         ];
 
         $msgs = [
             "required" => "O campo [:attribute] é obrigatório!",
             "max" => "O campo [:attribute] possui tamanho máximo de [:max] caracteres!",
-            // "exists" => "O campo [:attribute] deve ser um usuário válido!", // Uncomment this line when login and register are working properly
+            "exists" => "O campo [:attribute] deve ser um usuário válido!", // Uncomment this line when login and register are working properly
         ];
 
         $request->validate($regras, $msgs);

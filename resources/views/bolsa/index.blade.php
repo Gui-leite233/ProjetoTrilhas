@@ -83,3 +83,89 @@
     </div>
 </div>
 @endsection
+
+@push('styles')
+<style>
+    /* Enhanced Table Styles */
+    .table {
+        margin-bottom: 0;
+    }
+
+    .table th {
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        background: linear-gradient(45deg, rgba(33,37,41,0.05), rgba(33,37,41,0.02));
+        border: none;
+    }
+
+    .table td {
+        vertical-align: middle;
+        border-color: rgba(0,0,0,0.05);
+        padding: 1rem;
+    }
+
+    .table tr {
+        transition: all 0.3s ease;
+    }
+
+    .table tr:hover {
+        background-color: rgba(33,37,41,0.02);
+        transform: scale(1.001);
+    }
+
+    /* Badge Enhancements */
+    .badge {
+        padding: 0.6rem 1rem;
+        border-radius: 6px;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+    }
+
+    .badge.bg-success {
+        background: linear-gradient(45deg, #198754, #20c997) !important;
+    }
+
+    .badge.bg-secondary {
+        background: linear-gradient(45deg, #6c757d, #adb5bd) !important;
+    }
+
+    /* Button Styles */
+    .btn {
+        border-radius: 8px;
+        padding: 0.6rem 1rem;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .btn-light {
+        background: linear-gradient(45deg, #f8f9fa, #fff);
+        border: 1px solid rgba(0,0,0,0.1);
+    }
+
+    .btn-dark {
+        background: linear-gradient(45deg, #212529, #343a40);
+    }
+
+    /* Card Enhancement */
+    .card {
+        border-radius: 16px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+
+    .card:hover {
+        box-shadow: 0 12px 20px rgba(0,0,0,0.15) !important;
+    }
+
+    .card-header {
+        background: linear-gradient(45deg, #212529, #343a40);
+        border: none;
+        padding: 1.2rem;
+    }
+</style>
+@endpush

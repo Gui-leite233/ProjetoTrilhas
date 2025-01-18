@@ -2,21 +2,23 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Projeto extends Model
 {
-    use HasFactory;
-
     protected $fillable = [
         'titulo',
         'descricao',
-        'aluno_id',
+        'user_id'
     ];
 
-    public function aluno()
+    public function user()
     {
-        return $this->belongsTo(Aluno::class);
+        return $this->belongsTo(User::class);
+    }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'projeto_user');
     }
 }

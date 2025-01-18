@@ -3,62 +3,100 @@
 @section('titulo') Desenvolvimento Web @endsection
 
 @section('conteudo')
-
-<div class="container py-4">
+<div class="container py-5">
     <div class="row">
+        <div class="col-12 mb-4">
+            <h2 class="display-5 fw-bold text-center text-primary mb-3">Cursos Disponíveis</h2>
+            <p class="text-muted text-center mb-5">Explore nossos cursos e comece sua jornada de aprendizado</p>
+        </div>
+
         <div class="col">
-            <div class="card border-0 shadow-sm">
-                <div class="card-header bg-dark text-white py-3">
-                    <h5 class="mb-0">Cursos Disponíveis</h5>
-                </div>
-                <div class="card-body">
-                    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-                        @foreach ($data as $item)
-                            <div class="col">
-                                <div class="card h-100 border-0 shadow-sm hover-shadow">
-                                    <div class="card-body d-flex flex-column">
-                                        <div class="d-flex align-items-center mb-3">
-                                            
-                                            <div>
-                                                <h5 class="card-title mb-0 text-primary">{{ $item->nome }}</h5>
-                                                <small class="text-muted">ID: {{ $item->id }}</small>
-                                            </div>
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <p class="card-text text-secondary">{{ $item->descricao }}</p>
-                                        </div>
-
-                                        @if($item->link)
-                                            <div class="mt-auto">
-                                                <a href="{{ $item->link }}" class="btn btn-dark btn-sm w-100" target="_blank">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-up-right me-1" viewBox="0 0 16 16">
-                                                        <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/>
-                                                        <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/>
-                                                    </svg>
-                                                    Acessar Curso
-                                                </a>
-                                            </div>
-                                        @endif
+            <div class="row g-4">
+                @foreach ($data as $item)
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <div class="card h-100 border-0 shadow-sm hover-card">
+                            <div class="card-body d-flex flex-column">
+                                <div class="progress-indicator {{ $item->link ? 'available' : 'unavailable' }}"></div>
+                                
+                                <div class="d-flex align-items-center mb-3">
+                                    <i class="bi bi-book text-primary h4 mb-0 me-2"></i>
+                                    <div class="flex-grow-1">
+                                        <h5 class="card-title mb-1 text-primary text-truncate">{{ $item->nome }}</h5>
+                                        
                                     </div>
                                 </div>
+
+                                <div class="flex-grow-1">
+                                    <p class="card-text text-secondary mb-4">{{ Str::limit($item->descricao, 120) }}</p>
+                                </div>
+
+                                <div class="mt-auto">
+                                    @if($item->link)
+                                        <a href="{{ $item->link }}" class="btn btn-primary w-100 d-flex align-items-center justify-content-center" target="_blank">
+                                            <i class="bi bi-play-circle me-2"></i> Acessar Curso
+                                        </a>
+                                    @else
+                                        <button class="btn btn-secondary w-100" disabled>
+                                            <i class="bi bi-lock me-2"></i> Em breve
+                                        </button>
+                                    @endif
+                                </div>
                             </div>
-                        @endforeach
+                        </div>
                     </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </div>
 </div>
 
 <style>
-.hover-shadow {
-    transition: all 0.3s ease;
-}
-.hover-shadow:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
-}
+    .hover-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        overflow: hidden;
+    }
+    .hover-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+    }
+    .progress-indicator {
+        height: 3px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+    }
+    .progress-indicator.available {
+        background: var(--bs-primary);
+    }
+    .progress-indicator.unavailable {
+        background: var(--bs-secondary);
+    }
+    .icon-box {
+        transition: transform 0.3s ease;
+    }
+    .hover-card:hover .icon-box {
+        transform: scale(1.1);
+    }
+    .btn {
+        transition: all 0.3s ease;
+        font-weight: 500;
+        padding: 0.6rem 1rem;
+    }
+    .card-title {
+        font-weight: 600;
+        line-height: 1.3;
+    }
+    .text-primary {
+        color: var(--bs-primary) !important;
+    }
+    .btn-primary {
+        background-color: var(--bs-primary);
+        border-color: var(--bs-primary);
+    }
+    .btn-secondary {
+        background-color: var(--bs-secondary);
+        border-color: var(--bs-secondary);
+    }
 </style>
-
 @endsection

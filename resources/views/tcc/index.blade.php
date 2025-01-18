@@ -3,103 +3,73 @@
 @section('titulo') TCCs @endsection
 
 @section('conteudo')
-
 <div class="container py-4">
-    <div class="row">
-        <div class="col">
-            <div class="card border-0 shadow-sm">
-                <div class="card-header bg-dark text-white py-3">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">TCCs</h5>
-                        <a href="{{ route('tcc.create') }}" class="btn btn-light">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                class="bi bi-plus-circle me-1" viewBox="0 0 16 16">
-                                <path
-                                    d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zM7.5 4.5a.5.5 0 0 1 1 0v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3z" />
-                            </svg>
-                            Adicionar TCC
-                        </a>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="h4 mb-0">Trabalhos de Conclusão de Curso</h2>
+        <a href="{{ route('tcc.create') }}" class="btn btn-dark">
+            <i class="bi bi-plus-circle me-2"></i>Novo TCC
+        </a>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
+        @foreach ($tccs as $item)
+            <div class="col">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-header bg-dark text-white py-3">
+                        <h5 class="card-title mb-0 text-truncate" title="{{ $item->titulo }}">{{ $item->titulo }}</h5>
                     </div>
-                </div>
-                <div class="card-body p-0">
-                    <div class="table-responsive">
-                        <table class="table table-hover align-middle mb-0">
-                            <thead class="bg-light">
-                                <tr>
-                                    <th scope="col" class="d-none d-md-table-cell px-4">ID</th>
-                                    <th scope="col" class="px-4">TÍTULO</th>
-                                    <th scope="col" class="d-none d-md-table-cell px-4">DESCRIÇÃO</th>
-                                    <th scope="col" class="d-none d-md-table-cell px-4">ALUNO</th>
-                                    <th scope="col" class="px-4">DOCUMENTO</th>
-                                    <th scope="col" class="px-4 text-center">AÇÕES</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($tccs as $item)
-                                    <tr>
-                                        <td class="d-none d-md-table-cell px-4">{{ $item->id }}</td>
-                                        <td class="px-4">{{ $item->titulo }}</td>
-                                        <td class="d-none d-md-table-cell px-4">{{ $item->descricao }}</td>
-                                        <td class="d-none d-md-table-cell px-4">{{ $item->aluno ? $item->aluno->nome : 'Aluno não informado' }}</td>
-                                        <td class="px-4">
-                                            @if ($item->documento)
-                                                <div class="btn-group">
-                                                    <a href="{{ route('tcc.viewPdf', $item->id) }}" class="btn btn-dark btn-sm" title="Visualizar PDF" target="_blank">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
-                                                            <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
-                                                            <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
-                                                        </svg>
-                                                    </a>
-                                                    <a href="{{ asset('storage/' . $item->documento) }}" download class="btn btn-dark btn-sm" title="Baixar PDF">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                                            class="bi bi-download" viewBox="0 0 16 16">
-                                                            <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
-                                                            <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
-                                                        </svg>
-                                                    </a>
-                                                </div>
-                                            @else
-                                                <span class="badge bg-secondary">Sem Documento</span>
-                                            @endif
-                                        </td>
-                                        <td class="px-4">
-                                            <div class="d-flex justify-content-center gap-2">
-                                                <a href="{{ route('tcc.edit', $item->id) }}" class="btn btn-dark btn-sm"
-                                                    title="Editar">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                        fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                                                        <path
-                                                            d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-                                                        <path fill-rule="evenodd"
-                                                            d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
-                                                    </svg>
-                                                </a>
-                                                <form action="{{ route('tcc.destroy', $item->id) }}" method="POST"
-                                                    class="d-inline">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-outline-danger btn-sm"
-                                                        onclick="return confirm('Tem certeza que deseja excluir este curso?')">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                            fill="currentColor" class="bi bi-trash-fill"
-                                                            viewBox="0 0 16 16">
-                                                            <path
-                                                                d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
-                                                        </svg>
-                                                    </button>
-                                                </form>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    
-                                @endforeach
-                            </tbody>
-                        </table>
+                    <div class="card-body">
+                        <p class="card-text text-muted small mb-3">
+                            <i class="bi bi-people-fill me-2"></i>
+                            {{ $item->users->pluck('nome')->join(', ') }}
+                        </p>
+                        <p class="card-text" style="height: 4.5em; overflow: hidden;">
+                            {{ Str::limit($item->descricao, 120) }}
+                        </p>
+                    </div>
+                    <div class="card-footer bg-light border-0">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group">
+                                <a href="{{ route('tcc.edit', $item->id) }}" class="btn btn-outline-dark btn-sm" data-bs-toggle="tooltip" title="Editar TCC">
+                                    <i class="bi bi-pencil-square fs-5"></i>
+                                </a>
+                                @if ($item->documento)
+                                    <a href="{{ route('tcc.viewPdf', $item->id) }}" class="btn btn-outline-dark btn-sm" data-bs-toggle="tooltip" title="Visualizar PDF" target="_blank">
+                                        <i class="bi bi-file-earmark-pdf fs-5"></i>
+                                    </a>
+                                    <a href="{{ asset('storage/' . $item->documento) }}" class="btn btn-outline-dark btn-sm" data-bs-toggle="tooltip" title="Baixar PDF" download>
+                                        <i class="bi bi-download fs-5"></i>
+                                    </a>
+                                @else
+                                    <span class="badge bg-secondary ms-2" data-bs-toggle="tooltip" title="Nenhum documento anexado">
+                                        <i class="bi bi-file-earmark-x fs-5"></i>
+                                    </span>
+                                @endif
+                            </div>
+                            <form action="{{ route('tcc.destroy', $item->id) }}" method="POST" class="d-inline">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-outline-danger btn-sm" data-bs-toggle="tooltip" title="Excluir TCC"
+                                    onclick="return confirm('Tem certeza que deseja excluir este TCC?')">
+                                    <i class="bi bi-trash fs-5"></i>
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        @endforeach
     </div>
+
+    @if($tccs->isEmpty())
+        <div class="text-center py-5">
+            <i class="bi bi-journal-x display-1 text-muted"></i>
+            <p class="h4 text-muted mt-3">Nenhum TCC encontrado</p>
+            <a href="{{ route('tcc.create') }}" class="btn btn-dark mt-3">
+                <i class="bi bi-plus-circle me-2"></i>Criar Primeiro TCC
+            </a>
+        </div>
+    @endif
 </div>
 
 <!-- Modal para visualização do PDF -->
@@ -158,6 +128,119 @@
 </div>
 
 @endsection
+
+@push('styles')
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+<style>
+    /* Enhanced Card Styles */
+    .card {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 20px rgba(0,0,0,0.15) !important;
+    }
+
+    .card-header {
+        border: none;
+        background: linear-gradient(45deg, #212529, #343a40);
+        padding: 1.2rem;
+    }
+
+    .card-title {
+        font-weight: 600;
+        letter-spacing: 0.5px;
+    }
+
+    .card-body {
+        padding: 1.5rem;
+    }
+
+    /* Button Styles */
+    .btn {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border-radius: 8px;
+        padding: 0.6rem 1rem;
+    }
+
+    .btn-group .btn {
+        border-radius: 6px;
+        margin: 0 2px;
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .btn:active {
+        transform: translateY(0);
+    }
+
+    .btn-dark {
+        background: linear-gradient(45deg, #212529, #343a40);
+    }
+
+    /* Badge Styles */
+    .badge {
+        padding: 0.5rem 0.8rem;
+        border-radius: 6px;
+        font-weight: 500;
+    }
+
+    /* Empty State Styles */
+    .empty-state {
+        padding: 4rem 2rem;
+        text-align: center;
+        background: linear-gradient(to bottom, rgba(33,37,41,0.03), rgba(33,37,41,0.02));
+        border-radius: 16px;
+        margin: 2rem 0;
+    }
+
+    .empty-state .bi {
+        font-size: 4rem;
+        margin-bottom: 1.5rem;
+        color: #6c757d;
+    }
+
+    /* Icon Animations */
+    .bi {
+        transition: transform 0.3s ease;
+    }
+
+    .btn:hover .bi {
+        transform: scale(1.2);
+    }
+
+    /* Card Content Animation */
+    .card-text {
+        transition: color 0.3s ease;
+    }
+
+    .card:hover .card-text {
+        color: #212529;
+    }
+
+    /* Modal Enhancements */
+    .modal-content {
+        border-radius: 16px;
+        border: none;
+    }
+
+    .modal-header {
+        background: linear-gradient(45deg, #212529, #343a40);
+        color: white;
+        border-radius: 16px 16px 0 0;
+    }
+
+    .modal-footer {
+        border-top: 1px solid rgba(0,0,0,0.1);
+    }
+</style>
+@endpush
 
 @section('script')
 <script>
@@ -248,4 +331,13 @@
         pdfModal.show();
     }
 </script>
+@push('scripts')
+<script>
+    // Initialize tooltips
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+</script>
+@endpush
 @endsection

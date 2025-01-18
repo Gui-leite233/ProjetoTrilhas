@@ -34,15 +34,15 @@ class SiteController extends Controller {
         $data = Bolsa::orderBy('titulo')->get();
         return view('site.bolsa', compact('data'));
     }
-    public function getAlunos() {
-
-        $data = Aluno::orderBy('titulo')->get();
-        return view('site.aluno', compact('data'));
-    }
 
     public function getProjetos() {
 
         $data = Projeto::orderBy('titulo')->get();
         return view('site.projeto', compact('data'));
+    }
+
+    public function getAlunos() {
+        $data = Aluno::with(['usuario', 'curso'])->get();
+        return view('site.aluno', ['data' => $data]);
     }
 }

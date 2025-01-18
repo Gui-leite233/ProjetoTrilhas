@@ -9,12 +9,16 @@ class Tcc extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['titulo', 'descricao', 'aluno_id', 'documento'];
+    protected $fillable = ['titulo', 'descricao', 'user_id', 'documento'];
 
-    
-    public function aluno()
+    public function user()
     {
-        return $this->belongsTo(Aluno::class); 
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'tcc_user');
     }
 }
 
