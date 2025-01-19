@@ -29,16 +29,15 @@ class TccController extends BaseController
 
     public function index()
     {
-        $tccs = Tcc::with(['user', 'users' => function($query) {
-            $query->select('users.id', 'users.nome');  // Changed from name to nome
+        $tccs = Tcc::with(['users' => function($query) {
+            $query->select('users.id', 'users.nome');
         }])->get();
         
         foreach ($tccs as $tcc) {
             \Log::info('TCC details:', [
                 'id' => $tcc->id,
                 'titulo' => $tcc->titulo,
-                'main_user' => $tcc->user ? $tcc->user->only(['id', 'nome']) : null,
-                'other_users' => $tcc->users->where('id', '!=', $tcc->user_id)->pluck('nome')
+                'users' => $tcc->users->pluck('nome')
             ]);
         }
         

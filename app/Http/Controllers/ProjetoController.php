@@ -17,24 +17,28 @@ class ProjetoController extends BaseController
     public function index()
     {
         $projeto = Projeto::with([
-            'users.curso',
-            'users.aluno.curso'
+            'users' => function ($query) {
+                $query->with([
+                    'aluno' => function ($q) {
+                        $q->with('curso');
+                    }
+                ]);
+            }
         ])->get();
-        
-        // Uncomment to debug
-        // dd($projeto->first()->users->first());
-        
+
+        $projeto = Projeto::all();
+
         return view('projeto.index', compact('projeto'));
     }
 
     public function create()
     {
         $users = User::with('role')
-            ->whereHas('role', function($query) {
+            ->whereHas('role', function ($query) {
                 $query->where('name', 'Aluno');
             })
             ->get();
-            
+
         return view('projeto.create', compact('users'));
     }
 
@@ -61,10 +65,10 @@ class ProjetoController extends BaseController
         $projeto = new Projeto();
         $projeto->titulo = $request->titulo;
         $projeto->descricao = $request->descricao;
-        $projeto->user_id = $request->user_ids[0]; // Primary user
+        $projeto->user_id = auth()->id(); // Primary user
         $projeto->save();
 
-        // Sync all selected users
+        
         $projeto->users()->sync($request->user_ids);
 
         return redirect()->route('projeto.index');
@@ -81,7 +85,7 @@ class ProjetoController extends BaseController
             return redirect()->route('projeto.index')->with('error', 'Projeto não encontrado.');
         }
 
-        return view('projeto.show', compact('projeto')); 
+        return view('projeto.show', compact('projeto'));
     }
 
     /**
@@ -128,7 +132,7 @@ class ProjetoController extends BaseController
         $projeto->usuario_id = $request->usuario_id;
         $projeto->save();
 
-        return redirect()->route('projeto.index'); 
+        return redirect()->route('projeto.index');
     }
 
     /**
@@ -144,6 +148,6 @@ class ProjetoController extends BaseController
 
         $projeto->delete();
 
-        return redirect()->route('projeto.index'); 
+        return redirect()->route('projeto.index');
     }
 }

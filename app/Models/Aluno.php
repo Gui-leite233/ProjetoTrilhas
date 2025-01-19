@@ -13,8 +13,7 @@ class Aluno extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function curso()
-    {
+    public function curso() {
         return $this->belongsTo(Curso::class);
     }
 }
