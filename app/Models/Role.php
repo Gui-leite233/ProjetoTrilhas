@@ -6,11 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Role extends Model
 {
-    protected $table = 'roles';
     protected $fillable = ['name'];
 
-    public static function getDefaultRoles()
+    public function users()
     {
-        return self::orderBy('name')->get();
+        return $this->hasMany(User::class);
     }
 }

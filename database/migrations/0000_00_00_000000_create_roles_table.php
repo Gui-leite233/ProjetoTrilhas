@@ -3,7 +3,6 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
 {
@@ -14,15 +13,16 @@ return new class extends Migration
     {
         Schema::create('roles', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name')->unique();
+            $table->string('guard_name')->default('web'); // Add this line
             $table->timestamps();
         });
 
-        // Insert default roles directly in migration
+        // Insert default roles
         DB::table('roles')->insert([
-            ['name' => 'Admin'],
-            ['name' => 'Coordenador'],
-            ['name' => 'Aluno']
+            ['name' => 'Admin', 'guard_name' => 'web'],
+            ['name' => 'Coordenador', 'guard_name' => 'web'],
+            ['name' => 'Aluno', 'guard_name' => 'web'],
         ]);
     }
 

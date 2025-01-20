@@ -19,7 +19,7 @@ class User extends Authenticatable
         'nome',
         'email',
         'password',
-        'role_id'
+        'role_id',
     ];
 
     /**
@@ -46,18 +46,26 @@ class User extends Authenticatable
     }
 
     /**
-     * Get the aluno associated with the user.
-     */
-    public function aluno()
-    {
-        return $this->hasOne(Aluno::class);
-    }
-
-    /**
      * Get the role associated with the user.
      */
     public function role()
     {
         return $this->belongsTo(Role::class);
+    }
+
+    /**
+     * Get the aluno associated with the user.
+     */
+    public function aluno()
+    {
+        return $this->hasOne(Aluno::class, 'user_id');
+    }
+
+    /**
+     * Check if user has specific role
+     */
+    public function hasRole($role)
+    {
+        return $this->role && $this->role->name === $role;
     }
 }
