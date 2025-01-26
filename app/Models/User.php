@@ -54,11 +54,14 @@ class User extends Authenticatable
     }
 
     /**
-     * Get the aluno associated with the user.
-     */
+
+
+      * Get the aluno associated with the user.
+      */
     public function aluno()
     {
-        return $this->hasOne(Aluno::class, 'user_id');
+
+        return $this->hasOne(Aluno::class);
     }
 
     /**

@@ -16,7 +16,7 @@ class CreateCursosTable extends Migration
             $table->id();
             $table->string('nome');
             $table->text('descricao');
-            $table->string('link'); // Adiciona a coluna 'link' para armazenar o URL do curso
+            $table->string('link');
             $table->timestamps();
         });
     }

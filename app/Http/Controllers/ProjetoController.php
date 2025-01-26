@@ -13,23 +13,15 @@ class ProjetoController extends BaseController
     {
         $this->middleware('auth');
     }
-
     public function index()
     {
-        $projeto = Projeto::with([
-            'users' => function ($query) {
-                $query->with([
-                    'aluno' => function ($q) {
-                        $q->with('curso');
-                    }
-                ]);
-            }
-        ])->get();
-
-        $projeto = Projeto::all();
+        $projeto = Projeto::with(['users' => function($query) {
+            $query->with(['aluno.curso']);
+        }])->get();
 
         return view('projeto.index', compact('projeto'));
     }
+    
 
     public function create()
     {
@@ -65,7 +57,7 @@ class ProjetoController extends BaseController
         $projeto = new Projeto();
         $projeto->titulo = $request->titulo;
         $projeto->descricao = $request->descricao;
-        $projeto->user_id = auth()->id(); // Primary user
+        $projeto->user_id = auth()->id();
         $projeto->save();
 
         

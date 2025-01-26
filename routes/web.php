@@ -21,6 +21,8 @@ Route::get('/', function () {
     return view('index');
 })->name('index');
 
+
+
 // Authentication Routes
 Route::get('login', [AuthenticatedSessionController::class, 'create'])->name('login');
 Route::post('login', [AuthenticatedSessionController::class, 'store']);

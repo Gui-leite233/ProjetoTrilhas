@@ -20,6 +20,7 @@ class CursoController extends Controller
         "url" => "O campo :attribute deve ser uma URL válida!",  // Mensagem de erro para URL inválida
     ];
 
+
     public function index()
     {
         $data = Curso::orderBy('nome')->get();
@@ -58,12 +59,13 @@ class CursoController extends Controller
     }
 
     public function destroy(string $id)
-{
-    $curso = Curso::findOrFail($id);
-    $curso->bolsas()->delete();
-    $curso->delete();
-    
-    return redirect()->route('curso.index');
-}
+    {
+        $curso = Curso::findOrFail($id);
+        $curso->bolsas()->delete();
+        $curso->delete();
 
+        return redirect()->route('curso.index');
+    }
+
+    
 }

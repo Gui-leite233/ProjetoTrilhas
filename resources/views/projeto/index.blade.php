@@ -25,7 +25,7 @@
                                 <strong>Alunos por Curso:</strong><br>
                                 @php
                                     $usersByCurso = $item->users->groupBy(function($user) {
-                                        return $user->curso->nome ?? $user->aluno->curso->nome ?? 'Sem curso';
+                                        return $user->curso->nome ?? $user->aluno->curso->nome;
                                     });
                                 @endphp
                                 
@@ -37,8 +37,7 @@
                                         </div>
                                     </div>
                                 @endforeach
-                                @else
-                                Nenhum aluno associado
+                                
                             @endif
                             </p>
                             <p class="card-text" style="height: 4.5em; overflow: hidden;">
