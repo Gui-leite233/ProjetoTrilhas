@@ -35,25 +35,20 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $rules = [
+        $request->validate([
             'nome' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'role_id' => ['required', 'exists:roles,id']
-        ];
-
-        // Add curso_id validation for aluno role
-        if ($request->role_id == 3) { // Assuming 3 is the aluno role ID
-            $rules['curso_id'] = ['required', 'exists:cursos,id'];
-        }
-
-        $request->validate($rules);
+            'role_id' => ['required', 'exists:roles,id'],
+            'curso_id' => ['required_if:role_id,3', 'exists:cursos,id'], // Add validation for curso_id
+        ]);
 
         $user = User::create([
             'nome' => $request->nome,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role_id' => $request->role_id
+            'role_id' => $request->role_id,
+            'curso_id' => $request->role_id == 3 ? $request->curso_id : null, // Only save curso_id for students
         ]);
 
         event(new Registered($user));

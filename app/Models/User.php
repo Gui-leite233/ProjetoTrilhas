@@ -20,6 +20,7 @@ class User extends Authenticatable
         'email',
         'password',
         'role_id',
+        'curso_id', // Add this line
     ];
 
     /**
@@ -54,14 +55,19 @@ class User extends Authenticatable
     }
 
     /**
-
-
-      * Get the aluno associated with the user.
-      */
+     * Get the aluno associated with the user.
+     */
     public function aluno()
     {
+        return $this->hasOne(Aluno::class, 'user_id');
+    }
 
-        return $this->hasOne(Aluno::class);
+    /**
+     * Get the curso associated with the user.
+     */
+    public function curso()
+    {
+        return $this->belongsTo(Curso::class);
     }
 
     /**

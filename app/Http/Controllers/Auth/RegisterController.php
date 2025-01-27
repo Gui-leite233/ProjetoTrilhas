@@ -1,48 +1,93 @@
 <?php
+
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use Illuminate\Http\Request;
+use App\Models\Role;
+use App\Models\Curso;
+use App\Providers\RouteServiceProvider;
+use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Request;
+use Illuminate\Auth\Events\Registered;
 
 class RegisterController extends Controller
 {
-    public function create(Request $request)
+    use RegistersUsers;
+
+    protected $redirectTo = RouteServiceProvider::HOME;
+
+    public function __construct()
     {
+        $this->middleware('guest');
+    }
+
+    public function showRegistrationForm()
+    {
+        $roles = Role::all();
+        $cursos = Curso::all();
+        
+        // Debug info
+        \Log::info('Registration Form Data:', [
+            'roles_count' => $roles->count(),
+            'cursos_count' => $cursos->count()
+        ]);
+        
+        return view('auth.register', compact('roles', 'cursos'));
+    }
+
+    protected function validator(array $data)
+    {
+        \Log::info('Validation Data:', $data);
+        
         $rules = [
-            'name' => ['required', 'string', 'max:255'],
+            'nome' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'role' => ['required', 'string', 'in:admin,coordenador,aluno'],
+            'role_id' => ['required', 'exists:roles,id'],
         ];
 
-        // Add curso_id validation only for aluno role
-        if ($request->role === 'aluno') {
+        // Add curso_id validation only if role is Aluno (role_id = 3)
+        if (isset($data['role_id']) && $data['role_id'] == 3) {
             $rules['curso_id'] = ['required', 'exists:cursos,id'];
         }
 
-        $validator = Validator::make($request->all(), $rules);
+        return Validator::make($data, $rules);
+    }
 
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
+    protected function create(array $data)
+    {
+        \Log::info('Registration Data Received:', $data);  // Debug log
 
-        $userData = [
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role' => $request->role,
-        ];
+        // Create user with basic data
+        $user = User::create([
+            'nome' => $data['nome'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+            'role_id' => $data['role_id'],
+            'curso_id' => isset($data['role_id']) && $data['role_id'] == 3 ? $data['curso_id'] : null
+        ]);
 
-        // Only set curso_id if role is aluno
-        if ($request->role === 'aluno') {
-            $userData['curso_id'] = $request->curso_id;
-        }
+        \Log::info('User Created:', ['user' => $user->toArray()]);  // Debug log
 
-        User::create($userData);
+        return $user;
+    }
 
-        return redirect()->route('login');
+    public function register(Request $request)
+    {
+        $this->validator($request->all())->validate();
+
+        \Log::info('Register Request Data:', $request->all());  // Debug log
+
+        event(new Registered($user = $this->create($request->all())));
+
+        $this->guard()->login($user);
+
+        \Log::info('User Registered Successfully:', ['user_id' => $user->id]);  // Debug log
+
+        return $this->registered($request, $user)
+            ?: redirect($this->redirectPath());
     }
 }

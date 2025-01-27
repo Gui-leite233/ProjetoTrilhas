@@ -13,54 +13,63 @@
 
     <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
         @foreach ($projeto as $item)
-                <div class="col">
-                    <div class="card h-100 border-0 shadow-sm hover-shadow">
-                        <div class="card-header bg-dark text-white py-3">
-                            <h5 class="card-title mb-0 text-truncate" title="{{ $item->titulo }}">{{ $item->titulo }}</h5>
-                        </div>
-                        <div class="card-body">
-                            <p class="card-text text-muted small mb-3">
-                                <i class="bi bi-people-fill me-2"></i>
-                                @if($item->users->isNotEmpty())
+            <div class="col">
+                <div class="card h-100 border-0 shadow-sm hover-shadow">
+                    <div class="card-header bg-dark text-white py-3">
+                        <h5 class="card-title mb-0 text-truncate" title="{{ $item->titulo }}">{{ $item->titulo }}</h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text text-muted small mb-3">
+                            <i class="bi bi-people-fill me-2"></i>
+                            @if($item->users->isNotEmpty())
                                 <strong>Alunos por Curso:</strong><br>
                                 @php
-                                    $usersByCurso = $item->users->groupBy(function($user) {
-                                        return $user->curso->nome ?? $user->aluno->curso->nome;
+                                    $usersByCurso = $item->users->filter(function($user) {
+                                        return optional($user->role)->name === 'Aluno';
+                                    })->groupBy(function($user) {
+                                        // First try to get curso from the direct relationship
+                                        if ($user->curso) {
+                                            return $user->curso->nome;
+                                        }
+                                        // If not found, try through aluno relationship
+                                        else if ($user->aluno && $user->aluno->curso) {
+                                            return $user->aluno->curso->nome;
+                                        }
+                                        return 'Curso não informado';
                                     });
                                 @endphp
                                 
                                 @foreach($usersByCurso as $curso => $users)
                                     <div class="ms-4 mt-2">
-                                        <span class="fw-bold text-primary">{{ $curso }}:</span>
+                                        <span class="fw-bold text-primary">{{ $curso }}</span>
                                         <div class="ms-2">
                                             {{ $users->pluck('nome')->join(', ') }}
                                         </div>
                                     </div>
                                 @endforeach
-                                
                             @endif
-                            </p>
-                            <p class="card-text" style="height: 4.5em; overflow: hidden;">
-                                {{ Str::limit($item->descricao, 120) }}
-                            </p>
-                        </div>
-                        <div class="card-footer bg-light border-0">
-                            <div class="d-flex justify-content-end gap-2">
-                                <a href="{{ route('projeto.edit', $item->id) }}" class="btn btn-dark btn-sm">
-                                    <i class="bi bi-pencil-square"></i>
-                                </a>
-                                <form action="{{ route('projeto.destroy', $item->id) }}" method="POST" class="d-inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-outline-danger btn-sm"
-                                        onclick="return confirm('Tem certeza que deseja excluir este projeto?')">
-                                        <i class="bi bi-trash"></i>
-                                    </button>
-                                </form>
-                            </div>
+                        </p>
+                        <p class="card-text" style="height: 4.5em; overflow: hidden;">
+                            {{ Str::limit($item->descricao, 120) }}
+                        </p>
+                    </div>
+                    <div class="card-footer bg-light border-0">
+                        <div class="d-flex justify-content-end gap-2">
+                            <a href="{{ route('projeto.edit', $item->id) }}" class="btn btn-dark btn-sm">
+                                <i class="bi bi-pencil-square"></i>
+                            </a>
+                            <form action="{{ route('projeto.destroy', $item->id) }}" method="POST" class="d-inline">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-outline-danger btn-sm"
+                                    onclick="return confirm('Tem certeza que deseja excluir este projeto?')">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>
+            </div>
         @endforeach
     </div>
 

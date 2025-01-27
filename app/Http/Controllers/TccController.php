@@ -6,12 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\Tcc;
 use App\Models\Aluno;
 use App\Models\Role;
+use App\Models\User;  // Add this line to import User model
 use Illuminate\Support\Facades\DB;
-//use Barryvdh\DomPDF\Facade\Pdf;
 use Dompdf\Dompdf;
-
-
-
 use Illuminate\Routing\Controller as BaseController;
 
 class TccController extends BaseController
@@ -29,11 +26,13 @@ class TccController extends BaseController
 
     public function index()
     {
-        // Busca todos os TCCs do banco de dados
-        $tccs = Tcc::with('aluno')->get(); // Inclua a relação 'aluno' se ela existir
-        
-        // Retorna a view com a variável $tccs
-        return view('tcc.index', compact('tccs'));
+        $tcc = Tcc::with([
+            'users' => function($query) {
+                $query->with(['role', 'aluno.curso', 'curso']);
+            }
+        ])->get();
+
+        return view('tcc.index', compact('tcc'));
     }
 
     /**
@@ -41,29 +40,13 @@ class TccController extends BaseController
      */
     public function create()
     {
-        $user = auth()->user();
-        
-        // Get alunos with role 'aluno' and their related data
-        $alunos = Aluno::whereHas('usuario.role', function($query) {
-            $query->where('name', 'aluno');
-        })->with(['usuario', 'curso'])->get();
-
-        // For debugging
-        \Log::info('Query Debug:', [
-            'user_id' => $user->id,
-            'user_role' => $user->role->name ?? 'no role',
-            'alunos_found' => $alunos->count(),
-            'alunos' => $alunos->map(function($aluno) {
-                return [
-                    'id' => $aluno->id,
-                    'user_id' => $aluno->user_id,
-                    'nome' => optional($aluno->usuario)->nome,
-                    'curso' => optional($aluno->curso)->nome
-                ];
+        $users = User::with(['role', 'curso'])
+            ->whereHas('role', function($query) {
+                $query->where('name', 'Aluno');
             })
-        ]);
+            ->get();
 
-        return view('tcc.create', compact('alunos'));
+        return view('tcc.create', compact('users'));
     }
 
     /* Store a newly created resource in storage.
@@ -73,32 +56,37 @@ class TccController extends BaseController
         $regras = [
             'titulo' => 'required|max:255',
             'descricao' => 'required',
-            'aluno_id' => 'required|exists:alunos,id',
-            'documento' => 'file|mimes:pdf,doc,docx|max:2048',
+            'user_ids' => 'required|array',
+            'user_ids.*' => 'exists:users,id',
+            'documento' => 'required|file|mimes:pdf|max:2048',
         ];
         
         $msgs = [
             "required" => "O campo [:attribute] é obrigatório!",
             "max" => "O campo [:attribute] possui tamanho máximo de [:max] caracteres!",
-            "min" => "O campo [:attribute] possui tamanho mínimo de [:min] caracteres!",
             "exists" => "O aluno selecionado não é válido!",
+            "mimes" => "O documento deve ser um arquivo PDF",
         ];
         
         $request->validate($regras, $msgs);
         
-        $reg = new Tcc();
-        $reg->titulo = $request->titulo;
-        $reg->descricao = $request->descricao;
-        $reg->aluno_id = $request->aluno_id;
-        $reg->save();
+        $tcc = new Tcc();
+        $tcc->titulo = $request->titulo;
+        $tcc->descricao = $request->descricao;
+        $tcc->user_id = auth()->id();
+        $tcc->save();
 
+        // Handle document upload
         if ($request->hasFile('documento')) {
             $extensao_arq = $request->file('documento')->getClientOriginalExtension();
-            $nome_arq = $reg->id . '_' . time() . '.' . $extensao_arq;
+            $nome_arq = $tcc->id . '_' . time() . '.' . $extensao_arq;
             $request->file('documento')->storeAs("public/", $nome_arq);
-            $reg->documento = $nome_arq;
-            $reg->save();
+            $tcc->documento = $nome_arq;
+            $tcc->save();
         }
+
+        // Sync users
+        $tcc->users()->sync($request->user_ids);
 
         return redirect()->route('tcc.index');
     }

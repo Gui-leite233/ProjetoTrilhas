@@ -6,7 +6,7 @@
 <div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-md-8 col-lg-5">
-            <div class="card border-0 shadow-lg rounded-3 overflow-hidden" x-data="{ loading: false, role: '' }">
+            <div class="card border-0 shadow-lg rounded-3 overflow-hidden">
                 <div class="card-header text-white bg-dark py-4 border-0">
                     <div class="text-center">
                         <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-person-plus mb-2" viewBox="0 0 16 16">
@@ -18,7 +18,13 @@
                     </div>
                 </div>
                 <div class="card-body p-4">
-                    <form method="POST" action="{{ route('register') }}" @submit="loading = true">
+                    <form method="POST" action="{{ route('register') }}" 
+                          x-data="{ 
+                              loading: false, 
+                              selectedRole: '{{ old('role_id', '') }}',
+                              isAluno() { return this.selectedRole === '3' }
+                          }" 
+                          @submit="loading = true">
                         @csrf
                         <!-- Name field with icon -->
                         <div class="mb-4">
@@ -80,43 +86,51 @@
                             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2 small text-danger" />
                         </div>
 
-                        <!-- Role ID -->
+                        <!-- Role selection -->
                         <div class="mb-4">
-                            <label class="form-label small fw-500">Função</label>
-                            <select id="role_id" name="role_id" class="form-select" required x-model="role">
+                            <label class="form-label text-muted small fw-bold">FUNÇÃO</label>
+                            <select name="role_id" id="role_id" 
+                                    x-model="selectedRole"
+                                    class="form-select @error('role_id') is-invalid @enderror" 
+                                    required>
                                 <option value="">Selecione uma função</option>
-                                @if(isset($roles) && $roles->count() > 0)
-                                    @foreach($roles as $role)
-                                        <option value="{{ $role->id }}">{{ $role->name }}</option>
-                                    @endforeach
-                                @else
-                                    <option value="">Nenhuma função disponível</option>
-                                @endif
+                                @foreach($roles as $role)
+                                    <option value="{{ $role->id }}" {{ old('role_id') == $role->id ? 'selected' : '' }}>
+                                        {{ $role->name }}
+                                    </option>
+                                @endforeach
                             </select>
-                            <x-input-error :messages="$errors->get('role_id')" class="mt-2 small text-danger" />
+                            @error('role_id')
+                                <span class="invalid-feedback">{{ $message }}</span>
+                            @enderror
                         </div>
 
-                        <!-- Curso selection - Only shown for aluno role -->
-                        <div class="mb-4" x-show="role == 3">
+                        
+                        <div class="mb-4" 
+                             x-show="isAluno()" 
+                             x-transition>
                             <label class="form-label text-muted small fw-bold">CURSO</label>
-                            <select name="curso_id" class="form-select" :required="role == 3">
+                            <select name="curso_id" id="curso_id" 
+                                    class="form-select @error('curso_id') is-invalid @enderror"
+                                    x-bind:required="isAluno()">
                                 <option value="">Selecione um curso</option>
-                                @if(isset($cursos) && $cursos->count() > 0)
-                                    @foreach($cursos as $curso)
-                                        <option value="{{ $curso->id }}">{{ $curso->nome }}</option>
-                                    @endforeach
-                                @else
-                                    <option value="" disabled>Nenhum curso disponível</option>
-                                @endif
+                                @foreach($cursos as $curso)
+                                    <option value="{{ $curso->id }}" {{ old('curso_id') == $curso->id ? 'selected' : '' }}>
+                                        {{ $curso->nome }}
+                                    </option>
+                                @endforeach
                             </select>
-                            <x-input-error :messages="$errors->get('curso_id')" class="mt-2 small text-danger" />
+                            @error('curso_id')
+                                <span class="invalid-feedback">{{ $message }}</span>
+                            @enderror
                         </div>
 
-                        <button type="submit" class="btn btn-dark w-100 py-2 mb-3" :class="{ 'opacity-75': loading }" :disabled="loading">
+                        <button type="submit" class="btn btn-dark w-100 py-2 mb-3" :disabled="loading">
                             <span x-show="!loading">Criar Conta</span>
-                            <div x-show="loading" class="spinner-border spinner-border-sm" role="status">
-                                <span class="visually-hidden">Processando...</span>
-                            </div>
+                            <span x-show="loading">
+                                <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+                                Processando...
+                            </span>
                         </button>
 
                         <p class="text-center mb-0 small">
@@ -129,6 +143,10 @@
         </div>
     </div>
 </div>
+
+@push('scripts')
+<!-- Remove previous JavaScript code since we're now using Alpine.js -->
+@endpush
 
 <style>
 // ...same styles as login page...

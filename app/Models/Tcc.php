@@ -18,7 +18,7 @@ class Tcc extends Model
 
     public function users()
     {
-        return $this->belongsToMany(User::class, 'tcc_user');
+        return $this->belongsToMany(User::class, 'tcc_user', 'tcc_id', 'user_id');
     }
 }
 
