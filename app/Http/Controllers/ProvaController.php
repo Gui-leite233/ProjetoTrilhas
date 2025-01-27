@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 use App\Models\Prova;
 use App\Models\Curso;
 use Barryvdh\DomPDF\Facade as PDF;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Cache;
 
 class ProvaController extends Controller
 {
@@ -157,6 +161,31 @@ class ProvaController extends Controller
         return response()->file($filePath, [
             'Content-Type' => 'application/pdf',
             'Content-Disposition' => 'inline; filename="' . $prova->documento . '"'
+        ]);
+    }
+
+    public function downloadPdf($id)
+    {
+        $prova = Prova::findOrFail($id);
+
+        if (!$prova || !$prova->documento) {
+            return redirect()->route('prova.index')
+                ->with('error', 'Prova ou documento não encontrado.');
+        }
+
+        if (!Storage::disk('public')->exists($prova->documento)) {
+            Log::error('PDF file not found: ' . $prova->documento);
+            return redirect()->route('prova.index')
+                ->with('error', 'Arquivo não encontrado.');
+        }
+
+        $filePath = Cache::remember('prova_path_' . $id, 60, function () use ($prova) {
+            return Storage::disk('public')->path($prova->documento);
+        });
+
+        return Response::download($filePath, $prova->documento, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'attachment'
         ]);
     }
 }

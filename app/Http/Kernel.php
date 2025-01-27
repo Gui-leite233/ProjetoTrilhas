@@ -7,10 +7,16 @@ use Illuminate\Foundation\Http\Kernel as HttpKernel;
 class Kernel extends HttpKernel
 {
     // ...existing code...
+
+    protected $middleware = [
+        // ...existing code...
+        \Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets::class,
+    ];
     
     protected $middlewareGroups = [
         'web' => [
             // ...existing middleware...
+            \App\Http\Middleware\CacheHeaders::class,
         ],
 
         'api' => [

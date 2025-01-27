@@ -36,8 +36,11 @@ class SiteController extends Controller {
     }
 
     public function getProjetos() {
-
-        $data = Projeto::orderBy('titulo')->get();
+        $data = Projeto::with([
+            'users.curso',  // Load the direct curso relationship
+            'users.aluno.curso'  // Load the curso through aluno relationship
+        ])->orderBy('titulo')->get();
+        
         return view('site.projeto', compact('data'));
     }
 

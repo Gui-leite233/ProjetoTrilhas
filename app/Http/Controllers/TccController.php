@@ -10,6 +10,10 @@ use App\Models\User;  // Add this line to import User model
 use Illuminate\Support\Facades\DB;
 use Dompdf\Dompdf;
 use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Cache;
 
 class TccController extends BaseController
 {
@@ -187,6 +191,31 @@ class TccController extends BaseController
         return response()->file($filePath, [
             'Content-Type' => 'application/pdf',
             'Content-Disposition' => 'inline; filename="' . $tcc->documento . '"'
+        ]);
+    }
+
+    public function downloadPdf($id)
+    {
+        $tcc = Tcc::findOrFail($id);
+
+        if (!$tcc || !$tcc->documento) {
+            return redirect()->route('tcc.index')
+                ->with('error', 'TCC ou documento não encontrado.');
+        }
+
+        if (!Storage::disk('public')->exists($tcc->documento)) {
+            Log::error('PDF file not found: ' . $tcc->documento);
+            return redirect()->route('tcc.index')
+                ->with('error', 'Arquivo não encontrado.');
+        }
+
+        $filePath = Cache::remember('tcc_path_' . $id, 60, function () use ($tcc) {
+            return Storage::disk('public')->path($tcc->documento);
+        });
+
+        return Response::download($filePath, $tcc->documento, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'attachment'
         ]);
     }
 

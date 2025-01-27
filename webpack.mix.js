@@ -13,31 +13,5 @@ const mix = require('laravel-mix');
 
 mix.js('resources/js/app.js', 'public/js')
    .sass('resources/sass/app.scss', 'public/css')
-   .version()
-   .options({
-      processCssUrls: true,
-      terser: {
-         extractComments: false,
-         terserOptions: {
-             compress: {
-                 drop_console: true,
-             },
-         },
-      },
-      autoprefixer: {
-         options: {
-            browsers: [
-               '> 1%',
-               'last 2 versions',
-            ],
-         },
-      },
-      fileLoaderDirs: {
-         images: 'images',
-         fonts: 'fonts',
-      },
-      cssNano: {
-         discardComments: {removeAll: true},
-      },
-   })
-   .sourceMaps();
+   .css('resources/css/site.css', 'public/css')
+   .version();

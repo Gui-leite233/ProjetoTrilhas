@@ -20,7 +20,6 @@
                                     <i class="bi bi-journal-text text-primary h4 mb-0 me-2"></i>
                                     <div class="flex-grow-1">
                                         <h5 class="card-title mb-1 text-primary text-truncate">{{ $item->titulo }}</h5>
-                                        <div class="text-muted small">ID: {{ $item->id }}</div>
                                     </div>
                                 </div>
 
@@ -28,27 +27,36 @@
                                     <p class="card-text text-secondary mb-4">{{ Str::limit($item->descricao, 120) }}</p>
                                 </div>
 
-                                <div class="mt-auto">
-                                    <div class="meta-info mb-4">
-                                        <div class="d-flex align-items-center mb-2">
-                                            <i class="bi bi-person-circle text-success me-2"></i>
-                                            <span class="text-success">{{ optional($item->aluno)->usuario->name ?? 'Aluno não informado' }}</span>
-                                        </div>
-                                        <div class="d-flex align-items-center">
-                                            <i class="bi bi-mortarboard text-primary me-2"></i>
-                                            <span class="text-primary">{{ optional($item->aluno)->curso->nome ?? 'Curso não informado' }}</span>
-                                        </div>
-                                    </div>
+                                @if($item->users->isNotEmpty())
+                                    <div class="mt-auto">
+                                        <h6 class="text-primary mb-3">Participantes:</h6>
+                                        @foreach($item->users as $user)
+                                            <div class="d-flex flex-column mb-3">
+                                                <div class="d-flex align-items-center mb-1">
+                                                    <i class="bi bi-person-badge text-primary me-2"></i>
+                                                    <span class="text-primary">{{ $user->nome }}</span>
+                                                </div>
+                                                @if($user->curso)
+                                                    <div class="d-flex align-items-center ps-4">
+                                                        <i class="bi bi-mortarboard text-secondary me-2"></i>
+                                                        <span class="text-secondary">
+                                                            {{ $user->curso->nome }}
+                                                        </span>
+                                                    </div>
+                                                @endif
+                                            </div>
+                                        @endforeach
 
-                                    <div class="d-flex gap-2">
-                                        <a href="{{ route('tcc.viewPdf', $item->id) }}" class="btn btn-primary w-100 d-flex align-items-center justify-content-center" target="_blank">
-                                            <i class="bi bi-eye me-2"></i> Visualizar
-                                        </a>
-                                        <a href="{{ asset('storage/' . $item->documento) }}" download class="btn btn-outline-primary w-100 d-flex align-items-center justify-content-center">
-                                            <i class="bi bi-download me-2"></i> Download
-                                        </a>
+                                        <div class="d-flex gap-2 mt-3">
+                                            <a href="{{ route('tcc.viewPdf', $item->id) }}" class="btn btn-primary w-100" target="_blank">
+                                                <i class="bi bi-eye me-2"></i> Visualizar
+                                            </a>
+                                            <a href="{{ route('tcc.downloadPdf', $item->id) }}" class="btn btn-outline-primary w-100">
+                                                <i class="bi bi-download me-2"></i> Download
+                                            </a>
+                                        </div>
                                     </div>
-                                </div>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -57,65 +65,4 @@
         </div>
     </div>
 </div>
-
-<style>
-    .hover-card {
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .hover-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
-    }
-    .icon-box {
-        transition: transform 0.3s ease;
-    }
-    .hover-card:hover .icon-box {
-        transform: scale(1.1);
-    }
-    .btn {
-        transition: all 0.3s ease;
-        font-weight: 500;
-        padding: 0.6rem 1rem;
-    }
-    .card-title {
-        font-weight: 600;
-        line-height: 1.3;
-    }
-    .meta-info {
-        font-size: 0.9rem;
-    }
-    .card {
-        height: 100%;
-        min-height: 300px;
-        background-color: #fff;
-    }
-    .card-body {
-        padding: 1.5rem;
-    }
-    .card-text {
-        max-height: 4.8em;
-        overflow: hidden;
-        display: -webkit-box;
-        -webkit-line-clamp: 3;
-        -webkit-box-orient: vertical;
-    }
-    .text-primary {
-        color: var(--bs-primary) !important;
-    }
-    .text-success {
-        color: #198754 !important;
-    }
-    .btn-primary {
-        background-color: var(--bs-primary);
-        border-color: var(--bs-primary);
-    }
-    .btn-outline-primary {
-        border-color: var(--bs-primary);
-        color: var(--bs-primary);
-    }
-    .btn-outline-primary:hover {
-        background-color: var(--bs-primary);
-        color: #fff;
-    }
-</style>
 @endsection

@@ -64,7 +64,7 @@
                                 <a href="{{ route('tcc.viewPdf', $item->id) }}" class="btn btn-dark btn-sm" target="_blank">
                                     <i class="bi bi-eye"></i>
                                 </a>
-                                <a href="{{ asset('storage/' . $item->documento) }}" class="btn btn-dark btn-sm" download>
+                                <a href="{{ route('tcc.download', $item->id) }}" class="btn btn-dark btn-sm">
                                     <i class="bi bi-download"></i>
                                 </a>
                             @endif

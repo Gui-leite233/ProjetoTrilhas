@@ -12,6 +12,7 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             CursoSeeder::class,
             UserSeeder::class,
+            BolsaSeeder::class,
         ]);
     }
 }

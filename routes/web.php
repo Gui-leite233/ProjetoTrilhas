@@ -81,7 +81,9 @@ Route::resource('projeto', ProjetoController::class);
 
 // PDF routes
 Route::get('/tcc/viewPdf/{id}', [TccController::class, 'viewPdf'])->name('tcc.viewPdf');
+Route::get('/tcc/download/{id}', [TccController::class, 'downloadPdf'])->name('tcc.downloadPdf');
 Route::get('/prova/viewPdf/{id}', [ProvaController::class, 'viewPdf'])->name('prova.viewPdf');
+Route::get('/prova/download/{id}', [ProvaController::class, 'downloadPdf'])->name('prova.download');
 
 // Site routes
 Route::prefix('/site')->group(function () {
