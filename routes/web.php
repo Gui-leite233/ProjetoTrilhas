@@ -55,10 +55,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password.update');
-});
 
-// Email Verification Routes
-Route::middleware('auth')->group(function () {
     Route::get('/email/verify', function () {
         return view('auth.verify-email');
     })->name('verification.notice');
@@ -70,9 +67,13 @@ Route::middleware('auth')->group(function () {
     Route::post('/email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
         ->middleware('throttle:6,1')
         ->name('verification.send');
+
+    Route::resource('tcc', TccController::class);
 });
 
-// Resource routes
+
+
+
 Route::resource('curso', CursoController::class);
 Route::resource('prova', ProvaController::class);
 Route::resource('bolsa', BolsaController::class);
@@ -95,6 +96,4 @@ Route::prefix('/site')->group(function () {
     Route::get('/projeto', [SiteController::class, 'getProjetos'])->name('site.projeto');
 });
 
-Route::middleware(['auth'])->group(function () {
-    Route::resource('tcc', TccController::class);
-});
+
