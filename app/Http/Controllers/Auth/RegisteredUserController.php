@@ -22,7 +22,7 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
-        $roles = Role::all();
+        $roles = Role::where('id', '!=', 1)->get(); // Filter out admin role (ID 1)
         $users = User::with('role')->get();
         $cursos = Curso::all();
         return view('auth.register', compact('roles', 'users', 'cursos'));

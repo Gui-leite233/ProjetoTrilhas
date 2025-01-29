@@ -93,7 +93,7 @@
                                     x-model="selectedRole"
                                     class="form-select @error('role_id') is-invalid @enderror" 
                                     required>
-                                <option value="">Selecione uma função</option>
+                                <option value="" disabled selected>Selecione uma função</option>
                                 @foreach($roles as $role)
                                     <option value="{{ $role->id }}" {{ old('role_id') == $role->id ? 'selected' : '' }}>
                                         {{ $role->name }}
