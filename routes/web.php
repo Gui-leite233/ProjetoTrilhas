@@ -86,8 +86,15 @@ Route::middleware('auth')->group(function () {
         Route::delete('/', 'destroy')->name('destroy');
         Route::put('/password', 'updatePassword')->name('password.update');
     });
+});
 
-    // Resource Routes
+// Add unauthorized route
+Route::get('/unauthorized', function () {
+    return view('unauthorized');
+})->name('unauthorized');
+
+Route::middleware(['auth', 'admin'])->group(function () {
+    // Resource Routes for Management
     Route::resources([
         'tcc' => TccController::class,
         'curso' => CursoController::class,
@@ -97,7 +104,7 @@ Route::middleware('auth')->group(function () {
         'projeto' => ProjetoController::class,
     ]);
 
-    // PDF Routes
+    // PDF management routes
     Route::prefix('tcc')->name('tcc.')->group(function () {
         Route::get('viewPdf/{id}', [TccController::class, 'viewPdf'])->name('viewPdf');
         Route::get('download/{id}', [TccController::class, 'downloadPdf'])->name('download');
