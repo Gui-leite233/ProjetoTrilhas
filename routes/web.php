@@ -26,6 +26,7 @@ use App\Http\Controllers\{
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
+
 /*
 |--------------------------------------------------------------------------
 | Public Routes
@@ -35,6 +36,23 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 Route::get('/', function () {
     return view('index');
 })->name('index');
+
+// Site routes - publicly accessible
+Route::prefix('site')->name('site.')->group(function () {
+    Route::controller(SiteController::class)->group(function () {
+        Route::get('/curso', 'getCursos')->name('curso');
+        Route::get('/prova', 'getProvas')->name('prova');
+        Route::get('/tcc', 'getTccs')->name('tcc');
+        Route::get('/bolsa', 'getBolsas')->name('bolsa');
+        Route::get('/aluno', 'getAlunos')->name('aluno');
+        Route::get('/projeto', 'getProjetos')->name('projeto');
+    });
+});
+
+// Add unauthorized route
+Route::get('/unauthorized', function () {
+    return view('unauthorized');
+})->name('unauthorized');
 
 /*
 |--------------------------------------------------------------------------
@@ -88,13 +106,13 @@ Route::middleware('auth')->group(function () {
     });
 });
 
-// Add unauthorized route
-Route::get('/unauthorized', function () {
-    return view('unauthorized');
-})->name('unauthorized');
+/*
+|--------------------------------------------------------------------------
+| Admin Routes
+|--------------------------------------------------------------------------
+*/
 
-Route::middleware(['auth', 'admin'])->group(function () {
-    // Resource Routes for Management
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::resources([
         'tcc' => TccController::class,
         'curso' => CursoController::class,
@@ -118,21 +136,4 @@ Route::middleware(['auth', 'admin'])->group(function () {
     // Email Routes
     Route::post('/send-email', [MailController::class, 'sendEmail'])->name('send.email');
     Route::post('/send-welcome-email/{user}', [MailController::class, 'sendWelcomeEmail'])->name('send.welcome');
-});
-
-/*
-|--------------------------------------------------------------------------
-| Site Routes
-|--------------------------------------------------------------------------
-*/
-
-Route::prefix('site')->name('site.')->group(function () {
-    Route::controller(SiteController::class)->group(function () {
-        Route::get('/curso', 'getCursos')->name('curso');
-        Route::get('/prova', 'getProvas')->name('prova');
-        Route::get('/tcc', 'getTccs')->name('tcc');
-        Route::get('/bolsa', 'getBolsas')->name('bolsa');
-        Route::get('/aluno', 'getAlunos')->name('aluno');
-        Route::get('/projeto', 'getProjetos')->name('projeto');
-    });
 });

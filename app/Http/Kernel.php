@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http;
+namespace App\Http\Kernel;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -8,27 +8,11 @@ class Kernel extends HttpKernel
 {
     // ...existing code...
 
-    protected $middleware = [
-        // ...existing code...
-        \Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets::class,
-    ];
-    
-    protected $middlewareGroups = [
-        'web' => [
-            // ...existing middleware...
-            \App\Http\Middleware\CacheHeaders::class,
-        ],
-
-        'api' => [
-            // ...existing middleware...
-        ],
-    ];
-
-    protected $routeMiddleware = [
+    protected $middlewareAliases = [
         'auth' => \App\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
-        'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
-        // ...existing middleware...
-        'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'admin' => \App\Http\Middleware\Admin::class,
+        'role' => \App\Http\Middleware\CheckRole::class,
+        // ...existing code...
     ];
 }
