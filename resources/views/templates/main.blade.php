@@ -530,6 +530,7 @@
             <!-- Navbar Content -->
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <div class="admin-nav-container">
+                    @if(Auth::check() && Auth::user()->isAdmin())
                     <ul class="navbar-nav">
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle admin-nav-link" data-bs-toggle="dropdown" href="#" role="button">
@@ -586,6 +587,7 @@
                             </ul>
                         </li>
                     </ul>
+                    @endif
                 </div>
 
                 <!-- Right aligned user menu -->

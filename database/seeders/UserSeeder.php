@@ -19,6 +19,22 @@ class UserSeeder extends Seeder
             'role_id' => Role::where('name', 'Admin')->first()->id
         ]);
 
+        //Para quando o site for ao ar
+        /*User::create([
+            'nome' => 'Administrador',
+            'email' => 'gil.andrade@ifpr.edu.br',
+            'password' => bcrypt('IFPR@2025#TI'),
+            'role_id' => Role::where('name', 'Admin')->first()->id
+        ]);
+        User::create([
+            'nome' => 'Administrador',
+            'email' => 'gil.andrade@ifpr.edu.br',
+            'password' => bcrypt('IFPR@2025#TI'),
+            'role_id' => Role::where('name', 'Admin')->first()->id
+        ]);
+        
+        */
+
         // Create Coordenador
         User::create([
             'nome' => 'Coordenador',
@@ -27,20 +43,23 @@ class UserSeeder extends Seeder
             'role_id' => Role::where('name', 'Coordenador')->first()->id
         ]);
 
-        // Create Aluno
+        // Create Alunos
         User::create([
             'nome' => 'Aluno Teste',
             'email' => 'aluno@exemplo.com',
             'password' => bcrypt('password'),
             'role_id' => Role::where('name', 'Aluno')->first()->id,
-            'curso_id' => Curso::where('nome', 'Meio Ambiente')->first()->id
+            'curso_id' => Curso::where('nome', 'Meio Ambiente')->first()->id,
+            'ano' => 1
         ]);
+
         User::create([
             'nome' => 'Aluno Teste 2',
             'email' => 'aluno2@exemplo.com',
             'password' => bcrypt('password'),
             'role_id' => Role::where('name', 'Aluno')->first()->id,
-            'curso_id' => Curso::where('nome', 'Informática')->first()->id
+            'curso_id' => Curso::where('nome', 'Informática')->first()->id,
+            'ano' => 2
         ]);
     }
 }

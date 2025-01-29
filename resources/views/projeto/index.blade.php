@@ -12,7 +12,7 @@
     </div>
 
     <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
-        @foreach ($projeto as $item)
+        @foreach ($data as $item)
             <div class="col">
                 <div class="card h-100 border-0 shadow-sm hover-shadow">
                     <div class="card-header bg-dark text-white py-3">
@@ -27,21 +27,16 @@
                                     $usersByCurso = $item->users->filter(function($user) {
                                         return optional($user->role)->name === 'Aluno';
                                     })->groupBy(function($user) {
-                                        // First try to get curso from the direct relationship
                                         if ($user->curso) {
-                                            return $user->curso->nome;
-                                        }
-                                        // If not found, try through aluno relationship
-                                        else if ($user->aluno && $user->aluno->curso) {
-                                            return $user->aluno->curso->nome;
+                                            return $user->curso->nome . ' - ' . $user->ano . 'º Ano';
                                         }
                                         return 'Curso não informado';
                                     });
                                 @endphp
                                 
-                                @foreach($usersByCurso as $curso => $users)
+                                @foreach($usersByCurso as $cursoAno => $users)
                                     <div class="ms-4 mt-2">
-                                        <span class="fw-bold text-primary">{{ $curso }}</span>
+                                        <span class="fw-bold text-primary">{{ $cursoAno }}</span>
                                         <div class="ms-2">
                                             {{ $users->pluck('nome')->join(', ') }}
                                         </div>
@@ -73,7 +68,7 @@
         @endforeach
     </div>
 
-    @if($projeto->isEmpty())
+    @if($data->isEmpty())
         <div class="text-center py-5">
             <i class="bi bi-folder-x display-1 text-muted"></i>
             <p class="h4 text-muted mt-3">Nenhum projeto encontrado</p>

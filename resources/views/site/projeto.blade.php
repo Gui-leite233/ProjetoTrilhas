@@ -40,7 +40,7 @@
                                                     <div class="d-flex align-items-center ps-4">
                                                         <i class="bi bi-mortarboard text-secondary me-2"></i>
                                                         <span class="text-secondary">
-                                                            {{ $user->curso->nome }}
+                                                            {{ $user->curso->nome }} - {{ $user->ano }}º Ano
                                                         </span>
                                                     </div>
                                                 @endif

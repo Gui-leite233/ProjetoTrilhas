@@ -19,10 +19,12 @@ use App\Http\Controllers\{
     TccController,
     BolsaController,
     AlunoController,
-    ProjetoController
+    ProjetoController,
+    MailController
 };
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,11 +48,6 @@ Route::controller(AuthenticatedSessionController::class)->group(function () {
     Route::post('logout', 'destroy')->name('logout');
 });
 
-Route::controller(RegisteredUserController::class)->group(function () {
-    Route::get('register', 'create')->name('register');
-    Route::post('register', 'store');
-});
-
 /*
 |--------------------------------------------------------------------------
 | Password Reset Routes
@@ -67,6 +64,9 @@ Route::middleware('guest')->group(function () {
         Route::get('reset-password/{token}', 'create')->name('password.reset');
         Route::post('reset-password', 'store')->name('password.update');
     });
+
+    Route::get('register', [RegisteredUserController::class, 'create'])->name('register');
+    Route::post('register', [RegisteredUserController::class, 'store']);
 });
 
 /*
@@ -87,15 +87,6 @@ Route::middleware('auth')->group(function () {
         Route::put('/password', 'updatePassword')->name('password.update');
     });
 
-    // Email Verification
-    Route::view('/email/verify', 'auth.verify-email')->name('verification.notice');
-    Route::get('/email/verify/{id}/{hash}', [VerifyEmailController::class, '__invoke'])
-        ->middleware(['signed', 'throttle:6,1'])
-        ->name('verification.verify');
-    Route::post('/email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
-        ->middleware('throttle:6,1')
-        ->name('verification.send');
-
     // Resource Routes
     Route::resources([
         'tcc' => TccController::class,
@@ -109,13 +100,17 @@ Route::middleware('auth')->group(function () {
     // PDF Routes
     Route::prefix('tcc')->name('tcc.')->group(function () {
         Route::get('viewPdf/{id}', [TccController::class, 'viewPdf'])->name('viewPdf');
-        Route::get('download/{id}', [TccController::class, 'downloadPdf'])->name('downloadPdf');
+        Route::get('download/{id}', [TccController::class, 'downloadPdf'])->name('download');
     });
 
     Route::prefix('prova')->name('prova.')->group(function () {
         Route::get('viewPdf/{id}', [ProvaController::class, 'viewPdf'])->name('viewPdf');
         Route::get('download/{id}', [ProvaController::class, 'downloadPdf'])->name('download');
     });
+
+    // Email Routes
+    Route::post('/send-email', [MailController::class, 'sendEmail'])->name('send.email');
+    Route::post('/send-welcome-email/{user}', [MailController::class, 'sendWelcomeEmail'])->name('send.welcome');
 });
 
 /*

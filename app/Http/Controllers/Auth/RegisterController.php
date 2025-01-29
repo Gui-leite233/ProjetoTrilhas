@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Auth\Events\Registered;
 
+
 class RegisterController extends Controller
 {
     use RegistersUsers;
@@ -49,9 +50,10 @@ class RegisterController extends Controller
             'role_id' => ['required', 'exists:roles,id'],
         ];
 
-        // Add curso_id validation only if role is Aluno (role_id = 3)
+        // Add curso_id and ano validation only if role is Aluno (role_id = 3)
         if (isset($data['role_id']) && $data['role_id'] == 3) {
             $rules['curso_id'] = ['required', 'exists:cursos,id'];
+            $rules['ano'] = ['required', 'integer', 'min:1', 'max:5'];
         }
 
         return Validator::make($data, $rules);
@@ -62,17 +64,14 @@ class RegisterController extends Controller
         \Log::info('Registration Data Received:', $data);  // Debug log
 
         // Create user with basic data
-        $user = User::create([
+        return User::create([
             'nome' => $data['nome'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'role_id' => $data['role_id'],
-            'curso_id' => isset($data['role_id']) && $data['role_id'] == 3 ? $data['curso_id'] : null
+            'curso_id' => isset($data['role_id']) && $data['role_id'] == 3 ? $data['curso_id'] : null,
+            'ano' => isset($data['role_id']) && $data['role_id'] == 3 ? $data['ano'] : null,
         ]);
-
-        \Log::info('User Created:', ['user' => $user->toArray()]);  // Debug log
-
-        return $user;
     }
 
     public function register(Request $request)

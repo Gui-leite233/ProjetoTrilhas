@@ -15,8 +15,12 @@ class ProjetoController extends BaseController
     }
     public function index()
     {
-        $data = Projeto::with(['users.curso'])->get();
-        return view('site.projeto', compact('data'));
+        $data = Projeto::with(['users' => function($query) {
+            $query->select('users.id', 'users.nome', 'users.curso_id', 'users.ano', 'users.role_id')
+                  ->with(['curso', 'role']);
+        }])->get();
+        
+        return view('projeto.index', compact('data'));
     }
     
 
