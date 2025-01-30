@@ -4,7 +4,7 @@
 
 @section('conteudo')
 
-<form action="{{ route('tcc.update', $data->id) }}" method="POST" enctype="multipart/form-data">
+<form action="{{ route('admin.tcc.update', $data->id) }}" method="POST" enctype="multipart/form-data">
     @csrf
     @method('PUT')
     <div class="row">
@@ -90,7 +90,7 @@
     </div>
     <div class="row">
         <div class="col">
-            <a href="{{ route('tcc.index') }}" class="btn btn-secondary btn-block align-content-center">
+            <a href="{{ route('admin.tcc.index') }}" class="btn btn-secondary btn-block align-content-center">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
                     class="bi bi-arrow-left-square-fill" viewBox="0 0 16 16">
                     <path

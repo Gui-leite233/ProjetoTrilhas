@@ -1,4 +1,4 @@
-@extends('templates.main', ['menu' => "admin", 'submenu' => "Bolsas", 'rota' => "bolsa.create"])
+@extends('templates.main', ['menu' => "admin", 'submenu' => "Bolsas", 'rota' => "admin.bolsa.create"])
 
 @section('titulo') Bolsas @endsection
 
@@ -6,7 +6,7 @@
 <div class="container py-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="h4 mb-0">Bolsas</h2>
-        <a href="{{ route('bolsa.create') }}" class="btn btn-dark">
+        <a href="{{ route('admin.bolsa.create') }}" class="btn btn-dark">
             <i class="bi bi-plus-circle me-2"></i>Nova Bolsa
         </a>
     </div>
@@ -38,10 +38,10 @@
                     </div>
                     <div class="card-footer bg-light border-0">
                         <div class="d-flex justify-content-end gap-2">
-                            <a href="{{ route('bolsa.edit', $item->id) }}" class="btn btn-dark btn-sm">
+                            <a href="{{ route('admin.bolsa.edit', $item->id) }}" class="btn btn-dark btn-sm">
                                 <i class="bi bi-pencil-square"></i>
                             </a>
-                            <form action="{{ route('bolsa.destroy', $item->id) }}" method="POST" class="d-inline">
+                            <form action="{{ route('admin.bolsa.destroy', $item->id) }}" method="POST" class="d-inline">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-outline-danger btn-sm" 
@@ -60,7 +60,7 @@
         <div class="text-center py-5">
             <i class="bi bi-folder-x display-1 text-muted"></i>
             <p class="h4 text-muted mt-3">Nenhuma bolsa encontrada</p>
-            <a href="{{ route('bolsa.create') }}" class="btn btn-dark mt-3">
+            <a href="{{ route('admin.bolsa.create') }}" class="btn btn-dark mt-3">
                 <i class="bi bi-plus-circle me-2"></i>Criar Primeira Bolsa
             </a>
         </div>

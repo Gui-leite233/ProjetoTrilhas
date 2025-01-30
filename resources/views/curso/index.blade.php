@@ -6,7 +6,7 @@
 <div class="container py-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="h4 mb-0">Cursos</h2>
-        <a href="{{ route('curso.create') }}" class="btn btn-dark">
+        <a href="{{ route('admin.curso.create') }}" class="btn btn-dark">
             <i class="bi bi-plus-circle me-2"></i>Novo Curso
         </a>
     </div>
@@ -31,10 +31,10 @@
                     </div>
                     <div class="card-footer bg-light border-0">
                         <div class="d-flex justify-content-end gap-2">
-                            <a href="{{ route('curso.edit', $item->id) }}" class="btn btn-dark btn-sm">
+                            <a href="{{ route('admin.curso.edit', $item->id) }}" class="btn btn-dark btn-sm">
                                 <i class="bi bi-pencil-square"></i>
                             </a>
-                            <form action="{{ route('curso.destroy', $item->id) }}" method="POST" class="d-inline">
+                            <form action="{{ route('admin.curso.destroy', $item->id) }}" method="POST" class="d-inline">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-outline-danger btn-sm" 

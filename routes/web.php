@@ -112,28 +112,31 @@ Route::middleware('auth')->group(function () {
 |--------------------------------------------------------------------------
 */
 
-Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
-    Route::resources([
-        'tcc' => TccController::class,
-        'curso' => CursoController::class,
-        'prova' => ProvaController::class,
-        'bolsa' => BolsaController::class,
-        'aluno' => AlunoController::class,
-        'projeto' => ProjetoController::class,
-    ]);
+Route::middleware(['auth'])->group(function () {
+    Route::prefix('admin')->name('admin.')->group(function () {
+        // Resource routes
+        Route::resources([
+            'tcc' => TccController::class,
+            'prova' => ProvaController::class,
+            'bolsa' => BolsaController::class,
+            'curso' => CursoController::class,
+            'aluno' => AlunoController::class,
+            'projeto' => ProjetoController::class,
+        ]);
 
-    // PDF management routes
-    Route::prefix('tcc')->name('tcc.')->group(function () {
-        Route::get('viewPdf/{id}', [TccController::class, 'viewPdf'])->name('viewPdf');
-        Route::get('download/{id}', [TccController::class, 'downloadPdf'])->name('download');
+        // PDF management routes
+        Route::prefix('tcc')->name('tcc.')->group(function () {
+            Route::get('viewPdf/{id}', [TccController::class, 'viewPdf'])->name('viewPdf');
+            Route::get('download/{id}', [TccController::class, 'downloadPdf'])->name('download');
+        });
+
+        Route::prefix('prova')->name('prova.')->group(function () {
+            Route::get('viewPdf/{id}', [ProvaController::class, 'viewPdf'])->name('viewPdf');
+            Route::get('download/{id}', [ProvaController::class, 'downloadPdf'])->name('download');
+        });
+
+        // Email Routes
+        Route::post('/send-email', [MailController::class, 'sendEmail'])->name('send.email');
+        Route::post('/send-welcome-email/{user}', [MailController::class, 'sendWelcomeEmail'])->name('send.welcome');
     });
-
-    Route::prefix('prova')->name('prova.')->group(function () {
-        Route::get('viewPdf/{id}', [ProvaController::class, 'viewPdf'])->name('viewPdf');
-        Route::get('download/{id}', [ProvaController::class, 'downloadPdf'])->name('download');
-    });
-
-    // Email Routes
-    Route::post('/send-email', [MailController::class, 'sendEmail'])->name('send.email');
-    Route::post('/send-welcome-email/{user}', [MailController::class, 'sendWelcomeEmail'])->name('send.welcome');
 });

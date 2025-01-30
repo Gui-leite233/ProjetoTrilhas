@@ -64,7 +64,7 @@ class ProjetoController extends BaseController
         
         $projeto->users()->sync($request->user_ids);
 
-        return redirect()->route('projeto.index');
+        return redirect()->route('admin.projeto.index');
     }
 
     /**
@@ -75,7 +75,7 @@ class ProjetoController extends BaseController
         $projeto = Projeto::find($id);
 
         if (!isset($projeto)) {
-            return redirect()->route('projeto.index')->with('error', 'Projeto não encontrado.');
+            return redirect()->route('admin.projeto.index')->with('error', 'Projeto não encontrado.');
         }
 
         return view('projeto.show', compact('projeto'));
@@ -89,7 +89,7 @@ class ProjetoController extends BaseController
         $projeto = Projeto::find($id);
 
         if (!isset($projeto)) {
-            return redirect()->route('projeto.index')->with('error', 'Projeto não encontrado.');
+            return redirect()->route('admin.projeto.index')->with('error', 'Projeto não encontrado.');
         }
 
         return view('projeto.edit', compact('projeto'));
@@ -103,7 +103,7 @@ class ProjetoController extends BaseController
         $projeto = Projeto::find($id);
 
         if (!isset($projeto)) {
-            return redirect()->route('projeto.index')->with('error', 'Projeto não encontrado.');
+            return redirect()->route('admin.projeto.index')->with('error', 'Projeto não encontrado.');
         }
 
         $regras = [
@@ -125,7 +125,7 @@ class ProjetoController extends BaseController
         $projeto->usuario_id = $request->usuario_id;
         $projeto->save();
 
-        return redirect()->route('projeto.index');
+        return redirect()->route('admin.projeto.index');
     }
 
     /**
@@ -136,11 +136,11 @@ class ProjetoController extends BaseController
         $projeto = Projeto::find($id);
 
         if (!isset($projeto)) {
-            return redirect()->route('projeto.index')->with('error', 'Projeto não encontrado.');
+            return redirect()->route('admin.projeto.index')->with('error', 'Projeto não encontrado.');
         }
 
         $projeto->delete();
 
-        return redirect()->route('projeto.index');
+        return redirect()->route('admin.projeto.index');
     }
 }

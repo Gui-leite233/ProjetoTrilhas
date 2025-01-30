@@ -16,7 +16,7 @@
                     </h4>
                 </div>
                 <div class="card-body p-4">
-                    <form action="{{ route('bolsa.store') }}" method="POST">
+                    <form action="{{ route('admin.bolsa.store') }}" method="POST">
                         @csrf
                         <div class="mb-4">
                             <label class="form-label text-muted small fw-bold">TÍTULO</label>
@@ -71,7 +71,7 @@
                         </div>
 
                         <div class="d-flex justify-content-between">
-                            <a href="{{ route('bolsa.index') }}" class="btn btn-secondary btn-block align-content-center">
+                            <a href="{{ route('admin.bolsa.index') }}" class="btn btn-secondary btn-block align-content-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
                                     class="bi bi-arrow-left-square-fill" viewBox="0 0 16 16">
                                     <path

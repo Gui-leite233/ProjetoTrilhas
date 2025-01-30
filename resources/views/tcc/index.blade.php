@@ -1,4 +1,4 @@
-@extends('templates.main', ['menu' => "admin", 'submenu' => "TCCs", 'rota' => "tcc.create"])
+@extends('templates.main', ['menu' => "admin", 'submenu' => "TCCs", 'rota' => "admin.tcc.create"])
 
 @section('titulo') TCCs @endsection
 
@@ -6,7 +6,7 @@
 <div class="container py-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="h4 mb-0">TCCs</h2>
-        <a href="{{ route('tcc.create') }}" class="btn btn-dark">
+        <a href="{{ route('admin.tcc.create') }}" class="btn btn-dark">
             <i class="bi bi-plus-circle me-2"></i>Novo TCC
         </a>
     </div>
@@ -61,17 +61,17 @@
                     <div class="card-footer bg-light border-0">
                         <div class="d-flex justify-content-end gap-2">
                             @if ($item->documento)
-                                <a href="{{ route('tcc.viewPdf', $item->id) }}" class="btn btn-dark btn-sm" target="_blank">
+                                <a href="{{ route('admin.tcc.viewPdf', $item->id) }}" class="btn btn-dark btn-sm" target="_blank">
                                     <i class="bi bi-eye"></i>
                                 </a>
-                                <a href="{{ route('tcc.download', $item->id) }}" class="btn btn-dark btn-sm">
+                                <a href="{{ route('admin.tcc.download', $item->id) }}" class="btn btn-dark btn-sm">
                                     <i class="bi bi-download"></i>
                                 </a>
                             @endif
-                            <a href="{{ route('tcc.edit', $item->id) }}" class="btn btn-dark btn-sm">
+                            <a href="{{ route('admin.tcc.edit', $item->id) }}" class="btn btn-dark btn-sm">
                                 <i class="bi bi-pencil-square"></i>
                             </a>
-                            <form action="{{ route('tcc.destroy', $item->id) }}" method="POST" class="d-inline">
+                            <form action="{{ route('admin.tcc.destroy', $item->id) }}" method="POST" class="d-inline">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-outline-danger btn-sm" 
@@ -90,7 +90,7 @@
         <div class="text-center py-5">
             <i class="bi bi-folder-x display-1 text-muted"></i>
             <p class="h4 text-muted mt-3">Nenhum TCC encontrado</p>
-            <a href="{{ route('tcc.create') }}" class="btn btn-dark mt-3">
+            <a href="{{ route('admin.tcc.create') }}" class="btn btn-dark mt-3">
                 <i class="bi bi-plus-circle me-2"></i>Criar Primeiro TCC
             </a>
         </div>

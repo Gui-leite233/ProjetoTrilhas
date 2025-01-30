@@ -92,7 +92,7 @@ class TccController extends BaseController
         // Sync users
         $tcc->users()->sync($request->user_ids);
 
-        return redirect()->route('tcc.index');
+        return redirect()->route('admin.tcc.index');
     }
 
     /**
@@ -128,7 +128,7 @@ class TccController extends BaseController
         }
 
         if (!isset($data)) {
-            return redirect()->route('tcc.index')
+            return redirect()->route('admin.tcc.index')
                 ->with('error', 'TCC não encontrado');
         }
 
@@ -171,7 +171,7 @@ class TccController extends BaseController
             $obj->save();
         }
 
-        return redirect()->route('tcc.index');
+        return redirect()->route('admin.tcc.index');
     }
 
     public function viewPdf($id)
@@ -179,13 +179,13 @@ class TccController extends BaseController
         $tcc = Tcc::find($id);
 
         if (!$tcc || !$tcc->documento) {
-            return redirect()->route('tcc.index')->with('error', 'TCC ou documento não encontrado.');
+            return redirect()->route('admin.tcc.index')->with('error', 'TCC ou documento não encontrado.');
         }
 
         $filePath = storage_path('app/public/' . $tcc->documento);
 
         if (!file_exists($filePath)) {
-            return redirect()->route('tcc.index')->with('error', 'Arquivo não encontrado.');
+            return redirect()->route('admin.tcc.index')->with('error', 'Arquivo não encontrado.');
         }
 
         return response()->file($filePath, [
@@ -199,13 +199,13 @@ class TccController extends BaseController
         $tcc = Tcc::findOrFail($id);
 
         if (!$tcc || !$tcc->documento) {
-            return redirect()->route('tcc.index')
+            return redirect()->route('admin.tcc.index')
                 ->with('error', 'TCC ou documento não encontrado.');
         }
 
         if (!Storage::disk('public')->exists($tcc->documento)) {
             Log::error('PDF file not found: ' . $tcc->documento);
-            return redirect()->route('tcc.index')
+            return redirect()->route('admin.tcc.index')
                 ->with('error', 'Arquivo não encontrado.');
         }
 
@@ -233,7 +233,7 @@ class TccController extends BaseController
 
         $obj->destroy($id);
 
-        return redirect()->route('tcc.index');
+        return redirect()->route('admin.tcc.index');
     }
 }
 

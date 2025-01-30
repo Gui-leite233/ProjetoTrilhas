@@ -1,4 +1,4 @@
-@extends('templates.main', ['menu' => "admin", 'submenu' => "Provas", 'rota' => "prova.create"])
+@extends('templates.main', ['menu' => "admin", 'submenu' => "Provas", 'rota' => "admin.prova.create"])
 
 @section('titulo') Provas @endsection
 
@@ -6,7 +6,7 @@
 <div class="container py-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="h4 mb-0">Provas</h2>
-        <a href="{{ route('prova.create') }}" class="btn btn-dark">
+        <a href="{{ route('admin.prova.create') }}" class="btn btn-dark">
             <i class="bi bi-plus-circle me-2"></i>Nova Prova
         </a>
     </div>
@@ -34,17 +34,17 @@
                     <div class="card-footer bg-light border-0">
                         <div class="d-flex justify-content-end gap-2">
                             @if ($item->documento)
-                                <a href="{{ route('prova.viewPdf', $item->id) }}" class="btn btn-dark btn-sm" target="_blank">
+                                <a href="{{ route('admin.prova.viewPdf', $item->id) }}" class="btn btn-dark btn-sm" target="_blank">
                                     <i class="bi bi-eye"></i>
                                 </a>
-                                <a href="{{ route('prova.download', $item->id) }}" class="btn btn-dark btn-sm">
+                                <a href="{{ route('admin.prova.download', $item->id) }}" class="btn btn-dark btn-sm">
                                     <i class="bi bi-download"></i>
                                 </a>
                             @endif
-                            <a href="{{ route('prova.edit', $item->id) }}" class="btn btn-dark btn-sm">
+                            <a href="{{ route('admin.prova.edit', $item->id) }}" class="btn btn-dark btn-sm">
                                 <i class="bi bi-pencil-square"></i>
                             </a>
-                            <form action="{{ route('prova.destroy', $item->id) }}" method="POST" class="d-inline">
+                            <form action="{{ route('admin.prova.destroy', $item->id) }}" method="POST" class="d-inline">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-outline-danger btn-sm" 
@@ -63,7 +63,7 @@
         <div class="text-center py-5">
             <i class="bi bi-file-x display-1 text-muted"></i>
             <p class="h4 text-muted mt-3">Nenhuma prova encontrada</p>
-            <a href="{{ route('prova.create') }}" class="btn btn-dark mt-3">
+            <a href="{{ route('admin.prova.create') }}" class="btn btn-dark mt-3">
                 <i class="bi bi-plus-circle me-2"></i>Criar Primeira Prova
             </a>
         </div>
