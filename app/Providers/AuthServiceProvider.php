@@ -7,11 +7,14 @@ use App\Policies\UserPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 use App\Policies\MenuPolicy;
+use App\Models\Resumo;
+use App\Policies\ResumoPolicy;
 
 class AuthServiceProvider extends ServiceProvider
 {
     protected $policies = [
         User::class => UserPolicy::class,
+        Resumo::class => ResumoPolicy::class,
     ];
 
     public function boot(): void
