@@ -23,8 +23,8 @@ class CursoController extends Controller
 
     public function index()
     {
-        $data = Curso::orderBy('nome')->get();
-        return view('admin.curso.index', compact('data'));
+        $cursos = Curso::all();
+        return view('curso.index', compact('cursos'));
     }
 
     public function create()

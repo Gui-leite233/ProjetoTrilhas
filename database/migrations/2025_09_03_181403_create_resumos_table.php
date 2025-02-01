@@ -13,11 +13,23 @@ return new class extends Migration
     {
         Schema::create('resumos', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('curso_id');
-            $table->foreign('curso_id')->references('id')->on('cursos');
+            $table->string('titulo');
+            $table->text('descricao');
+            $table->string('documento')->nullable();
+            $table->unsignedBigInteger('curso_id')->nullable();
             $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
+            $table->softDeletes();
+
+            $table->foreign('curso_id')
+                  ->references('id')
+                  ->on('cursos')
+                  ->onDelete('set null');
+            
+            $table->foreign('user_id')
+                  ->references('id')
+                  ->on('users')
+                  ->onDelete('cascade');
         });
     }
 

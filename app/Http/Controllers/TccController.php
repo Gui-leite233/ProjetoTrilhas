@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Tcc;
 use App\Models\Aluno;
 use App\Models\Role;
-use App\Models\User;  // Add this line to import User model
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Dompdf\Dompdf;
 use Illuminate\Routing\Controller as BaseController;
@@ -21,7 +21,6 @@ class TccController extends BaseController
 
     public function __construct() 
     {
-        // Remove parent::__construct() - it's not needed
         $this->middleware('auth', ['except' => ['index', 'show']]);
         $this->dompdf = new Dompdf();
         $this->dompdf->setPaper('A4', 'portrait');
@@ -80,7 +79,7 @@ class TccController extends BaseController
         $tcc->user_id = auth()->id();
         $tcc->save();
 
-        // Handle document upload
+        
         if ($request->hasFile('documento')) {
             $extensao_arq = $request->file('documento')->getClientOriginalExtension();
             $nome_arq = $tcc->id . '_' . time() . '.' . $extensao_arq;
@@ -89,7 +88,7 @@ class TccController extends BaseController
             $tcc->save();
         }
 
-        // Sync users
+        
         $tcc->users()->sync($request->user_ids);
 
         return redirect()->route('admin.tcc.index');

@@ -8,6 +8,7 @@ use App\Models\Curso;
 use App\Models\Prova;
 use App\Models\Tcc;
 use App\Models\Projeto;
+use App\Models\Resumo;
 use Illuminate\Http\Request;
 
 class SiteController extends Controller {
@@ -47,5 +48,9 @@ class SiteController extends Controller {
     public function getAlunos() {
         $data = Aluno::with(['usuario', 'curso'])->get();
         return view('site.aluno', ['data' => $data]);
+    }
+    public function getResumos() {
+        $data = Resumo::orderBy('titulo')->get();
+        return view('site.resumo', compact('data'));
     }
 }

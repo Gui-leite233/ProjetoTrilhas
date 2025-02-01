@@ -19,31 +19,31 @@
                         <h5 class="card-title mb-0 text-truncate" title="{{ $item->titulo }}">{{ $item->titulo }}</h5>
                     </div>
                     <div class="card-body">
-                        <p class="card-text text-muted small mb-3">
-                            <i class="bi bi-people-fill me-2"></i>
-                            @if($item->users->isNotEmpty())
-                                <strong>Alunos por Curso:</strong><br>
-                                @php
-                                    $usersByCurso = $item->users->filter(function($user) {
-                                        return optional($user->role)->name === 'Aluno';
-                                    })->groupBy(function($user) {
-                                        if ($user->curso) {
-                                            return $user->curso->nome . ' - ' . $user->ano . 'º Ano';
-                                        }
-                                        return 'Curso não informado';
-                                    });
-                                @endphp
-                                
-                                @foreach($usersByCurso as $cursoAno => $users)
-                                    <div class="ms-4 mt-2">
-                                        <span class="fw-bold text-primary">{{ $cursoAno }}</span>
-                                        <div class="ms-2">
-                                            {{ $users->pluck('nome')->join(', ') }}
+                        @if($item->users->isNotEmpty())
+                            <div class="mb-3">
+                                <h6 class="text-muted mb-2">
+                                    <i class="bi bi-people-fill me-2"></i>Alunos
+                                </h6>
+                                <div class="d-flex flex-wrap gap-2">
+                                    @foreach($item->users as $user)
+                                        <div class="card bg-light border-0">
+                                            <div class="card-body p-2">
+                                                <small class="text-dark">
+                                                    <i class="bi bi-person me-1"></i>
+                                                    {{ $user->nome }}
+                                                    @if($user->curso)
+                                                        <span class="text-muted">
+                                                            ({{ $user->curso->nome }})
+                                                        </span>
+                                                    @endif
+                                                </small>
+                                            </div>
                                         </div>
-                                    </div>
-                                @endforeach
-                            @endif
-                        </p>
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endif
+                        
                         <p class="card-text" style="height: 4.5em; overflow: hidden;">
                             {{ Str::limit($item->descricao, 120) }}
                         </p>

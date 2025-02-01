@@ -1,24 +1,39 @@
-@extends('templates.main', ['menu' => "admin", 'submenu' => "TCCs", 'rota' => "admin.tcc.create"])
+@extends('templates.main', ['menu' => "admin", 'submenu' => "Resumos"])
 
-@section('titulo') TCCs @endsection
+@section('titulo') Resumos @endsection
 
 @section('conteudo')
 <div class="container py-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="h4 mb-0">TCCs</h2>
-        <a href="{{ route('admin.tcc.create') }}" class="btn btn-dark">
-            <i class="bi bi-plus-circle me-2"></i>Novo TCC
+        <div>
+            <h2 class="h4 mb-0">Resumos</h2>
+            @can('viewCount', App\Models\Resumo::class)
+                @if($userResumoCount && $userResumoCount->resumos_count > 0)
+                    <div class="mt-2">
+                        <span class="badge bg-primary">
+                            <i class="bi bi-file-text me-1"></i>
+                            Meus Resumos: {{ $userResumoCount->resumos_count }}
+                        </span>
+                    </div>
+                @endif
+            @endcan
+        </div>
+        <a href="{{ route('admin.resumo.create') }}" class="btn btn-dark">
+            <i class="bi bi-plus-circle me-2"></i>Novo Resumo
         </a>
     </div>
 
     <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
-        @foreach ($tcc as $item)
+        @foreach ($data as $item)
             <div class="col">
-                <div class="card h-100 border-0 shadow-sm hover-shadow">
-                    <div class="card-header bg-dark text-white py-3">
+                <div class="card h-100 border-0 shadow-sm hover-shadow {{ $item->users->contains(Auth::id()) ? 'border-primary border-2' : '' }}">
+                    <div class="card-header {{ $item->users->contains(Auth::id()) ? 'bg-primary text-white' : 'bg-dark text-white' }} py-3 d-flex justify-content-between align-items-center">
                         <h5 class="card-title mb-0 text-truncate" title="{{ $item->titulo }}">{{ $item->titulo }}</h5>
+                        @if($item->users->contains(Auth::id()))
+                            <span class="badge bg-white text-primary">Meu Resumo</span>
+                        @endif
                     </div>
-                    <div class="card-body">
+                    <div class="card-body d-flex flex-column">
                         @if($item->users->isNotEmpty())
                             <div class="mb-3">
                                 <h6 class="text-muted mb-2">
@@ -44,40 +59,45 @@
                             </div>
                         @endif
                         
-                        <p class="card-text" style="height: 4.5em; overflow: hidden;">
-                            {{ Str::limit($item->descricao, 120) }}
-                        </p>
+                        <div class="flex-grow-1">
+                            <p class="card-text" style="height: 4.5em; overflow: hidden;">
+                                {{ Str::limit($item->descricao, 120) }}
+                            </p>
+                        </div>
                         
-                        @if ($item->documento)
-                            <div class="mt-3">
+                        <div class="mt-auto">
+                            @if ($item->documento)
                                 <span class="badge bg-success">
                                     <i class="bi bi-file-pdf me-1"></i>
                                     PDF Disponível
                                 </span>
-                            </div>
-                        @endif
+                            @endif
+                        </div>
                     </div>
                     <div class="card-footer bg-light border-0">
                         <div class="d-flex justify-content-end gap-2">
                             @if ($item->documento)
-                                <a href="{{ route('admin.tcc.viewPdf', $item->id) }}" class="btn btn-dark btn-sm" target="_blank">
+                                <a href="{{ route('admin.resumo.viewPdf', $item->id) }}" class="btn btn-dark btn-sm" target="_blank">
                                     <i class="bi bi-eye"></i>
                                 </a>
-                                <a href="{{ route('admin.tcc.download', $item->id) }}" class="btn btn-dark btn-sm">
+                                <a href="{{ route('admin.resumo.download', $item->id) }}" class="btn btn-dark btn-sm">
                                     <i class="bi bi-download"></i>
                                 </a>
                             @endif
-                            <a href="{{ route('admin.tcc.edit', $item->id) }}" class="btn btn-dark btn-sm">
-                                <i class="bi bi-pencil-square"></i>
-                            </a>
-                            <form action="{{ route('admin.tcc.destroy', $item->id) }}" method="POST" class="d-inline">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-outline-danger btn-sm" 
-                                    onclick="return confirm('Tem certeza que deseja excluir este TCC?')">
-                                    <i class="bi bi-trash"></i>
-                                </button>
-                            </form>
+                            
+                            @can('manage', $item)
+                                <a href="{{ route('admin.resumo.edit', $item->id) }}" class="btn btn-dark btn-sm">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+                                <form action="{{ route('admin.resumo.destroy', $item->id) }}" method="POST" class="d-inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-outline-danger btn-sm" 
+                                        onclick="return confirm('Tem certeza que deseja excluir este resumo?')">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </form>
+                            @endcan
                         </div>
                     </div>
                 </div>
@@ -85,17 +105,16 @@
         @endforeach
     </div>
 
-    @if($tcc->isEmpty())
+    @if($data->isEmpty())
         <div class="text-center py-5">
             <i class="bi bi-folder-x display-1 text-muted"></i>
-            <p class="h4 text-muted mt-3">Nenhum TCC encontrado</p>
-            <a href="{{ route('admin.tcc.create') }}" class="btn btn-dark mt-3">
-                <i class="bi bi-plus-circle me-2"></i>Criar Primeiro TCC
+            <p class="h4 text-muted mt-3">Nenhum Resumo encontrado</p>
+            <a href="{{ route('admin.resumo.create') }}" class="btn btn-dark mt-3">
+                <i class="bi bi-plus-circle me-2"></i>Criar Primeiro Resumo
             </a>
         </div>
     @endif
 </div>
-@endsection
 
 @push('styles')
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
@@ -152,5 +171,32 @@
         .text-center.py-5 .bi {
             animation: emptyStatePulse 2s infinite;
         }
+
+        /* Enhance the owner indicator styles */
+        .card.border-primary {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card.border-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #0d6efd, #0dcaf0);
+        }
+
+        .badge {
+            font-size: 0.75rem;
+            padding: 0.35em 0.65em;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover .badge {
+            transform: scale(1.05);
+        }
     </style>
 @endpush
+@endsection

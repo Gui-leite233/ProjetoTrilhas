@@ -86,13 +86,19 @@ class ProjetoController extends BaseController
      */
     public function edit(string $id)
     {
-        $projeto = Projeto::find($id);
-
+        $projeto = Projeto::with('users')->find($id);
+        
         if (!isset($projeto)) {
             return redirect()->route('admin.projeto.index')->with('error', 'Projeto não encontrado.');
         }
 
-        return view('projeto.edit', compact('projeto'));
+        $users = User::with('role')
+            ->whereHas('role', function ($query) {
+                $query->where('name', 'Aluno');
+            })
+            ->get();
+
+        return view('projeto.edit', compact('projeto', 'users'));
     }
 
     /**
@@ -109,23 +115,26 @@ class ProjetoController extends BaseController
         $regras = [
             'titulo' => 'required|max:255',
             'descricao' => 'required',
-            'usuario_id' => 'required|exists:users,id', // Uncomment this line when login and register are working properly
+            'user_ids' => 'required|array',
+            'user_ids.*' => 'exists:users,id'
         ];
 
         $msgs = [
             "required" => "O campo [:attribute] é obrigatório!",
             "max" => "O campo [:attribute] possui tamanho máximo de [:max] caracteres!",
-            "exists" => "O campo [:attribute] deve ser um usuário válido!", // Uncomment this line when login and register are working properly
+            "exists" => "O usuário selecionado não existe no banco de dados!",
         ];
 
         $request->validate($regras, $msgs);
 
         $projeto->titulo = $request->titulo;
         $projeto->descricao = $request->descricao;
-        $projeto->usuario_id = $request->usuario_id;
         $projeto->save();
 
-        return redirect()->route('admin.projeto.index');
+        // Sync the users relationship
+        $projeto->users()->sync($request->user_ids);
+
+        return redirect()->route('admin.projeto.index')->with('success', 'Projeto atualizado com sucesso!');
     }
 
     /**

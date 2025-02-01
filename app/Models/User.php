@@ -70,6 +70,14 @@ class User extends Authenticatable
     }
 
     /**
+     * Get the resumos associated with the user.
+     */
+    public function resumos()
+    {
+        return $this->belongsToMany(Resumo::class, 'resumo_user');
+    }
+
+    /**
      * Check if user has specific role
      */
     public function hasRole($role)

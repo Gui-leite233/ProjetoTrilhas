@@ -46,4 +46,5 @@
         </div>
     </div>
 </div>
+@include('site.shared.styles')
 @endsection

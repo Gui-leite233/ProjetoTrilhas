@@ -10,11 +10,7 @@
     <link href="{{ asset('css/site.css') }}" rel="stylesheet">
     @stack('styles')
     <title>ProjetoTrilhas</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" defer></script>
-    <script>
-        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    
     <style>
         :root {
             --primary-color: #212529;
@@ -507,6 +503,166 @@
             margin: 0 !important;
         }
 
+        /* Enhanced Admin Nav Styles */
+        .admin-nav-link {
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
+            padding: 0 !important;
+            transition: all 0.3s ease;
+        }
+
+        .admin-nav-link:hover {
+            background: rgba(255,255,255,0.2);
+            transform: rotate(45deg);
+        }
+
+        .admin-nav-link:hover svg {
+            transform: rotate(-45deg);
+        }
+
+        .admin-nav-link::after {
+            display: none !important;
+        }
+
+        .admin-nav-container .dropdown-menu {
+            margin-top: 0.5rem;
+            border-radius: 12px;
+            min-width: 220px;
+            padding: 0.5rem;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(33, 37, 41, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .admin-nav-container .dropdown-item {
+            color: rgba(255,255,255,0.8);
+            border-radius: 8px;
+            padding: 0.7rem 1rem;
+            margin: 2px 0;
+            transition: all 0.2s ease;
+        }
+
+        .admin-nav-container .dropdown-item:hover {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .admin-nav-container .dropdown-item svg {
+            transition: all 0.3s ease;
+        }
+
+        .admin-nav-container .dropdown-item:hover svg {
+            transform: scale(1.2);
+            color: #0d6efd;
+        }
+
+        @media (max-width: 992px) {
+            .admin-nav-link {
+                width: 36px;
+                height: 36px;
+            }
+            
+            .admin-nav-container .dropdown-menu {
+                background: rgba(33, 37, 41, 0.98);
+                border: none;
+            }
+        }
+
+        /* Enhanced User Dropdown Styles */
+        .navbar-nav.ms-auto .nav-item.dropdown > .nav-link {
+            background: rgba(255,255,255,0.1);
+            border-radius: 25px;
+            padding: 0.5rem 1.2rem !important;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-nav.ms-auto .nav-item.dropdown > .nav-link:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+
+        .navbar-nav.ms-auto .dropdown-menu {
+            margin-top: 0.5rem;
+            border-radius: 12px;
+            min-width: 240px;
+            padding: 0.8rem;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(33, 37, 41, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .navbar-nav.ms-auto .dropdown-menu .px-3.py-2 {
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+        }
+
+        .navbar-nav.ms-auto .dropdown-menu .dropdown-item {
+            color: rgba(255,255,255,0.8);
+            border-radius: 8px;
+            padding: 0.8rem 1rem;
+            margin: 4px 0;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-nav.ms-auto .dropdown-menu .dropdown-item:hover {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .navbar-nav.ms-auto .dropdown-menu .dropdown-item svg {
+            transition: all 0.3s ease;
+        }
+
+        .navbar-nav.ms-auto .dropdown-menu .dropdown-item:hover svg {
+            transform: scale(1.2) rotate(-5deg);
+            color: #0d6efd;
+        }
+
+        .navbar-nav.ms-auto .dropdown-menu .text-danger:hover svg {
+            color: #dc3545;
+        }
+
+        .navbar-nav.ms-auto .dropdown-menu .dropdown-divider {
+            border-color: rgba(255,255,255,0.1);
+            margin: 0.5rem 0;
+        }
+
+        .navbar-nav.ms-auto .dropdown-menu button.dropdown-item {
+            width: 100%;
+            text-align: left;
+            background: none;
+            border: none;
+        }
+
+        @media (max-width: 992px) {
+            .navbar-nav.ms-auto .nav-item.dropdown > .nav-link {
+                border-radius: 8px;
+            }
+            
+            .navbar-nav.ms-auto .dropdown-menu {
+                background: rgba(33, 37, 41, 0.98);
+                border: none;
+            }
+        }
+
+        /* Remove existing conflicting styles */
+        .navbar-nav.ms-auto .nav-link:after {
+            display: none;
+        }
+
+        .navbar-nav.ms-auto .nav-link > * {
+            gap: 0.5rem;
+        }
     </style>
 </head>
 
@@ -529,18 +685,42 @@
 
             <!-- Navbar Content -->
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                @auth
-                    @if(Auth::user()->role_id == 1)  {{-- Changed to check role_id instead of role --}}
-                        <div class="admin-nav-container">
-                            <ul class="navbar-nav">
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle admin-nav-link" data-bs-toggle="dropdown" href="#" role="button">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-gear-fill me-2" viewBox="0 0 16 16">
-                                            <path d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872l-.1-.34zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z"/>
-                                        </svg>
-                                        <span class="text-white">Administração</span>
-                                    </a>
-                                    <ul class="dropdown-menu">
+                @auth {{-- Show gear dropdown for all authenticated users --}}
+                    <div class="admin-nav-container">
+                        <ul class="navbar-nav">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle admin-nav-link p-2" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-gear-fill" viewBox="0 0 16 16">
+                                        <path d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872l-.1-.34zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z"/>
+                                    </svg>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-dark">
+                                    {{-- Show Resumos for all users --}}
+                                    <li>
+                                        <a href="{{route('admin.resumo.index')}}" class="dropdown-item">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-text me-2" viewBox="0 0 16 16">
+                                                <path d="M5 10.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5zm0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z"/>
+                                                <path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2z"/>
+                                            </svg>
+                                            <span>Resumos</span>
+                                        </a>
+                                    </li>
+
+                                    {{-- Show TCC for Admin and Coordenador --}}
+                                    @if(Auth::user()->role_id == 1 || Auth::user()->role_id == 2)
+                                    <li>
+                                        <a href="{{route('admin.tcc.index')}}" class="dropdown-item">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-text me-2" viewBox="0 0 16 16">
+                                                <path d="M5.5 7a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1h-5zM5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5z"/>
+                                                <path d="M9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.5L9.5 0zm0 1v2A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+                                            </svg>
+                                            <span>TCC's</span>
+                                        </a>
+                                    </li>
+
+                                    {{-- Show Admin items only for role_id = 1 --}}
+                                    @if(Auth::user()->role_id == 1)
+                                        <li><hr class="dropdown-divider"></li>
                                         <li>
                                             <a href="{{route('admin.curso.index')}}" class="dropdown-item">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-book me-2" viewBox="0 0 16 16">
@@ -550,12 +730,12 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="{{route('admin.tcc.index')}}" class="dropdown-item">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-text me-2" viewBox="0 0 16 16">
-                                                    <path d="M5.5 7a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1h-5zM5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5z"/>
-                                                    <path d="M9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.5L9.5 0zm0 1v2A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+                                            <a href="{{route('admin.prova.index')}}" class="dropdown-item">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard-check me-2" viewBox="0 0 16 16">
+                                                    <path d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
+                                                    <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
                                                 </svg>
-                                                <span>TCC's</span>
+                                                <span>Provas</span>
                                             </a>
                                         </li>
                                         <li>
@@ -567,16 +747,6 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="{{route('admin.prova.index')}}" class="dropdown-item">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard-check me-2" viewBox="0 0 16 16">
-                                                    <path fill-rule="evenodd" d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
-                                                    <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
-                                                    <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
-                                                </svg>
-                                                <span>Provas</span>
-                                            </a>
-                                        </li>
-                                        <li>
                                             <a href="{{route('admin.projeto.index')}}" class="dropdown-item">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-kanban me-2" viewBox="0 0 16 16">
                                                     <path d="M13.5 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1h-11a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h11zm-11-1a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2h-11z"/>
@@ -585,11 +755,12 @@
                                                 <span>Projetos</span>
                                             </a>
                                         </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                    @endif
+                                    @endif
+                                    @endif
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
                 @endauth
 
                 <!-- Right aligned user menu -->
@@ -603,7 +774,7 @@
                                 </svg>
                                 
                             </a>
-                            <ul class="dropdown-menu dropdown-menu-end shadow border-0">
+                            <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end shadow border-0">
                                 <li class="px-3 py-2 text-center text-muted">
                                     <small>Acesse sua conta</small>
                                 </li>
@@ -643,7 +814,7 @@
                                 </svg>
                                 <span>{{ Auth::user()->name }}</span>
                             </a>
-                            <ul class="dropdown-menu dropdown-menu-end shadow border-0">
+                            <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end shadow border-0">
                                 <li class="px-3 py-2 text-center">
                                     <small class="text-muted">Logado como</small>
                                     <div class="fw-500">{{ Auth::user()->email }}</div>
@@ -730,6 +901,11 @@
 
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script src="https://code.jquery.com/jquery-migrate-3.4.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" defer></script>
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 
     <script type="text/javascript">
         function showRemoveModal(id, nome) {

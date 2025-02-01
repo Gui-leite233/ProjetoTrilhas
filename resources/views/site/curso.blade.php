@@ -51,52 +51,85 @@
 </div>
 
 <style>
+    :root {
+        --primary-color: #2d5faf;
+        --primary-hover: #224b8f;
+        --secondary-color: #6c757d;
+        --success-color: #198754;
+        --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        --card-hover-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    }
+
     .hover-card {
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+        background: #ffffff;
         overflow: hidden;
     }
+
     .hover-card:hover {
         transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+        box-shadow: var(--card-hover-shadow);
     }
+
     .progress-indicator {
-        height: 3px;
+        height: 4px;
         position: absolute;
         top: 0;
         left: 0;
         right: 0;
-    }
-    .progress-indicator.available {
-        background: var(--bs-primary);
-    }
-    .progress-indicator.unavailable {
-        background: var(--bs-secondary);
-    }
-    .icon-box {
-        transition: transform 0.3s ease;
-    }
-    .hover-card:hover .icon-box {
-        transform: scale(1.1);
-    }
-    .btn {
         transition: all 0.3s ease;
-        font-weight: 500;
-        padding: 0.6rem 1rem;
     }
+
+    .progress-indicator.available {
+        background: var(--primary-color);
+    }
+
+    .progress-indicator.unavailable {
+        background: var(--secondary-color);
+    }
+
     .card-title {
         font-weight: 600;
-        line-height: 1.3;
+        color: var(--primary-color);
     }
-    .text-primary {
-        color: var(--bs-primary) !important;
+
+    .btn {
+        padding: 0.6rem 1.2rem;
+        font-weight: 500;
+        border-radius: 6px;
+        transition: all 0.3s ease;
     }
+
     .btn-primary {
-        background-color: var(--bs-primary);
-        border-color: var(--bs-primary);
+        background-color: var(--primary-color);
+        border-color: var(--primary-color);
     }
-    .btn-secondary {
-        background-color: var(--bs-secondary);
-        border-color: var(--bs-secondary);
+
+    .btn-primary:hover {
+        background-color: var(--primary-hover);
+        border-color: var(--primary-hover);
+        transform: translateY(-1px);
+    }
+
+    .text-primary {
+        color: var(--primary-color) !important;
+    }
+
+    .display-5 {
+        font-weight: 700;
+        color: var(--primary-color);
+    }
+
+    .card {
+        border-radius: 10px;
+    }
+
+    .bi {
+        transition: transform 0.3s ease;
+    }
+
+    .hover-card:hover .bi {
+        transform: scale(1.1);
     }
 </style>
 @endsection

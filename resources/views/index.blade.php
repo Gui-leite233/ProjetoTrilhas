@@ -17,7 +17,7 @@
                                 <div class="feature-icon">
                                     <i class="bi bi-book-half"></i>
                                 </div>
-                                <p class="text-dark mb-0 mt-3">Gerenciar Cursos</p>
+                                <p class="text-dark mb-0 mt-3">Cursos</p>
                             </div>
                         </a>
                     </div>
@@ -37,7 +37,7 @@
                                 <div class="feature-icon">
                                     <i class="bi bi-file-text"></i>
                                 </div>
-                                <p class="text-dark mb-0 mt-3">Gerenciar Provas</p>
+                                <p class="text-dark mb-0 mt-3">Provas</p>
                             </div>
                         </a>
                     </div>
@@ -57,7 +57,27 @@
                                 <div class="feature-icon">
                                     <i class="bi bi-journal-text"></i>
                                 </div>
-                                <p class="text-dark mb-0 mt-3">Gerenciar TCCs</p>
+                                <p class="text-dark mb-0 mt-3">TCCs</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+            <div class="feature-card">
+                <div class="card h-100 border-0 shadow-hover">
+                    <div class="card-header text-white bg-gradient py-3">
+                        <h5 class="card-title mb-0 text-center">Resumos</h5>
+                    </div>
+                    <div class="card-body d-flex align-items-center justify-content-center">
+                        <a href="{{route('site.resumo')}}" class="text-decoration-none">
+                            <div class="text-center feature-content">
+                                <div class="feature-icon">
+                                    <i class="bi bi-journal-text"></i>
+                                </div>
+                                <p class="text-dark mb-0 mt-3">Resumos</p>
                             </div>
                         </a>
                     </div>
@@ -77,7 +97,7 @@
                                 <div class="feature-icon">
                                     <i class="bi bi-wallet2"></i>
                                 </div>
-                                <p class="text-dark mb-0 mt-3">Gerenciar Bolsas</p>
+                                <p class="text-dark mb-0 mt-3">Bolsas</p>
                             </div>
                         </a>
                     </div>
@@ -97,7 +117,7 @@
                                 <div class="feature-icon">
                                     <i class="bi bi-kanban"></i>
                                 </div>
-                                <p class="text-dark mb-0 mt-3">Gerenciar Projetos</p>
+                                <p class="text-dark mb-0 mt-3">Projetos</p>
                             </div>
                         </a>
                     </div>

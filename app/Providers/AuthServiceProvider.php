@@ -5,6 +5,8 @@ namespace App\Providers;
 use App\Models\User;
 use App\Policies\UserPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Gate;
+use App\Policies\MenuPolicy;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -15,5 +17,9 @@ class AuthServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->registerPolicies();
+
+        Gate::define('view-admin-items', [MenuPolicy::class, 'viewAdminItems']);
+        Gate::define('view-tcc-items', [MenuPolicy::class, 'viewTccItems']);
+        Gate::define('view-resumo-items', [MenuPolicy::class, 'viewResumoItems']);
     }
 }

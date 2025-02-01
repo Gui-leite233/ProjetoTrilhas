@@ -20,7 +20,8 @@ use App\Http\Controllers\{
     BolsaController,
     AlunoController,
     ProjetoController,
-    MailController
+    MailController,
+    ResumoController,
 };
 
 use Illuminate\Support\Facades\Route;
@@ -46,7 +47,18 @@ Route::prefix('site')->name('site.')->group(function () {
         Route::get('/bolsa', 'getBolsas')->name('bolsa');
         Route::get('/aluno', 'getAlunos')->name('aluno');
         Route::get('/projeto', 'getProjetos')->name('projeto');
+        Route::get('/resumo', 'getResumos')->name('resumo');
     });
+
+    // Add these new routes
+    Route::get('/tcc/view/{id}', [TccController::class, 'viewPdf'])->name('tcc.viewPdf');
+    Route::get('/tcc/download/{id}', [TccController::class, 'downloadPdf'])->name('tcc.downloadPdf');
+
+    Route::get('/resumo/view/{id}', [ResumoController::class, 'viewPdf'])->name('resumo.viewPdf');
+    Route::get('/resumo/download/{id}', [ResumoController::class, 'downloadPdf'])->name('resumo.downloadPdf');
+
+    Route::get('/prova/view/{id}', [ProvaController::class, 'viewPdf'])->name('prova.viewPdf');
+    Route::get('/prova/download/{id}', [ProvaController::class, 'downloadPdf'])->name('prova.downloadPdf');
 });
 
 // Add unauthorized route
@@ -94,27 +106,11 @@ Route::middleware('guest')->group(function () {
 */
 
 Route::middleware('auth')->group(function () {
-    // Dashboard
+    // Dashboard and Profile routes
     Route::view('/dashboard', 'dashboard')->name('dashboard');
-
-    // Profile Management
-    Route::controller(ProfileController::class)->prefix('profile')->name('profile.')->group(function () {
-        Route::get('/', 'edit')->name('edit');
-        Route::patch('/', 'update')->name('update');
-        Route::delete('/', 'destroy')->name('destroy');
-        Route::put('/password', 'updatePassword')->name('password.update');
-    });
-});
-
-/*
-|--------------------------------------------------------------------------
-| Admin Routes
-|--------------------------------------------------------------------------
-*/
-
-Route::middleware(['auth'])->group(function () {
+    
     Route::prefix('admin')->name('admin.')->group(function () {
-        // Resource routes
+        // Resources available to all authenticated users
         Route::resources([
             'tcc' => TccController::class,
             'prova' => ProvaController::class,
@@ -122,9 +118,15 @@ Route::middleware(['auth'])->group(function () {
             'curso' => CursoController::class,
             'aluno' => AlunoController::class,
             'projeto' => ProjetoController::class,
+            'resumo' => ResumoController::class,
         ]);
 
-        // PDF management routes
+        // Additional resource routes
+        Route::prefix('resumo')->name('resumo.')->group(function () {
+            Route::get('viewPdf/{id}', [ResumoController::class, 'viewPdf'])->name('viewPdf');
+            Route::get('download/{id}', [ResumoController::class, 'downloadPdf'])->name('download');
+        });
+
         Route::prefix('tcc')->name('tcc.')->group(function () {
             Route::get('viewPdf/{id}', [TccController::class, 'viewPdf'])->name('viewPdf');
             Route::get('download/{id}', [TccController::class, 'downloadPdf'])->name('download');
@@ -135,8 +137,16 @@ Route::middleware(['auth'])->group(function () {
             Route::get('download/{id}', [ProvaController::class, 'downloadPdf'])->name('download');
         });
 
-        // Email Routes
+        // Email routes
         Route::post('/send-email', [MailController::class, 'sendEmail'])->name('send.email');
         Route::post('/send-welcome-email/{user}', [MailController::class, 'sendWelcomeEmail'])->name('send.welcome');
+    });
+
+    // Profile routes
+    Route::controller(ProfileController::class)->prefix('profile')->name('profile.')->group(function () {
+        Route::get('/', 'edit')->name('edit');
+        Route::patch('/', 'update')->name('update');
+        Route::delete('/', 'destroy')->name('destroy');
+        Route::put('/password', 'updatePassword')->name('password.update');
     });
 });
