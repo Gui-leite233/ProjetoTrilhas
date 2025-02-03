@@ -66,6 +66,11 @@ Route::get('/unauthorized', function () {
     return view('unauthorized');
 })->name('unauthorized');
 
+// Add this new route before your other routes
+Route::get('/admin/register', function () {
+    return view('auth.register');
+})->name('admin.register')->middleware('can:viewAdminItems,App\Models\User');
+
 /*
 |--------------------------------------------------------------------------
 | Authentication Routes
@@ -95,8 +100,13 @@ Route::middleware('guest')->group(function () {
         Route::post('reset-password', 'store')->name('password.update');
     });
 
-    Route::get('register', [RegisteredUserController::class, 'create'])->name('register');
-    Route::post('register', [RegisteredUserController::class, 'store']);
+    Route::get('register', [RegisteredUserController::class, 'create'])
+        ->middleware(['guest'])
+        ->name('register');
+
+    Route::post('register', [RegisteredUserController::class, 'store'])
+        ->middleware(['guest'])
+        ->name('register');
 });
 
 /*
@@ -149,4 +159,13 @@ Route::middleware('auth')->group(function () {
         Route::delete('/', 'destroy')->name('destroy');
         Route::put('/password', 'updatePassword')->name('password.update');
     });
+
+    // Add new admin register routes
+    Route::get('admin/register', [RegisteredUserController::class, 'create'])
+        ->middleware(['auth'])
+        ->name('admin.register');
+
+    Route::post('admin/register', [RegisteredUserController::class, 'store'])
+        ->middleware(['auth'])
+        ->name('admin.register.store');
 });

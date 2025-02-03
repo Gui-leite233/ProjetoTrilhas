@@ -16,7 +16,12 @@ class MenuPolicy
 
     public function viewTccItems(User $user)
     {
-        return in_array($user->role_id, [1, 2]); // Admin and Coordenador only
+        return in_array($user->role_id, [1, 2]); // Admin and Coordenador can see TCC items
+    }
+
+    public function viewProvasItems(User $user)
+    {
+        return $user->role_id === 1; // Only Admin can see provas
     }
 
     public function viewResumoItems(User $user)

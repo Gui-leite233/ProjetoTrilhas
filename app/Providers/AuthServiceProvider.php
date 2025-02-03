@@ -13,7 +13,7 @@ use App\Policies\ResumoPolicy;
 class AuthServiceProvider extends ServiceProvider
 {
     protected $policies = [
-        User::class => UserPolicy::class,
+        User::class => MenuPolicy::class,
         Resumo::class => ResumoPolicy::class,
     ];
 
