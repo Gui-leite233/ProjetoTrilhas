@@ -151,7 +151,7 @@
 
     /* Gradient Background */
     .bg-gradient {
-        background: linear-gradient(45deg, #212529, #343a40);
+        background: linear-gradient(45deg, #198754, #28a745);
     }
 
     /* Feature Icon Styles */
@@ -180,7 +180,7 @@
 
     .feature-card:hover .feature-icon i {
         transform: scale(1.1);
-        color: #0d6efd;
+        color: #198754;
     }
 
     /* Content Animation */
@@ -194,7 +194,7 @@
     }
 
     .feature-card:hover .feature-content p {
-        color: #0d6efd !important;
+        color: #198754 !important;
     }
 
     /* Card Header Enhancement */

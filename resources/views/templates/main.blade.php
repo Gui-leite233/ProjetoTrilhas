@@ -13,8 +13,8 @@
     
     <style>
         :root {
-            --primary-color: #212529;
-            --secondary-color: #6c757d;
+            --primary-color: #198754;
+            --secondary-color: #28a745;
             --transition-speed: 0.3s;
         }
 
@@ -331,7 +331,7 @@
         .navbar {
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
-            background-color: rgba(33, 37, 41, 0.95) !important;
+            background-color: rgba(25, 135, 84, 0.95) !important;
             transition: all 0.3s ease;
         }
 
@@ -384,7 +384,7 @@
         /* Active state enhancement */
         .nav-link.active:after {
             width: 80%;
-            background-color: #0d6efd;
+            background-color: #198754;
         }
 
         /* Improved dropdown items */
@@ -394,7 +394,7 @@
         }
 
         .dropdown-item:hover {
-            background: rgba(13, 110, 253, 0.1);
+            background: rgba(25, 135, 84, 0.1);
             transform: translateX(8px);
         }
 
@@ -405,10 +405,10 @@
 
         .dropdown-item:hover svg {
             transform: scale(1.2) rotate(-10deg);
-            color: #0d6efd;
+            color: #198754;
         }
 
-        /* Navbar brand enhancement */
+        
         .navbar-brand {
             position: relative;
             overflow: hidden;

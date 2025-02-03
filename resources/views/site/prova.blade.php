@@ -30,10 +30,10 @@
                                 <div class="mt-auto">
 
                                     <div class="d-flex gap-2">
-                                        <a href="{{ route('prova.viewPdf', $item->id) }}" class="btn btn-primary" target="_blank">
+                                        <a href="{{ route('site.prova.viewPdf', $item->id) }}" class="btn btn-primary" target="_blank">
                                             <i class="bi bi-eye me-2"></i> Visualizar
                                         </a>
-                                        <a href="{{ route('prova.download', $item->id) }}" class="btn btn-primary">
+                                        <a href="{{ route('site.prova.downloadPdf', $item->id) }}" class="btn btn-primary">
                                             <i class="bi bi-download me-2"></i> Download
                                         </a>
                                     </div>

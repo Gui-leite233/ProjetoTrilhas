@@ -50,15 +50,15 @@ Route::prefix('site')->name('site.')->group(function () {
         Route::get('/resumo', 'getResumos')->name('resumo');
     });
 
-    // Add these new routes
-    Route::get('/tcc/view/{id}', [TccController::class, 'viewPdf'])->name('tcc.viewPdf');
-    Route::get('/tcc/download/{id}', [TccController::class, 'downloadPdf'])->name('tcc.downloadPdf');
-
-    Route::get('/resumo/view/{id}', [ResumoController::class, 'viewPdf'])->name('resumo.viewPdf');
-    Route::get('/resumo/download/{id}', [ResumoController::class, 'downloadPdf'])->name('resumo.downloadPdf');
-
+    // PDF view and download routes
     Route::get('/prova/view/{id}', [ProvaController::class, 'viewPdf'])->name('prova.viewPdf');
     Route::get('/prova/download/{id}', [ProvaController::class, 'downloadPdf'])->name('prova.downloadPdf');
+    
+    Route::get('/tcc/view/{id}', [TccController::class, 'viewPdf'])->name('tcc.viewPdf');
+    Route::get('/tcc/download/{id}', [TccController::class, 'downloadPdf'])->name('tcc.downloadPdf');
+    
+    Route::get('/resumo/view/{id}', [ResumoController::class, 'viewPdf'])->name('resumo.viewPdf');
+    Route::get('/resumo/download/{id}', [ResumoController::class, 'downloadPdf'])->name('resumo.downloadPdf');
 });
 
 // Add unauthorized route
@@ -121,7 +121,7 @@ Route::middleware('auth')->group(function () {
             'resumo' => ResumoController::class,
         ]);
 
-        // Additional resource routes
+        // Admin PDF routes
         Route::prefix('resumo')->name('resumo.')->group(function () {
             Route::get('viewPdf/{id}', [ResumoController::class, 'viewPdf'])->name('viewPdf');
             Route::get('download/{id}', [ResumoController::class, 'downloadPdf'])->name('download');
