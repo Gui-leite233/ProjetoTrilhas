@@ -10,7 +10,7 @@
     </section>
 
     <div class="form-card">
-        <form action="{{ route('admin.resumo.store') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('resumo.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="form-group">
                 <label>Título do Resumo</label>
@@ -64,7 +64,7 @@
             </div>
 
             <div class="form-actions">
-                <a href="{{ route('admin.resumo.index') }}" class="btn btn-secondary">
+                <a href="{{ route('resumo.index') }}" class="btn btn-secondary">
                     <i class="fas fa-arrow-left"></i> Voltar
                 </a>
                 <button type="submit" class="btn btn-primary">

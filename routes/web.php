@@ -70,7 +70,7 @@ Route::prefix('site')->name('site.')->group(function () {
 
     // PDF view and download routes
     Route::get('/prova/view/{id}', [ProvaController::class, 'viewPdf'])->name('prova.viewPdf');
-    Route::get('/prova/download/{id}', [ProvaController::class, 'downloadPdf'])->name('prova.downloadPdf');
+    Route::get('/prova/download/{id}', [ProvaController::class, 'downloadPdf'])->name('prova.download');
     
     Route::get('/tcc/view/{id}', [TccController::class, 'viewPdf'])->name('tcc.viewPdf');
     Route::get('/tcc/download/{id}', [TccController::class, 'downloadPdf'])->name('tcc.downloadPdf');
@@ -133,43 +133,9 @@ Route::middleware('guest')->group(function () {
 |--------------------------------------------------------------------------
 */
 
-Route::middleware('auth')->group(function () {
     // Dashboard and Profile routes
     Route::view('/dashboard', 'dashboard')->name('dashboard');
     
-    Route::prefix('admin')->name('admin.')->group(function () {
-        // Resources available to all authenticated users
-        Route::resources([
-            'tcc' => TccController::class,
-            'prova' => ProvaController::class,
-            'bolsa' => BolsaController::class,
-            'curso' => CursoController::class,
-            'aluno' => AlunoController::class,
-            'projeto' => ProjetoController::class,
-            'resumo' => ResumoController::class,
-        ]);
-
-        // Admin PDF routes
-        Route::prefix('resumo')->name('resumo.')->group(function () {
-            Route::get('viewPdf/{id}', [ResumoController::class, 'viewPdf'])->name('viewPdf');
-            Route::get('download/{id}', [ResumoController::class, 'downloadPdf'])->name('download');
-        });
-
-        Route::prefix('tcc')->name('tcc.')->group(function () {
-            Route::get('viewPdf/{id}', [TccController::class, 'viewPdf'])->name('viewPdf');
-            Route::get('download/{id}', [TccController::class, 'downloadPdf'])->name('download');
-        });
-
-        Route::prefix('prova')->name('prova.')->group(function () {
-            Route::get('viewPdf/{id}', [ProvaController::class, 'viewPdf'])->name('viewPdf');
-            Route::get('download/{id}', [ProvaController::class, 'downloadPdf'])->name('download');
-        });
-
-        // Email routes
-        Route::post('/send-email', [MailController::class, 'sendEmail'])->name('send.email');
-        Route::post('/send-welcome-email/{user}', [MailController::class, 'sendWelcomeEmail'])->name('send.welcome');
-    });
-
     // Profile routes
     Route::controller(ProfileController::class)->prefix('profile')->name('profile.')->group(function () {
         Route::get('/', 'edit')->name('edit');
@@ -178,12 +144,33 @@ Route::middleware('auth')->group(function () {
         Route::put('/password', 'updatePassword')->name('password.update');
     });
 
-    // Add new admin register routes
-    Route::get('admin/register', [RegisteredUserController::class, 'create'])
-        ->middleware(['auth'])
-        ->name('admin.register');
+    // Resources
+    Route::resources([
+        'tcc' => TccController::class,
+        'prova' => ProvaController::class,
+        'bolsa' => BolsaController::class,
+        'curso' => CursoController::class,
+        'aluno' => AlunoController::class,
+        'projeto' => ProjetoController::class,
+        'resumo' => ResumoController::class,
+    ]);
 
-    Route::post('admin/register', [RegisteredUserController::class, 'store'])
-        ->middleware(['auth'])
-        ->name('admin.register.store');
-});
+    // PDF routes
+    Route::prefix('resumo')->name('resumo.')->group(function () {
+        Route::get('viewPdf/{id}', [ResumoController::class, 'viewPdf'])->name('viewPdf');
+        Route::get('download/{id}', [ResumoController::class, 'downloadPdf'])->name('download');
+    });
+
+    Route::prefix('tcc')->name('tcc.')->group(function () {
+        Route::get('viewPdf/{id}', [TccController::class, 'viewPdf'])->name('viewPdf');
+        Route::get('download/{id}', [TccController::class, 'downloadPdf'])->name('download');
+    });
+
+    Route::prefix('prova')->name('prova.')->group(function () {
+        Route::get('viewPdf/{id}', [ProvaController::class, 'viewPdf'])->name('viewPdf');
+        Route::get('download/{id}', [ProvaController::class, 'downloadPdf'])->name('downloadPdf');
+    });
+
+    // Email routes
+    Route::post('/send-email', [MailController::class, 'sendEmail'])->name('send.email');
+    Route::post('/send-welcome-email/{user}', [MailController::class, 'sendWelcomeEmail'])->name('send.welcome');

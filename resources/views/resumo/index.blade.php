@@ -5,7 +5,7 @@
 @section('action_button')
     @auth
         @if(Auth::user()->role_id == 1 || Auth::user()->role_id == 2)
-            <a href="{{ route('admin.resumo.create') }}" class="add-button">
+            <a href="{{ route('resumo.create') }}" class="add-button">
                 <i class="fas fa-plus"></i> Novo Resumo
             </a>
         @endif
@@ -24,37 +24,49 @@
             <div class="card">
                 <i class="fas fa-book-open fa-3x"></i>
                 <div class="card-content">
-                    <h3>{{ $item->titulo }}</h3>
-                    <p>{{ Str::limit($item->descricao, 100) }}</p>
-                    @if ($item->documento)
-                        <div class="documento-badge">
-                            <i class="fas fa-file-pdf"></i> PDF Disponível
-                        </div>
-                    @endif
-                    <div class="card-actions">
-                        @if ($item->documento)
-                            <a href="{{ route('site.resumo.viewPdf', $item->id) }}" class="btn" target="_blank">
-                                <i class="fas fa-eye"></i>
-                            </a>
-                            <a href="{{ route('site.resumo.download', $item->id) }}" class="btn">
-                                <i class="fas fa-download"></i>
-                            </a>
-                        @endif
-                        
-                        @auth
-                            @if(Auth::user()->role_id == 1 || Auth::user()->role_id == 2)
-                                <a href="{{ route('admin.resumo.edit', $item->id) }}" class="btn btn-edit">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                <form action="{{ route('admin.resumo.destroy', $item->id) }}" method="POST" style="display: inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-delete" onclick="return confirm('Tem certeza que deseja excluir este resumo?')">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </form>
+                    <div class="content-main">
+                        <h3>{{ $item->titulo }}</h3>
+                        <p>{{ Str::limit($item->descricao, 100) }}</p>
+                    </div>
+
+                    <div class="content-footer">
+                        <div class="badges-row">
+                            @if ($item->documento)
+                                <div class="documento-badge">
+                                    <i class="fas fa-file-pdf"></i> PDF Disponível
+                                </div>
                             @endif
-                        @endauth
+                        </div>
+
+                        <div class="action-row">
+                            <div class="view-buttons">
+                                @if ($item->documento)
+                                    <a href="{{ route('site.resumo.viewPdf', $item->id) }}" class="btn" target="_blank">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a href="{{ route('site.resumo.download', $item->id) }}" class="btn">
+                                        <i class="fas fa-download"></i>
+                                    </a>
+                                @endif
+                            </div>
+                            
+                            @auth
+                                @if(Auth::user()->role_id == 1 || Auth::user()->role_id == 2)
+                                    <div class="admin-buttons">
+                                        <a href="{{ route('resumo.edit', $item->id) }}" class="btn btn-edit">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <form action="{{ route('resumo.destroy', $item->id) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-delete" onclick="return confirm('Tem certeza que deseja excluir este resumo?')">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                @endif
+                            @endauth
+                        </div>
                     </div>
                 </div>
             </div>
@@ -220,6 +232,38 @@
 
     .card-actions form {
         margin: 0;
+    }
+
+    .content-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 0;
+        border-top: 1px solid #eee;
+        gap: 15px;
+    }
+
+    .badges-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        min-width: fit-content;
+    }
+
+    .action-row {
+        display: flex;
+        gap: 12px;
+        margin-left: auto;
+    }
+
+    .view-buttons, .admin-buttons {
+        display: flex;
+        gap: 8px;
+    }
+
+    .admin-buttons {
+        border-left: 1px solid #eee;
+        padding-left: 12px;
     }
 </style>
 @endsection

@@ -66,7 +66,7 @@ class ProvaController extends Controller
         $pdf->render();
         $pdf->stream("relatorio-horas-turma.pdf", array("Attachment" => false));*/
 
-        return redirect()->route('admin.prova.index');
+        return redirect()->route('prova.index');
     }
     /**
      * Display the specified resource.
@@ -124,7 +124,7 @@ class ProvaController extends Controller
             $obj->save();
         }
 
-        return redirect()->route('admin.prova.index');
+        return redirect()->route('prova.index');
     }
 
 
@@ -141,7 +141,7 @@ class ProvaController extends Controller
 
         $obj->destroy($id);
 
-        return redirect()->route('admin.prova.index');
+        return redirect()->route('prova.index');
     }
 
     public function viewPdf($id)
@@ -149,13 +149,13 @@ class ProvaController extends Controller
         $prova = Prova::find($id);
 
         if (!$prova || !$prova->documento) {
-            return redirect()->route('admin.prova.index')->with('error', 'Prova ou documento não encontrado.');
+            return redirect()->route('prova.index')->with('error', 'Prova ou documento não encontrado.');
         }
 
         $filePath = storage_path('app/public/' . $prova->documento);
 
         if (!file_exists($filePath)) {
-            return redirect()->route('admin.prova.index')->with('error', 'Arquivo não encontrado.');
+            return redirect()->route('prova.index')->with('error', 'Arquivo não encontrado.');
         }
 
         return response()->file($filePath, [
@@ -169,13 +169,13 @@ class ProvaController extends Controller
         $prova = Prova::findOrFail($id);
 
         if (!$prova || !$prova->documento) {
-            return redirect()->route('admin.prova.index')
+            return redirect()->route('prova.index')
                 ->with('error', 'Prova ou documento não encontrado.');
         }
 
         if (!Storage::disk('public')->exists($prova->documento)) {
             Log::error('PDF file not found: ' . $prova->documento);
-            return redirect()->route('admin.prova.index')
+            return redirect()->route('prova.index')
                 ->with('error', 'Arquivo não encontrado.');
         }
 

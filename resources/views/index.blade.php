@@ -41,7 +41,7 @@
             <div class="card-content">
                 <h3>CURSOS</h3>
                 <p>Invista no seu futuro com nossos cursos técnicos. Adquira habilidades e aumente suas oportunidades de carreira!🚀📚</p>
-                <a href="{{ route('admin.curso.index') }}" class="btn">Saiba mais</a>
+                <a href="{{ route('curso.index') }}" class="btn">Saiba mais</a>
             </div>
         </div>
         <div class="card">
@@ -49,7 +49,7 @@
             <div class="card-content">
                 <h3>RESUMOS</h3>
                 <p>Publique seus resumos e ajude a comunidade a crescer. Vamos construir conhecimento juntos! 🌟📚</p>
-                <a href="{{ route('admin.resumo.index') }}" class="btn">Saiba mais</a>
+                <a href="{{ route('resumo.index') }}" class="btn">Saiba mais</a>
             </div>
         </div>
         <div class="card">
@@ -57,7 +57,7 @@
             <div class="card-content">
                 <h3>PROJETOS</h3>
                 <p>Participe de nossos projetos acadêmicos e fortaleça sua experiência prática e aprendizado colaborativo! 🚀📚</p>
-                <a href="{{ route('admin.projeto.index') }}" class="btn">Saiba mais</a>
+                <a href="{{ route('projeto.index') }}" class="btn">Saiba mais</a>
             </div>
         </div>
         <div class="card">
@@ -65,7 +65,7 @@
             <div class="card-content">
                 <h3>PROVAS</h3>
                 <p>Explore provas antigas e melhore sua preparação. Estude de maneira inteligente!📚📝</p>
-                <a href="{{ route('admin.prova.index') }}" class="btn">Saiba mais</a>
+                <a href="{{ route('prova.index') }}" class="btn">Saiba mais</a>
             </div>
         </div>
         <div class="card">
@@ -73,7 +73,7 @@
             <div class="card-content">
                 <h3>BOLSAS</h3>
                 <p>Aproveite nossas bolsas de estudo e impulsione seu futuro acadêmico. Garanta seu sucesso! 🌟🎓</p>
-                <a href="{{ route('admin.bolsa.index') }}" class="btn">Saiba mais</a>
+                <a href="{{ route('bolsa.index') }}" class="btn">Saiba mais</a>
             </div>
         </div>
         
@@ -82,7 +82,7 @@
             <div class="card-content">
                 <h3>TCC'S</h3>
                 <p>Explore os TCC's realizados e inspire-se para criar o seu próprio trabalho acadêmico! 🌟📚</p>
-                <a href="{{ route('admin.tcc.index') }}" class="btn">Saiba mais</a>
+                <a href="{{ route('tcc.index') }}" class="btn">Saiba mais</a>
             </div>
         </div>
     </div>

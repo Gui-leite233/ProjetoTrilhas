@@ -1,67 +1,63 @@
-@extends('templates.main', ['menu' => "admin", 'submenu' => "Projetos", 'rota' => "admin.projeto.create"])
+@extends('layouts.site')
 
-@section('titulo') Projetos @endsection
+@section('title', 'Projetos - Projeto Trilhas')
 
-@section('conteudo')
-<div class="container py-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="h4 mb-0">Projetos</h2>
-        <a href="{{ route('admin.projeto.create') }}" class="btn btn-dark">
-            <i class="bi bi-plus-circle me-2"></i>Novo Projeto
-        </a>
-    </div>
+@section('action_button')
+    @auth
+        @if(Auth::user()->role_id == 1 || Auth::user()->role_id == 2)
+            <a href="{{ route('admin.projeto.create') }}" class="add-button">
+                <i class="fas fa-plus"></i> Novo Projeto
+            </a>
+        @endif
+    @endauth
+@endsection
 
-    <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
+@section('content')
+<div class="container">
+    <section class="intro-section">
+        <h2>Projetos</h2>
+        <p>Conheça os projetos desenvolvidos em nossa instituição.</p>
+    </section>
+
+    <div class="card-container">
         @foreach ($data as $item)
-            <div class="col">
-                <div class="card h-100 border-0 shadow-sm hover-shadow">
-                    <div class="card-header bg-dark text-white py-3">
-                        <h5 class="card-title mb-0 text-truncate" title="{{ $item->titulo }}">{{ $item->titulo }}</h5>
-                    </div>
-                    <div class="card-body">
-                        @if($item->users->isNotEmpty())
-                            <div class="mb-3">
-                                <h6 class="text-muted mb-2">
-                                    <i class="bi bi-people-fill me-2"></i>Alunos
-                                </h6>
-                                <div class="d-flex flex-wrap gap-2">
-                                    @foreach($item->users as $user)
-                                        <div class="card bg-light border-0">
-                                            <div class="card-body p-2">
-                                                <small class="text-dark">
-                                                    <i class="bi bi-person me-1"></i>
-                                                    {{ $user->nome }}
-                                                    @if($user->curso)
-                                                        <span class="text-muted">
-                                                            ({{ $user->curso->nome }})
-                                                        </span>
-                                                    @endif
-                                                </small>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                </div>
-                            </div>
-                        @endif
-                        
-                        <p class="card-text" style="height: 4.5em; overflow: hidden;">
-                            {{ Str::limit($item->descricao, 120) }}
-                        </p>
-                    </div>
-                    <div class="card-footer bg-light border-0">
-                        <div class="d-flex justify-content-end gap-2">
-                            <a href="{{ route('admin.projeto.edit', $item->id) }}" class="btn btn-dark btn-sm">
-                                <i class="bi bi-pencil-square"></i>
-                            </a>
-                            <form action="{{ route('admin.projeto.destroy', $item->id) }}" method="POST" class="d-inline">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-outline-danger btn-sm"
-                                    onclick="return confirm('Tem certeza que deseja excluir este projeto?')">
-                                    <i class="bi bi-trash"></i>
-                                </button>
-                            </form>
+            <div class="card">
+                <i class="fas fa-project-diagram fa-3x"></i>
+                <div class="card-content">
+                    <h3>{{ $item->titulo }}</h3>
+                    <p>{{ Str::limit($item->descricao, 100) }}</p>
+                    
+                    @if($item->users->isNotEmpty())
+                        <div class="documento-badge participants-badge">
+                            <i class="fas fa-users"></i> {{ $item->users->count() }} participante(s)
                         </div>
+                    @endif
+                    @if($item->aluno)
+                        <div class="documento-badge aluno-badge">
+                            <i class="fas fa-user-graduate"></i> {{ $item->aluno->nome }}
+                        </div>
+                    @endif
+                    @if($item->curso)
+                        <div class="documento-badge curso-badge">
+                            <i class="fas fa-graduation-cap"></i> {{ $item->curso->nome }}
+                        </div>
+                    @endif
+
+                    <div class="card-actions">
+                        @auth
+                            @if(Auth::user()->role_id == 1 || Auth::user()->role_id == 2)
+                                <a href="{{ route('admin.projeto.edit', $item->id) }}" class="btn btn-edit">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <form action="{{ route('admin.projeto.destroy', $item->id) }}" method="POST" style="display: inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-delete" onclick="return confirm('Tem certeza que deseja excluir este projeto?')">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                            @endif
+                        @endauth
                     </div>
                 </div>
             </div>
@@ -69,101 +65,84 @@
     </div>
 
     @if($data->isEmpty())
-        <div class="text-center py-5">
-            <i class="bi bi-folder-x display-1 text-muted"></i>
-            <p class="h4 text-muted mt-3">Nenhum projeto encontrado</p>
-            <a href="{{ route('admin.projeto.create') }}" class="btn btn-dark mt-3">
-                <i class="bi bi-plus-circle me-2"></i>Criar Primeiro Projeto
-            </a>
+        <div class="empty-state">
+            <i class="fas fa-project-diagram fa-4x"></i>
+            <p>Nenhum projeto disponível no momento.</p>
         </div>
     @endif
 </div>
 @endsection
 
-@push('styles')
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    <style>
-        .hover-shadow {
-            transition: transform 0.2s;
-        }
+@section('additional_css')
+<style>
+    // ...existing card container and basic card styles...
 
-        .hover-shadow:hover {
-            transform: translateY(-5px);
-        }
+    .participants-badge {
+        background: linear-gradient(135deg, #4a90e2, #357abd);
+    }
 
-        /* Enhanced Card Styles */
-        .card {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            border-radius: 12px;
-            overflow: hidden;
-        }
+    .aluno-badge {
+        background: linear-gradient(135deg, #50a050, #408040);
+    }
 
-        .card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15) !important;
-        }
+    .curso-badge {
+        background: linear-gradient(135deg, #f39c12, #d35400);
+    }
 
-        .card-header {
-            border: none;
-            background: linear-gradient(45deg, #212529, #343a40);
-            padding: 1.2rem;
-        }
+    .documento-badge {
+        display: inline-block;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 5px;
+        margin: 5px 0;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
 
-        /* User List Styling */
-        .text-muted.small {
-            background: rgba(33, 37, 41, 0.03);
-            border-radius: 8px;
-            padding: 1rem;
-        }
+    .intro-section {
+        margin-bottom: 2rem;
+        text-align: center;
+        padding: 2rem 0;
+    }
 
-        .ms-4 {
-            position: relative;
-        }
+    .intro-section h2 {
+        font-size: 2.5rem;
+        color: #4a90e2;
+        margin-bottom: 1rem;
+    }
 
-        .ms-4::before {
-            content: '';
-            position: absolute;
-            left: -1rem;
-            top: 0;
-            height: 100%;
-            width: 2px;
-            background: linear-gradient(to bottom, #0d6efd, transparent);
-            border-radius: 2px;
-        }
+    .intro-section p {
+        color: #666;
+        font-size: 1.1rem;
+    }
 
-        /* Button Enhancements */
-        .btn {
-            transition: all 0.3s ease;
-            border-radius: 8px;
-            padding: 0.6rem 1rem;
-        }
+    .card-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 15px;
+    }
 
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        padding: 0.25rem 0.5rem;
+        font-size: 0.7rem;
+        border-radius: 4px;
+        color: white;
+        text-decoration: none;
+        transition: all 0.2s ease;
+    }
 
-        .btn-dark {
-            background: linear-gradient(45deg, #212529, #343a40);
-        }
+    .btn-edit {
+        background-color: #ffc107;
+    }
 
-        /* Empty State Animation */
-        @keyframes emptyStatePulse {
-            0% {
-                transform: scale(1);
-            }
+    .btn-delete {
+        background-color: #dc3545;
+        border: none;
+        cursor: pointer;
+    }
 
-            50% {
-                transform: scale(1.05);
-            }
-
-            100% {
-                transform: scale(1);
-            }
-        }
-
-        .text-center.py-5 .bi {
-            animation: emptyStatePulse 2s infinite;
-        }
-    </style>
-@endpush
+    // ...existing animation styles...
+</style>
+@endsection

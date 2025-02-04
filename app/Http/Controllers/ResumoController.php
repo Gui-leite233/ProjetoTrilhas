@@ -38,7 +38,8 @@ class ResumoController extends BaseController
         
         $userResumoCount = null;
         
-        if (auth()->user()->can('viewCount', Resumo::class)) {
+        // Check if user is authenticated before checking permissions
+        if (auth()->check() && auth()->user()->can('viewCount', Resumo::class)) {
             $userResumoCount = User::select('users.id', 'users.nome')
                 ->withCount(['resumos' => function($query) {
                     $query->whereNull('deleted_at');
@@ -104,7 +105,7 @@ class ResumoController extends BaseController
         
         $resumo->users()->sync($request->user_ids);
 
-        return redirect()->route('admin.resumo.index');
+        return redirect()->route('resumo.index');
     }
 
     /**
@@ -184,7 +185,7 @@ class ResumoController extends BaseController
             $obj->save();
         }
 
-        return redirect()->route('admin.resumo.index')
+        return redirect()->route('resumo.index')
             ->with('success', 'Resumo atualizado com sucesso!');
     }
 
@@ -193,13 +194,13 @@ class ResumoController extends BaseController
         $resumo = Resumo::findOrFail($id);
 
         if (!$resumo || !$resumo->documento) {
-            return redirect()->route('admin.resumo.index')
+            return redirect()->route('resumo.index')
                 ->with('error', 'resumo ou documento não encontrado.');
         }
 
         if (!Storage::disk('public')->exists($resumo->documento)) {
             Log::error('PDF file not found: ' . $resumo->documento);
-            return redirect()->route('admin.resumo.index')
+            return redirect()->route('resumo.index')
                 ->with('error', 'Arquivo não encontrado.');
         }
 
@@ -218,13 +219,13 @@ class ResumoController extends BaseController
         $resumo = Resumo::find($id);
 
         if (!$resumo || !$resumo->documento) {
-            return redirect()->route('admin.resumo.index')->with('error', 'Resumo ou documento não encontrado.');
+            return redirect()->route('resumo.index')->with('error', 'Resumo ou documento não encontrado.');
         }
 
         $filePath = storage_path('app/public/' . $resumo->documento);
 
         if (!file_exists($filePath)) {
-            return redirect()->route('admin.resumo.index')->with('error', 'Arquivo não encontrado.');
+            return redirect()->route('resumo.index')->with('error', 'Arquivo não encontrado.');
         }
 
         return response()->file($filePath, [
@@ -247,6 +248,6 @@ class ResumoController extends BaseController
 
         $obj->destroy($id);
 
-        return redirect()->route('admin.resumo.index');
+        return redirect()->route('resumo.index');
     }
 }
