@@ -70,7 +70,7 @@ class ResumoController extends BaseController
     public function store(Request $request)
     {
         $regras = [
-            'titulo' => 'required|max:255',
+            'titulo' => 'required|max:20',
             'descricao' => 'required',
             'user_ids' => 'required|array',
             'user_ids.*' => 'exists:users,id',

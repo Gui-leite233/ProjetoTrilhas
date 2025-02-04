@@ -205,7 +205,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
             <!-- Brand -->
-            <a class="navbar-brand" href="{{ route('index') }}">
+            <a class="navbar-brand" href="{{ route('home') }}">
                 <i class="bi bi-mortarboard-fill me-2"></i>
                 ProjetoTrilhas
             </a>

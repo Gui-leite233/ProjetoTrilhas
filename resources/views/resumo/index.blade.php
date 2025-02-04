@@ -1,104 +1,60 @@
-@extends('templates.main', ['menu' => "admin", 'submenu' => "Resumos"])
+@extends('layouts.site')
 
-@section('titulo') Resumos @endsection
+@section('title', 'Resumos - Projeto Trilhas')
 
-@section('conteudo')
-<div class="container py-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-            <h2 class="h4 mb-0">Resumos</h2>
-            @can('viewCount', App\Models\Resumo::class)
-                @if($userResumoCount && $userResumoCount->resumos_count > 0)
-                    <div class="mt-2">
-                        <span class="badge bg-primary">
-                            <i class="bi bi-file-text me-1"></i>
-                            Meus Resumos: {{ $userResumoCount->resumos_count }}
-                        </span>
-                    </div>
-                @endif
-            @endcan
-        </div>
-        <a href="{{ route('admin.resumo.create') }}" class="btn btn-dark">
-            <i class="bi bi-plus-circle me-2"></i>Novo Resumo
-        </a>
-    </div>
+@section('action_button')
+    @auth
+        @if(Auth::user()->role_id == 1 || Auth::user()->role_id == 2)
+            <a href="{{ route('admin.resumo.create') }}" class="add-button">
+                <i class="fas fa-plus"></i> Novo Resumo
+            </a>
+        @endif
+    @endauth
+@endsection
 
-    <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
+@section('content')
+<div class="container">
+    <section class="intro-section">
+        <h2>Resumos</h2>
+        <p>Explore os resumos compartilhados pela nossa comunidade acadêmica.</p>
+    </section>
+
+    <div class="card-container">
         @foreach ($data as $item)
-            <div class="col">
-                <div class="card h-100 border-0 shadow-sm hover-shadow {{ $item->users->contains(Auth::id()) ? 'border-primary border-2' : '' }}">
-                    <div class="card-header {{ $item->users->contains(Auth::id()) ? 'bg-primary text-white' : 'bg-dark text-white' }} py-3 d-flex justify-content-between align-items-center">
-                        <h5 class="card-title mb-0 text-truncate" title="{{ $item->titulo }}">{{ $item->titulo }}</h5>
-                        @if($item->users->contains(Auth::id()))
-                            <span class="badge bg-white text-primary">Meu Resumo</span>
-                        @endif
-                    </div>
-                    <div class="card-body d-flex flex-column">
-                        @if($item->users->isNotEmpty())
-                            <div class="mb-3">
-                                <h6 class="text-muted mb-2">
-                                    <i class="bi bi-people-fill me-2"></i>Alunos
-                                </h6>
-                                <div class="d-flex flex-wrap gap-2">
-                                    @foreach($item->users as $user)
-                                        <div class="card bg-light border-0">
-                                            <div class="card-body p-2">
-                                                <small class="text-dark">
-                                                    <i class="bi bi-person me-1"></i>
-                                                    {{ $user->nome }}
-                                                    @if($user->curso)
-                                                        <span class="text-muted">
-                                                            ({{ $user->curso->nome }})
-                                                        </span>
-                                                    @endif
-                                                </small>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                </div>
-                            </div>
+            <div class="card">
+                <i class="fas fa-book-open fa-3x"></i>
+                <div class="card-content">
+                    <h3>{{ $item->titulo }}</h3>
+                    <p>{{ Str::limit($item->descricao, 100) }}</p>
+                    @if ($item->documento)
+                        <div class="documento-badge">
+                            <i class="fas fa-file-pdf"></i> PDF Disponível
+                        </div>
+                    @endif
+                    <div class="card-actions">
+                        @if ($item->documento)
+                            <a href="{{ route('site.resumo.viewPdf', $item->id) }}" class="btn" target="_blank">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                            <a href="{{ route('site.resumo.download', $item->id) }}" class="btn">
+                                <i class="fas fa-download"></i>
+                            </a>
                         @endif
                         
-                        <div class="flex-grow-1">
-                            <p class="card-text" style="height: 4.5em; overflow: hidden;">
-                                {{ Str::limit($item->descricao, 120) }}
-                            </p>
-                        </div>
-                        
-                        <div class="mt-auto">
-                            @if ($item->documento)
-                                <span class="badge bg-success">
-                                    <i class="bi bi-file-pdf me-1"></i>
-                                    PDF Disponível
-                                </span>
-                            @endif
-                        </div>
-                    </div>
-                    <div class="card-footer bg-light border-0">
-                        <div class="d-flex justify-content-end gap-2">
-                            @if ($item->documento)
-                                <a href="{{ route('admin.resumo.viewPdf', $item->id) }}" class="btn btn-dark btn-sm" target="_blank">
-                                    <i class="bi bi-eye"></i>
+                        @auth
+                            @if(Auth::user()->role_id == 1 || Auth::user()->role_id == 2)
+                                <a href="{{ route('admin.resumo.edit', $item->id) }}" class="btn btn-edit">
+                                    <i class="fas fa-edit"></i>
                                 </a>
-                                <a href="{{ route('admin.resumo.download', $item->id) }}" class="btn btn-dark btn-sm">
-                                    <i class="bi bi-download"></i>
-                                </a>
-                            @endif
-                            
-                            @can('manage', $item)
-                                <a href="{{ route('admin.resumo.edit', $item->id) }}" class="btn btn-dark btn-sm">
-                                    <i class="bi bi-pencil-square"></i>
-                                </a>
-                                <form action="{{ route('admin.resumo.destroy', $item->id) }}" method="POST" class="d-inline">
+                                <form action="{{ route('admin.resumo.destroy', $item->id) }}" method="POST" style="display: inline;">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-outline-danger btn-sm" 
-                                        onclick="return confirm('Tem certeza que deseja excluir este resumo?')">
-                                        <i class="bi bi-trash"></i>
+                                    <button type="submit" class="btn btn-delete" onclick="return confirm('Tem certeza que deseja excluir este resumo?')">
+                                        <i class="fas fa-trash"></i>
                                     </button>
                                 </form>
-                            @endcan
-                        </div>
+                            @endif
+                        @endauth
                     </div>
                 </div>
             </div>
@@ -106,97 +62,164 @@
     </div>
 
     @if($data->isEmpty())
-        <div class="text-center py-5">
-            <i class="bi bi-folder-x display-1 text-muted"></i>
-            <p class="h4 text-muted mt-3">Nenhum Resumo encontrado</p>
-            <a href="{{ route('admin.resumo.create') }}" class="btn btn-dark mt-3">
-                <i class="bi bi-plus-circle me-2"></i>Criar Primeiro Resumo
-            </a>
+        <div class="empty-state">
+            <i class="fas fa-book-open fa-4x"></i>
+            <p>Nenhum resumo disponível no momento.</p>
         </div>
     @endif
 </div>
+@endsection
 
-@push('styles')
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    <style>
-        .hover-shadow {
-            transition: transform 0.2s;
-        }
+@section('additional_css')
+<style>
+    .card {
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
 
-        .hover-shadow:hover {
-            transform: translateY(-5px);
-        }
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    }
 
-        /* Enhanced Card Styles */
-        .card {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            border-radius: 12px;
-            overflow: hidden;
-        }
+    .btn {
+        transform: scale(1);
+        transition: all 0.2s ease;
+    }
 
-        .card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15) !important;
-        }
+    .btn:hover {
+        transform: scale(1.05);
+    }
 
-        .card-header {
-            border: none;
-            background: linear-gradient(45deg, #212529, #343a40);
-            padding: 1.2rem;
-        }
+    .documento-badge {
+        background: linear-gradient(135deg, #50a050, #408040);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
 
-        /* Button Enhancements */
-        .btn {
-            transition: all 0.3s ease;
-            border-radius: 8px;
-            padding: 0.6rem 1rem;
-        }
+    .card-container {
+        gap: 1.5rem;
+        padding: 1rem 0;
+    }
 
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
+    .intro-section {
+        margin-bottom: 2rem;
+        text-align: center;
+        padding: 2rem 0;
+    }
 
-        .btn-dark {
-            background: linear-gradient(45deg, #212529, #343a40);
-        }
+    .intro-section h2 {
+        font-size: 2.5rem;
+        color:rgb(24, 188, 90);
+        margin-bottom: 1rem;
+    }
 
-        /* Empty State Animation */
-        @keyframes emptyStatePulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
+    .intro-section p {
+        color: #666;
+        font-size: 1.1rem;
+    }
 
-        .text-center.py-5 .bi {
-            animation: emptyStatePulse 2s infinite;
-        }
+    .empty-state {
+        animation: fadeIn 0.5s ease;
+    }
 
-        /* Enhance the owner indicator styles */
-        .card.border-primary {
-            position: relative;
-            overflow: hidden;
-        }
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
 
-        .card.border-primary::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, #0d6efd, #0dcaf0);
-        }
+    .documento-badge {
+        display: inline-block;
+        background-color: #50a050;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 5px;
+        margin: 10px 0;
+    }
 
-        .badge {
-            font-size: 0.75rem;
-            padding: 0.35em 0.65em;
-            transition: all 0.3s ease;
-        }
+    .card-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 15px;
+    }
 
-        .card:hover .badge {
-            transform: scale(1.05);
-        }
-    </style>
-@endpush
+    .empty-state {
+        text-align: center;
+        padding: 50px 0;
+        color: #666;
+    }
+
+    .empty-state i {
+        margin-bottom: 20px;
+        color: #50a050;
+    }
+
+    .btn-edit, .btn-delete {
+        padding: 0.15rem 0.3rem !important;
+        font-size: 0.65rem !important;
+    }
+
+    .btn-edit {
+        background-color: #ffc107;
+    }
+
+    .btn-delete {
+        background-color: #dc3545;
+        border: none;
+        cursor: pointer;
+    }
+
+    .btn-edit:hover {
+        background-color: #e0a800;
+    }
+
+    .btn-delete:hover {
+        background-color: #c82333;
+    }
+
+    .card-actions {
+        gap: 0.2rem;
+    }
+
+    .btn-actions {
+        display: flex;
+        gap: 0.3rem;
+        margin-top: auto;
+    }
+
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        padding: 0.25rem 0.5rem;
+        font-size: 0.7rem;
+        border-radius: 4px;
+        color: white;
+        text-decoration: none;
+        transition: all 0.2s ease;
+    }
+
+    .btn-primary {
+        background-color: #50a050;
+    }
+
+    .btn-edit {
+        background-color: #ffc107;
+        padding: 0.25rem 0.5rem;
+        font-size: 0.7rem;
+    }
+
+    .btn-delete {
+        background-color: #dc3545;
+        padding: 0.25rem 0.5rem;
+        font-size: 0.7rem;
+    }
+
+    .card-actions {
+        padding: 0.5rem;
+        gap: 0.3rem;
+    }
+
+    .card-actions form {
+        margin: 0;
+    }
+</style>
 @endsection

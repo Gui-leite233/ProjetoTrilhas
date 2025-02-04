@@ -1,0 +1,477 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.6;
+    background-color: #333; /* Cor escura no body */
+    color: #e0e0e0; /* Cor clara para o texto */
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #50a050;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px 20px;
+    background-color: #333; /* Fundo escuro */
+}
+
+#title {
+    display: flex;
+    align-items: center;
+}
+
+#title img {
+    height: 50px;
+    margin-right: 10px;
+}
+
+#title h1 {
+    margin: 0;
+    font-size: 1.8em;
+    color: #50a050; /* Texto em verde */
+}
+
+header ul {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+header ul a {
+    color: #e0e0e0;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+header ul a:hover {
+    color: #fff;
+    background-color: #50a050;
+}
+
+.video-container {
+    text-align: center;
+    padding: 20px 0;
+    background-color: #444; /* Fundo escuro */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 40px;
+}
+
+video {
+    max-width: 80%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.video-caption {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 1.2em;
+    color: #e0e0e0; /* Texto claro */
+    font-style: italic;
+}
+
+.intro-section {
+    text-align: center;
+    padding: 20px;
+    background-color: #333; /* Fundo escuro */
+    margin-bottom: 20px;
+}
+
+.intro-section h2 {
+    font-size: 2em;
+    margin-bottom: 10px;
+    color: #50a050; /* Texto em verde */
+}
+
+.intro-section p {
+    font-size: 1.2em;
+    color: #e0e0e0; /* Texto claro */
+    margin-top: 0;
+}
+
+.card-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 0.8rem;
+    max-width: 1200px;
+    margin: 1rem auto;
+    padding: 0 1rem;
+}
+
+.card {
+    position: relative;
+    background-color: #444;
+    border-radius: 6px;
+    padding: 0.8rem;
+    padding-bottom: 3rem;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    min-height: 180px;
+    overflow: visible;
+}
+
+.card-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.card-info {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+    flex: 1 1 auto;
+    padding-bottom: 0.5rem;
+}
+
+.card-badges {
+    margin: 0.25rem 0;
+    margin-top: auto;
+    padding: 0.25rem 0;
+    margin-bottom: 0.5rem;
+}
+
+.card-actions {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 0.4rem;
+    background-color: #444;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0 0 6px 6px;
+    display: flex;
+    gap: 0.2rem;
+    justify-content: center;
+    z-index: 10;
+}
+
+.card i {
+    color: #50a050;
+    margin-bottom: 0.5rem;
+    font-size: 1.5rem;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.card-content h3 {
+    color: #e0e0e0;
+    font-size: 0.9rem;
+    margin-bottom: 0.4rem;
+    font-weight: 600;
+}
+
+.card-content p {
+    color: #bbb;
+    font-size: 0.75rem;
+    line-height: 1.3;
+    margin-bottom: 0.5rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.card-content .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2rem;
+    background-color: #50a050;
+    color: white;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    border: none;
+    font-weight: 500;
+    font-size: 0.65rem;
+    line-height: 1;
+    white-space: nowrap;
+    min-width: fit-content;
+}
+
+.card-content .btn i {
+    font-size: 0.65rem;
+    color: white;
+    margin: 0;
+}
+
+.card-content .btn:hover {
+    background-color: #408040;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.documento-badge, .curso-badge, .status-badge, .participantes-badge {
+    position: absolute;
+    bottom: 2.8rem;
+    right: 0.5rem;
+    width: auto;
+    padding: 0.2rem;
+    font-size: 0.7rem;
+    color: #50a050;
+    border: none;
+    margin: 0;
+    z-index: 1;
+    background: none;
+    transform: none;
+    left: auto;
+    z-index: 5;
+}
+
+.documento-badge i, .curso-badge i, .status-badge i, .participantes-badge i {
+    margin: 0;
+    font-size: 1rem;
+}
+
+.documento-badge i {
+    font-size: 0.9rem;
+    color: #50a050;
+    margin: 0;
+}
+
+/* Hide badge text but keep for accessibility */
+.documento-badge span {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+footer {
+    background-color: #222; /* Cor escura para o footer */
+    padding: 40px 0; /* Aumenta o padding do footer */
+    color: #e0e0e0;
+    width: 100%;
+    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
+    font-size: 18px; /* Aumenta o tamanho da fonte do footer */
+    box-sizing: border-box; /* Inclui padding e border na largura total */
+}
+
+.footer-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: nowrap;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+    text-align: center;
+    box-sizing: border-box; /* Inclui padding e border na largura total */
+}
+
+.footer-section {
+    flex: 1;
+    margin: 5px 0; /* Reduz o espaçamento entre as seções */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centraliza os itens dentro das seções */
+}
+
+.footer-section h4 {
+    font-size: 18px;
+    margin-bottom: 5px; /* Reduz o espaçamento inferior */
+    color: #50a050;
+    text-align: center; /* Centraliza o texto */
+}
+
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0; /* Remover qualquer margem */
+}
+
+.footer-section ul li {
+    margin-bottom: 2px; /* Reduz o espaçamento entre os itens da lista */
+    position: relative; /* Para usar o top */
+}
+
+.footer-section ul li a {
+    color: #e0e0e0; /* Cor clara para os links do footer */
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-section ul li a:hover {
+    color: #50a050;
+}
+
+.footer-section p {
+    margin: 0.5em 0;
+    text-align: center; /* Centraliza os parágrafos do footer */
+    line-height: 1.6; /* Ajusta o espaçamento entre linhas */
+    font-family: 'Arial', sans-serif; /* Mantém a fonte do body */
+    color: #e0e0e0; /* Cor clara para o texto do footer */
+}
+
+.social-links {
+    margin-top: 30px; /* Aumenta a margem superior para posicionar corretamente */
+    display: flex;
+    flex-direction: column; /* Alinha os links um embaixo do outro */
+    justify-content: center;
+    gap: 2px; /* Reduz o espaçamento entre os itens */
+}
+
+.social-links li {
+    margin-right: 0; /* Remove qualquer margem à direita */
+}
+
+.social-links li a {
+    color: #e0e0e0; /* Cor clara para os links das redes sociais */
+    transition: color 0.3s;
+    text-decoration: none; /* Remove a sublinha dos links */
+    padding: 5px 10px; /* Adiciona padding para melhorar o clique */
+    border-radius: 5px; /* Adiciona borda arredondada */
+}
+
+.social-links li a:hover {
+    color: #50a050;
+    background-color: #f0f8ff; /* Adiciona cor de fundo no hover */
+}
+
+.footer-section form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.footer-section form input {
+    padding: 10px;
+    margin-bottom: 5px; /* Reduz o espaçamento entre os inputs */
+    border-radius: 5px;
+    border: none;
+    width: 100%;
+    max-width: 300px;
+    background-color: #444; /* Fundo escuro */
+    color: #e0e0e0; /* Texto claro */
+}
+
+.footer-section form button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #50a050;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 100%; /* Ajusta a largura do botão */
+    max-width: 300px; /* Define um tamanho máximo para o botão */
+    margin-top: 10px; /* Adiciona espaçamento acima do botão */
+}
+
+.footer-section form button:hover {
+    background-color: #66bb66;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding: 10px 0; /* Aumenta o padding no footer-bottom */
+    background-color: #333;
+    border-top: 2px solid #50a050;
+    width: 100%; /* Garante que o footer-bottom ocupe toda a largura */
+    box-sizing: border-box; /* Inclui padding e border na largura total */
+}
+
+.action-button-container {
+    display: flex;
+    justify-content: flex-end;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.add-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #50a050;
+    color: white;
+    padding: 0.35rem 0.75rem;
+    font-size: 0.8rem;
+    border-radius: 15px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.add-button:hover {
+    background-color: #408040;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    color: white;
+    text-decoration: none;
+}
+
+.add-button i {
+    font-size: 1.1em;
+}
+
+/* Main index card styles */
+.index-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.index-cards .card {
+    padding: 1.5rem;
+    min-height: 300px;
+}
+
+.index-cards .card i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.index-cards .card-content h3 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.index-cards .card-content p {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+}
+
+.index-cards .card-content .btn {
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+    border-radius: 25px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .card-container {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    }
+}

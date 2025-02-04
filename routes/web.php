@@ -34,9 +34,27 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 |--------------------------------------------------------------------------
 */
 
+Route::get('/test', function () {
+    return view('/sobre/index');
+})->name('sobre');
+
 Route::get('/', function () {
     return view('index');
-})->name('index');
+})->name('home');
+
+Route::get('/sobre', function() {
+    return view('sobre.index');
+})->name('sobre.index');
+
+// Comment out or remove these since they're not currently implemented
+// Route::get('/contato', 'ContatoController@index')->name('contato.index');
+// Route::get('/cursos', 'CursosController@index')->name('cursos.index');
+Route::get('/resumos', 'ResumosController@index')->name('resumos.index');
+Route::get('/projetos', 'ProjetosController@index')->name('projetos.index');
+Route::get('/provas', 'ProvasController@index')->name('provas.index');
+Route::get('/bolsas', 'BolsasController@index')->name('bolsas.index');
+Route::get('/semanas', 'SemanasController@index')->name('semanas.index');
+Route::get('/tccs', 'TccsController@index')->name('tccs.index');
 
 // Site routes - publicly accessible
 Route::prefix('site')->name('site.')->group(function () {
@@ -58,7 +76,7 @@ Route::prefix('site')->name('site.')->group(function () {
     Route::get('/tcc/download/{id}', [TccController::class, 'downloadPdf'])->name('tcc.downloadPdf');
     
     Route::get('/resumo/view/{id}', [ResumoController::class, 'viewPdf'])->name('resumo.viewPdf');
-    Route::get('/resumo/download/{id}', [ResumoController::class, 'downloadPdf'])->name('resumo.downloadPdf');
+    Route::get('/resumo/download/{id}', [ResumoController::class, 'downloadPdf'])->name('resumo.download');
 });
 
 // Add unauthorized route

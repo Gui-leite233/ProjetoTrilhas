@@ -1,84 +1,41 @@
-@extends('templates.main', ['menu' => "admin", 'submenu' => "TCCs", 'rota' => "admin.tcc.create"])
+@extends('layouts.site')
 
-@section('titulo') TCCs @endsection
+@section('title', 'TCCs - Projeto Trilhas')
 
-@section('conteudo')
-<div class="container py-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="h4 mb-0">TCCs</h2>
-        <a href="{{ route('admin.tcc.create') }}" class="btn btn-dark">
-            <i class="bi bi-plus-circle me-2"></i>Novo TCC
-        </a>
-    </div>
+@section('action_button')
+    <a href="{{ route('admin.tcc.create') }}" class="add-button">
+        <i class="fas fa-plus"></i> Novo TCC
+    </a>
+@endsection
 
-    <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
+@section('content')
+<div class="container">
+    <section class="intro-section">
+        <h2>Trabalhos de Conclusão de Curso</h2>
+        <p>Explore os TCCs desenvolvidos pelos alunos do IFPR Campus Paranaguá.</p>
+    </section>
+
+    <div class="card-container">
         @foreach ($tcc as $item)
-            <div class="col">
-                <div class="card h-100 border-0 shadow-sm hover-shadow">
-                    <div class="card-header bg-dark text-white py-3">
-                        <h5 class="card-title mb-0 text-truncate" title="{{ $item->titulo }}">{{ $item->titulo }}</h5>
-                    </div>
-                    <div class="card-body">
-                        @if($item->users->isNotEmpty())
-                            <div class="mb-3">
-                                <h6 class="text-muted mb-2">
-                                    <i class="bi bi-people-fill me-2"></i>Alunos
-                                </h6>
-                                <div class="d-flex flex-wrap gap-2">
-                                    @foreach($item->users as $user)
-                                        <div class="card bg-light border-0">
-                                            <div class="card-body p-2">
-                                                <small class="text-dark">
-                                                    <i class="bi bi-person me-1"></i>
-                                                    {{ $user->nome }}
-                                                    @if($user->curso)
-                                                        <span class="text-muted">
-                                                            ({{ $user->curso->nome }})
-                                                        </span>
-                                                    @endif
-                                                </small>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                </div>
-                            </div>
-                        @endif
-                        
-                        <p class="card-text" style="height: 4.5em; overflow: hidden;">
-                            {{ Str::limit($item->descricao, 120) }}
-                        </p>
-                        
-                        @if ($item->documento)
-                            <div class="mt-3">
-                                <span class="badge bg-success">
-                                    <i class="bi bi-file-pdf me-1"></i>
-                                    PDF Disponível
-                                </span>
-                            </div>
-                        @endif
-                    </div>
-                    <div class="card-footer bg-light border-0">
-                        <div class="d-flex justify-content-end gap-2">
-                            @if ($item->documento)
-                                <a href="{{ route('admin.tcc.viewPdf', $item->id) }}" class="btn btn-dark btn-sm" target="_blank">
-                                    <i class="bi bi-eye"></i>
-                                </a>
-                                <a href="{{ route('admin.tcc.download', $item->id) }}" class="btn btn-dark btn-sm">
-                                    <i class="bi bi-download"></i>
-                                </a>
-                            @endif
-                            <a href="{{ route('admin.tcc.edit', $item->id) }}" class="btn btn-dark btn-sm">
-                                <i class="bi bi-pencil-square"></i>
-                            </a>
-                            <form action="{{ route('admin.tcc.destroy', $item->id) }}" method="POST" class="d-inline">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-outline-danger btn-sm" 
-                                    onclick="return confirm('Tem certeza que deseja excluir este TCC?')">
-                                    <i class="bi bi-trash"></i>
-                                </button>
-                            </form>
+            <div class="card">
+                <i class="fas fa-file-signature fa-3x"></i>
+                <div class="card-content">
+                    <h3>{{ $item->titulo }}</h3>
+                    <p>{{ Str::limit($item->descricao, 100) }}</p>
+                    @if ($item->documento)
+                        <div class="documento-badge">
+                            <i class="fas fa-file-pdf"></i> PDF Disponível
                         </div>
+                    @endif
+                    <div class="card-actions">
+                        @if ($item->documento)
+                            <a href="{{ route('site.tcc.viewPdf', $item->id) }}" class="btn" target="_blank">
+                                <i class="fas fa-eye"></i> Visualizar
+                            </a>
+                            <a href="{{ route('site.tcc.download', $item->id) }}" class="btn">
+                                <i class="fas fa-download"></i> Download
+                            </a>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -86,71 +43,16 @@
     </div>
 
     @if($tcc->isEmpty())
-        <div class="text-center py-5">
-            <i class="bi bi-folder-x display-1 text-muted"></i>
-            <p class="h4 text-muted mt-3">Nenhum TCC encontrado</p>
-            <a href="{{ route('admin.tcc.create') }}" class="btn btn-dark mt-3">
-                <i class="bi bi-plus-circle me-2"></i>Criar Primeiro TCC
-            </a>
+        <div class="empty-state">
+            <i class="fas fa-file-signature fa-4x"></i>
+            <p>Nenhum TCC disponível no momento.</p>
         </div>
     @endif
 </div>
 @endsection
 
-@push('styles')
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    <style>
-        .hover-shadow {
-            transition: transform 0.2s;
-        }
-
-        .hover-shadow:hover {
-            transform: translateY(-5px);
-        }
-
-        /* Enhanced Card Styles */
-        .card {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            border-radius: 12px;
-            overflow: hidden;
-        }
-
-        .card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15) !important;
-        }
-
-        .card-header {
-            border: none;
-            background: linear-gradient(45deg, #212529, #343a40);
-            padding: 1.2rem;
-        }
-
-        /* Button Enhancements */
-        .btn {
-            transition: all 0.3s ease;
-            border-radius: 8px;
-            padding: 0.6rem 1rem;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .btn-dark {
-            background: linear-gradient(45deg, #212529, #343a40);
-        }
-
-        /* Empty State Animation */
-        @keyframes emptyStatePulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-
-        .text-center.py-5 .bi {
-            animation: emptyStatePulse 2s infinite;
-        }
-    </style>
-@endpush
+@section('additional_css')
+<style>
+    // ...existing style from resumo/index.blade.php...
+</style>
+@endsection

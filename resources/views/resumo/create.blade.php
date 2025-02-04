@@ -1,89 +1,216 @@
-@extends('templates.main', ['menu' => "admin", 'submenu' => "Novo Resumo"])
+@extends('layouts.site')
 
-@section('titulo') Novo Resumo @endsection
+@section('title', 'Novo Resumo - Projeto Trilhas')
 
-@section('conteudo')
-<div class="container py-4">
-    <div class="row">
-        <div class="col-md-8 mx-auto">
-            <div class="card border-0 shadow-sm">
-                <div class="card-header bg-dark text-white">
-                    <h4 class="card-title mb-0 d-flex align-items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-file-text me-2" viewBox="0 0 16 16">
-                            <path d="M5 4a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1H5zm-.5 2.5A.5.5 0 0 1 5 6h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5zM5 8a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1H5zm0 2a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1H5z"/>
-                            <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm10-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1z"/>
-                        </svg>
-                        Novo Resumo
-                    </h4>
-                </div>
-                <div class="card-body p-4">
-                    <form action="{{ route('admin.resumo.store') }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        <div class="mb-4">
-                            <label class="form-label text-muted small fw-bold">TÍTULO DO RESUMO</label>
-                            <input type="text" class="form-control form-control-lg @if($errors->has('titulo')) is-invalid @endif" 
-                                name="titulo" value="{{ old('titulo') }}" required>
-                            @if($errors->has('titulo'))
-                                <div class="invalid-feedback">{{ $errors->first('titulo') }}</div>
-                            @endif
-                        </div>
+@section('content')
+<div class="container">
+    <section class="intro-section">
+        <h2>Novo Resumo</h2>
+        <p>Crie um novo resumo para compartilhar com a comunidade.</p>
+    </section>
 
-                        <div class="mb-4">
-                            <label class="form-label text-muted small fw-bold">DESCRIÇÃO</label>
-                            <textarea class="form-control @if($errors->has('descricao')) is-invalid @endif"
-                                name="descricao" rows="4" required>{{ old('descricao') }}</textarea>
-                            @if($errors->has('descricao'))
-                                <div class="invalid-feedback">{{ $errors->first('descricao') }}</div>
-                            @endif
-                        </div>
-
-                        <div class="mb-4">
-                            <label class="form-label text-muted small fw-bold">PARTICIPANTES</label>
-                            <select name="user_ids[]" class="form-select @if($errors->has('user_ids')) is-invalid @endif" 
-                                multiple required>
-                                @foreach($users as $user)
-                                    <option value="{{ $user->id }}">
-                                        {{ $user->nome }}
-                                        @if($user->curso)
-                                            ({{ $user->curso->nome }})
-                                        @else
-                                            (Sem curso)
-                                        @endif
-                                    </option>
-                                @endforeach
-                            </select>
-                            <div class="form-text">
-                                <i class="bi bi-info-circle me-1"></i>
-                                Pressione CTRL para selecionar múltiplos participantes
-                            </div>
-                            @if($errors->has('user_ids'))
-                                <div class="invalid-feedback">{{ $errors->first('user_ids') }}</div>
-                            @endif
-                        </div>
-
-                        <div class="mb-4">
-                            <label class="form-label text-muted small fw-bold">DOCUMENTO PDF</label>
-                            <input type="file" class="form-control @if($errors->has('documento')) is-invalid @endif" 
-                                name="documento" accept=".pdf" required>
-                            @if($errors->has('documento'))
-                                <div class="invalid-feedback">{{ $errors->first('documento') }}</div>
-                            @endif
-                        </div>
-
-                        <div class="d-flex justify-content-between">
-                            <a href="{{ route('admin.resumo.index') }}" class="btn btn-secondary px-4">
-                                <i class="bi bi-arrow-left-short"></i>
-                                Voltar
-                            </a>
-                            <button type="submit" class="btn btn-success px-4">
-                                Salvar
-                                <i class="bi bi-check-lg ms-2"></i>
-                            </button>
-                        </div>
-                    </form>
-                </div>
+    <div class="form-card">
+        <form action="{{ route('admin.resumo.store') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            <div class="form-group">
+                <label>Título do Resumo</label>
+                <input type="text" class="form-input @if($errors->has('titulo')) is-invalid @endif" 
+                    name="titulo" value="{{ old('titulo') }}" required>
+                @if($errors->has('titulo'))
+                    <div class="error-message">{{ $errors->first('titulo') }}</div>
+                @endif
             </div>
-        </div>
+
+            <div class="form-group">
+                <label>Descrição</label>
+                <textarea class="form-input @if($errors->has('descricao')) is-invalid @endif"
+                    name="descricao" rows="4" required>{{ old('descricao') }}</textarea>
+                @if($errors->has('descricao'))
+                    <div class="error-message">{{ $errors->first('descricao') }}</div>
+                @endif
+            </div>
+
+            <div class="form-group">
+                <label>Participantes</label>
+                <select name="user_ids[]" class="form-input @if($errors->has('user_ids')) is-invalid @endif" 
+                    multiple required>
+                    @foreach($users as $user)
+                        <option value="{{ $user->id }}">
+                            {{ $user->nome }}
+                            @if($user->curso)
+                                ({{ $user->curso->nome }})
+                            @else
+                                (Sem curso)
+                            @endif
+                        </option>
+                    @endforeach
+                </select>
+                <small class="form-hint">
+                    <i class="fas fa-info-circle"></i>
+                    Pressione CTRL para selecionar múltiplos participantes
+                </small>
+                @if($errors->has('user_ids'))
+                    <div class="error-message">{{ $errors->first('user_ids') }}</div>
+                @endif
+            </div>
+
+            <div class="form-group">
+                <label>Documento PDF</label>
+                <input type="file" class="form-input @if($errors->has('documento')) is-invalid @endif" 
+                    name="documento" accept=".pdf" required>
+                @if($errors->has('documento'))
+                    <div class="error-message">{{ $errors->first('documento') }}</div>
+                @endif
+            </div>
+
+            <div class="form-actions">
+                <a href="{{ route('admin.resumo.index') }}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Voltar
+                </a>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-check"></i> Salvar
+                </button>
+            </div>
+        </form>
     </div>
 </div>
+@endsection
+
+@section('additional_css')
+<style>
+    .form-card {
+        background: white;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgb(0, 255, 60);
+        margin-bottom: 2rem;
+        animation: slideIn 0.3s ease;
+        max-width: 800px;
+        margin: 0 auto 2rem;
+    }
+
+    @keyframes slideIn {
+        from { transform: translateY(20px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: bold;
+        color: #333;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 0.75rem;
+    }
+
+    .form-input {
+        width: 100%;
+        padding: 0.5rem;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        margin-bottom: 0.5rem;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .form-input.is-invalid {
+        border-color: #dc3545;
+    }
+
+    .form-input:focus {
+        border-color: #50a050;
+        box-shadow: 0 0 0 2px rgba(80, 160, 80, 0.1);
+        outline: none;
+    }
+
+    .error-message {
+        color: #dc3545;
+        font-size: 0.875rem;
+        margin-top: 0.25rem;
+    }
+
+    .form-hint {
+        display: block;
+        color: #666;
+        font-size: 0.875rem;
+        margin-top: 0.25rem;
+        position: relative;
+        padding-left: 20px;
+    }
+
+    .form-hint i {
+        position: absolute;
+        left: 0;
+        top: 2px;
+    }
+
+    .form-actions {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 2rem;
+    }
+
+    .btn {
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: background-color 0.2s;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+        transition: all 0.2s ease;
+    }
+
+    .btn-primary {
+        background-color: #50a050;
+        color: white;
+        border: none;
+    }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background-color: #408040;
+    }
+
+    .btn-secondary:hover {
+        background-color: #5a6268;
+    }
+
+    .btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .intro-section {
+        text-align: center;
+        padding: 2rem 0;
+        margin-bottom: 2rem;
+    }
+
+    .intro-section h2 {
+        font-size: 2.5rem;
+        color:rgb(53, 164, 79);
+        margin-bottom: 1rem;
+    }
+
+    .intro-section p {
+        color: #666;
+        font-size: 1.1rem;
+    }
+
+    select[multiple] {
+        min-height: 120px;
+    }
+</style>
 @endsection

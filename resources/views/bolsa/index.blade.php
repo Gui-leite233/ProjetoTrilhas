@@ -1,81 +1,69 @@
-@extends('templates.main', ['menu' => "admin", 'submenu' => "Bolsas", 'rota' => "admin.bolsa.create"])
+@extends('layouts.site')
 
-@section('titulo') Bolsas @endsection
+@section('title', 'Bolsas - Projeto Trilhas')
 
-@section('conteudo')
-<div class="container py-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="h4 mb-0">Bolsas</h2>
-        <a href="{{ route('admin.bolsa.create') }}" class="btn btn-dark">
-            <i class="bi bi-plus-circle me-2"></i>Nova Bolsa
-        </a>
-    </div>
+@section('action_button')
+    <a href="{{ route('admin.bolsa.create') }}" class="add-button">
+        <i class="fas fa-plus"></i> Nova Bolsa
+    </a>
+@endsection
 
-    <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
+@section('content')
+<div class="container">
+    <section class="intro-section">
+        <h2>Bolsas de Estudo</h2>
+        <p>Encontre oportunidades de bolsas disponíveis no IFPR Campus Paranaguá.</p>
+    </section>
+
+    <div class="card-container">
         @foreach ($data as $item)
-            <div class="col">
-                <div class="card h-100 border-0 shadow-sm hover-shadow">
-                    <div class="card-header bg-dark text-white py-3">
-                        <h5 class="card-title mb-0 text-truncate" title="{{ $item->titulo }}">{{ $item->titulo }}</h5>
-                    </div>
-                    <div class="card-body">
-                        <p class="card-text" style="height: 4.5em; overflow: hidden;">
-                            {{ Str::limit($item->descricao, 120) }}
-                        </p>
-                        @if($item->curso)
-                            <div class="mt-3">
-                                <span class="badge bg-primary">
-                                    <i class="bi bi-book me-1"></i>
-                                    {{ $item->curso->nome }}
-                                </span>
-                            </div>
-                        @endif
-                        <div class="mt-2">
-                            <span class="badge {{ $item->ativo ? 'bg-success' : 'bg-secondary' }}">
-                                {{ $item->ativo ? 'Ativo' : 'Inativo' }}
-                            </span>
+            <div class="card">
+                <i class="fas fa-hand-holding-usd fa-3x"></i>
+                <div class="card-content">
+                    <h3>{{ $item->titulo }}</h3>
+                    <p>{{ Str::limit($item->descricao, 100) }}</p>
+                    @if($item->curso)
+                        <div class="curso-badge">
+                            <i class="fas fa-graduation-cap"></i> {{ $item->curso->nome }}
                         </div>
-                    </div>
-                    <div class="card-footer bg-light border-0">
-                        <div class="d-flex justify-content-end gap-2">
-                            <a href="{{ route('admin.bolsa.edit', $item->id) }}" class="btn btn-dark btn-sm">
-                                <i class="bi bi-pencil-square"></i>
-                            </a>
-                            <form action="{{ route('admin.bolsa.destroy', $item->id) }}" method="POST" class="d-inline">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-outline-danger btn-sm" 
-                                    onclick="return confirm('Tem certeza que deseja excluir esta bolsa?')">
-                                    <i class="bi bi-trash"></i>
-                                </button>
-                            </form>
+                    @endif
+                    @if($item->ativo)
+                        <div class="status-badge active">
+                            <i class="fas fa-check-circle"></i> Ativo
                         </div>
-                    </div>
+                    @endif
                 </div>
             </div>
         @endforeach
     </div>
 
     @if($data->isEmpty())
-        <div class="text-center py-5">
-            <i class="bi bi-folder-x display-1 text-muted"></i>
-            <p class="h4 text-muted mt-3">Nenhuma bolsa encontrada</p>
-            <a href="{{ route('admin.bolsa.create') }}" class="btn btn-dark mt-3">
-                <i class="bi bi-plus-circle me-2"></i>Criar Primeira Bolsa
-            </a>
+        <div class="empty-state">
+            <i class="fas fa-hand-holding-usd fa-4x"></i>
+            <p>Nenhuma bolsa disponível no momento.</p>
         </div>
     @endif
 </div>
 @endsection
 
-@push('styles')
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+@section('additional_css')
 <style>
-    .hover-shadow {
-        transition: transform 0.2s;
+    // ...existing style from resumo/index.blade.php...
+    .curso-badge {
+        background-color: #4a90e2;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 5px;
+        margin: 5px 0;
+        display: inline-block;
     }
-    .hover-shadow:hover {
-        transform: translateY(-5px);
+    .status-badge.active {
+        background-color: #50a050;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 5px;
+        margin: 5px 0;
+        display: inline-block;
     }
 </style>
-@endpush
+@endsection
