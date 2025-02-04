@@ -184,6 +184,20 @@
             z-index: 9200;
             padding: 0.8rem;
         }
+
+        .nav-link.btn-register-guest {
+            background: rgba(255,255,255,0.2);
+            color: white !important;
+            border-radius: 20px;
+            padding: 0.5rem 1.2rem;
+            margin-left: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link.btn-register-guest:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
     </style>
 </head>
 
@@ -343,11 +357,16 @@
                 @endauth
                 
                 @guest
-                    <div class="navbar-nav me-auto"><!-- Empty space holder --></div>
+                    <div class="navbar-nav me-auto"></div>
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('login') }}">
                                 <i class="bi bi-box-arrow-in-right me-1"></i> Login
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link btn-register-guest" href="{{ route('register') }}">
+                                <i class="bi bi-person-plus-fill me-1"></i> Cadastre-se
                             </a>
                         </li>
                     </ul>
