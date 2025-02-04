@@ -1,0 +1,330 @@
+body {
+    background-color: rgb(34, 34, 34);
+    color: white;
+    font-family: poppinsregular;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Garante que o footer fique no fim da página */
+    overflow-x: hidden; /* Evita rolagem horizontal */
+}
+
+header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background-color: #333; /* Fundo escuro */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    box-sizing: border-box; /* Inclui padding e border na largura total */
+}
+
+#title {
+    flex-direction: column;
+    line-height: 10px;
+}
+
+ul {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+li {
+    display: inline-block;
+    margin: 0 20px;
+}
+
+a {
+    color: white;
+    display: flex;
+    align-items: center;
+}
+
+a i {
+    margin-right: 8px; /* Espaçamento entre o ícone e o texto */
+}
+
+a:hover {
+    color: #66bb66; /* Cor verde ao passar o mouse */
+    transition: 0.3s all;
+}
+
+#inscreva-se-btn {
+    border: 2px solid #66bb66; /* Cor verde para a borda */
+    padding: 10px;
+    border-radius: 15px;
+}
+
+#inscreva-se-btn:hover {
+    background-color: #66bb66; /* Cor verde ao passar o mouse */
+    color: white;
+}
+
+h1 {
+    font-weight: 200;
+}
+
+main {
+    display: flex;
+    flex-direction: row;
+    margin-top: 50px;
+    flex: 1;
+    justify-content: center; /* Centraliza o conteúdo do main */
+    align-items: center;
+    padding: 20px;
+    width: 100%; /* Garante que o main ocupe toda a largura */
+    box-sizing: border-box; /* Inclui padding e border na largura total */
+    gap: 40px; /* Aumenta o espaçamento entre o formulário e a imagem */
+}
+
+h2 {
+    font-size: 56px;
+    line-height: 10px;
+    font-family: poppinsmedium;
+    text-align: center; /* Centraliza o texto */
+}
+
+span {
+    color: #66bb66; /* Cor verde */
+}
+
+p {
+    line-height: 20px;
+    max-width: 500px;
+    font-family: poppinslight;
+    text-align: center; /* Centraliza o texto */
+    margin: 0 auto; /* Centraliza o parágrafo */
+}
+
+img {
+    max-width: 100%; /* Garante que a imagem não ultrapasse a largura do container */
+    height: auto;
+    display: block;
+    margin-left: 10%; /* Posiciona a imagem mais para o canto esquerdo */
+    border-radius: 50%; /* Bordas redondas */
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    width: 100%; /* Ajusta a largura do formulário */
+    max-width: 500px; /* Define um tamanho máximo para o formulário */
+    padding: 20px; /* Adiciona padding para afastar o formulário da margem */
+    box-sizing: border-box; /* Inclui padding e border na largura total */
+    margin: 0 auto; /* Centraliza o formulário */
+    text-align: center; /* Centraliza o texto dentro do formulário */
+}
+
+.input-group {
+    position: relative;
+    margin-top: 20px;
+}
+
+.input-group i {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    color: #66bb66; /* Cor verde para o ícone */
+    font-size: 1.2em; /* Ajusta o tamanho do ícone */
+}
+
+.input-group input,
+.input-group select {
+    height: 50px; /* Aumenta a altura dos campos */
+    padding: 15px 15px 15px 40px; /* Adiciona padding para o ícone */
+    border-radius: 10px; /* Bordas mais arredondadas */
+    border: 1px solid #555; /* Adiciona uma borda */
+    font-size: 16px; /* Aumenta o tamanho da fonte */
+    width: 100%;
+    box-sizing: border-box; /* Inclui padding e border na largura total */
+    background-color: #333; /* Fundo escuro */
+    color: #e0e0e0; /* Texto claro */
+}
+
+.input-group input::placeholder,
+.input-group select::placeholder {
+    color: #aaa; /* Cor do placeholder */
+}
+
+.input-group input:focus,
+.input-group select:focus {
+    border: 2px solid #66bb66; /* Cor verde da borda ao focar */
+    outline: none; /* Remove o outline padrão */
+}
+
+form [type="submit"] {
+    height: 50px;
+    width: 100%; /* Ajusta a largura do botão */
+    background-color: #66bb66; /* Cor verde para o botão */
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+    margin-top: 20px; /* Adiciona espaçamento acima do botão */
+}
+
+form [type="submit"]:hover {
+    background-color: #50a050;
+    transform: scale(1.05);
+}
+
+.radio-group {
+    display: flex;
+    flex-direction: column; /* Alinha as opções uma embaixo da outra */
+    margin-top: 20px;
+}
+
+.radio-group label {
+    display: flex;
+    align-items: center;
+    font-size: 1.1em;
+    color: #e0e0e0;
+    margin-bottom: 10px; /* Adiciona espaçamento entre as opções */
+}
+
+.radio-group input[type="radio"] {
+    margin-right: 10px; /* Espaçamento entre a bolinha e o texto */
+    width: 20px; /* Ajusta a largura da bolinha */
+    height: 20px; /* Ajusta a altura da bolinha */
+}
+
+footer {
+    background-color: #222; /* Cor escura para o footer */
+    padding: 40px 0; /* Aumenta o padding do footer */
+    color: #e0e0e0;
+    width: 100%;
+    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
+    font-size: 18px; /* Aumenta o tamanho da fonte do footer */
+    box-sizing: border-box; /* Inclui padding e border na largura total */
+}
+
+.footer-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: nowrap;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+    text-align: center;
+    box-sizing: border-box; /* Inclui padding e border na largura total */
+}
+
+.footer-section {
+    flex: 1;
+    margin: 5px 0; /* Reduz o espaçamento entre as seções */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centraliza os itens dentro das seções */
+}
+
+.footer-section h4 {
+    font-size: 18px;
+    margin-bottom: 5px; /* Reduz o espaçamento inferior */
+    color: #50a050;
+    text-align: center; /* Centraliza o texto */
+}
+
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0; /* Remover qualquer margem */
+}
+
+.footer-section ul li {
+    margin-bottom: 2px; /* Reduz o espaçamento entre os itens da lista */
+    position: relative; /* Para usar o top */
+}
+
+.footer-section ul li a {
+    color: #e0e0e0; /* Cor clara para os links do footer */
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-section ul li a:hover {
+    color: #50a050;
+}
+
+.footer-section p {
+    margin: 0.5em 0;
+    text-align: center; /* Centraliza os parágrafos do footer */
+    line-height: 1.6; /* Ajusta o espaçamento entre linhas */
+    font-family: 'Arial', sans-serif; /* Mantém a fonte do body */
+    color: #e0e0e0; /* Cor clara para o texto do footer */
+}
+
+.social-links {
+    margin-top: 30px; /* Aumenta a margem superior para posicionar corretamente */
+    display: flex;
+    flex-direction: column; /* Alinha os links um embaixo do outro */
+    justify-content: center;
+    gap: 2px; /* Reduz o espaçamento entre os itens */
+}
+
+.social-links li {
+    margin-right: 0; /* Remove qualquer margem à direita */
+}
+
+.social-links li a {
+    color: #e0e0e0; /* Cor clara para os links das redes sociais */
+    transition: color 0.3s;
+    text-decoration: none; /* Remove a sublinha dos links */
+    padding: 5px 10px; /* Adiciona padding para melhorar o clique */
+    border-radius: 5px; /* Adiciona borda arredondada */
+}
+
+.social-links li a:hover {
+    color: #50a050;
+    background-color: #f0f8ff; /* Adiciona cor de fundo no hover */
+}
+
+.footer-section form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.footer-section form input {
+    padding: 10px;
+    margin-bottom: 5px; /* Reduz o espaçamento entre os inputs */
+    border-radius: 5px;
+    border: none;
+    width: 100%;
+    max-width: 300px;
+    background-color: #444; /* Fundo escuro */
+    color: #e0e0e0; /* Texto claro */
+}
+
+.footer-section form button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #50a050;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 100%; /* Ajusta a largura do botão */
+    max-width: 300px; /* Define um tamanho máximo para o botão */
+    margin-top: 10px; /* Adiciona espaçamento acima do botão */
+}
+
+.footer-section form button:hover {
+    background-color: #66bb66;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding: 10px 0; /* Aumenta o padding no footer-bottom */
+    background-color: #333;
+    border-top: 2px solid #50a050;
+    width: 100%; /* Garante que o footer-bottom ocupe toda a largura */
+    box-sizing: border-box; /* Inclui padding e border na largura total */
+}

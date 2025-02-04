@@ -1,0 +1,287 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 100vh;
+    background: url('https://www.example.com/background.jpg') center center / cover no-repeat;
+    font-family: 'Poppins', sans-serif;
+    background-color: #333;
+}
+
+header {
+    position: relative;
+    width: 100%;
+    height: 300px;
+}
+
+header img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+header ul {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    gap: 20px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+header ul li a {
+    color: #50a050;
+    text-decoration: none;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+header ul li a:hover {
+    background-color: #50a050;
+    color: white;
+}
+
+.wrapper {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+    margin: 50px auto;
+    position: relative;
+    z-index: 1;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding-bottom: 40px;
+}
+
+form h1 {
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.input-box {
+    display: flex;
+    align-items: center;
+    border: 1px solid #50a050; /* Borda verde */
+    border-radius: 20px;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #f0f0f0;
+}
+
+.input-box i {
+    margin-right: 10px;
+    color: #50a050;
+    font-size: 20px;
+}
+
+.input-box input {
+    flex: 1;
+    border: none; /* Remove a borda interna do input */
+    outline: none;
+    padding: 10px;
+    border-radius: 20px;
+    font-size: 15px;
+    background-color: #f0f0f0;
+    color: #333;
+}
+
+.input-box input::placeholder {
+    color: #aaa;
+}
+
+.remember-forgot {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    font-size: 14px;
+    color: #555;
+}
+
+.remember-forgot label {
+    cursor: pointer;
+}
+
+.remember-forgot a {
+    color: #50a050;
+    text-decoration: none;
+}
+
+.remember-forgot a:hover {
+    text-decoration: underline;
+}
+
+.btn {
+    width: 100%;
+    padding: 10px;
+    background: linear-gradient(90deg, #50a050, #66bb66);
+    border: none;
+    border-radius: 20px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.btn:hover {
+    background: linear-gradient(90deg, #66bb66, #50a050);
+    transform: scale(1.05);
+}
+
+.register-link {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #555;
+}
+
+.register-link a {
+    color: #50a050;
+    text-decoration: none;
+}
+
+.register-link a:hover {
+    text-decoration: underline;
+}
+
+footer {
+    background-color: #222; /* Cor escura para o footer */
+    padding: 20px 0;
+    color: #e0e0e0;
+    width: 100%;
+    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
+    font-size: 18px; /* Aumenta o tamanho da fonte do footer */
+}
+
+.footer-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: nowrap;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+    text-align: center;
+}
+
+.footer-section {
+    flex: 1;
+    margin: 5px 0; /* Reduz o espaçamento entre as seções */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centraliza os itens dentro das seções */
+}
+
+.footer-section h4 {
+    font-size: 18px;
+    margin-bottom: 5px; /* Reduz o espaçamento inferior */
+    color: #50a050;
+    text-align: center; /* Centraliza o texto */
+}
+
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0; /* Remover qualquer margem */
+}
+
+.footer-section ul li {
+    margin-bottom: 5px; /* Reduz o espaçamento entre os itens da lista */
+    position: relative; /* Para usar o top */
+}
+
+.footer-section ul li a {
+    color: #e0e0e0; /* Cor clara para os links do footer */
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-section ul li a:hover {
+    color: #50a050;
+}
+
+.footer-section p {
+    margin: 0.5em 0;
+    text-align: center; /* Centraliza os parágrafos do footer */
+    line-height: 1.6; /* Ajusta o espaçamento entre linhas */
+    font-family: 'Arial', sans-serif; /* Mantém a fonte do body */
+    color: #e0e0e0; /* Cor clara para o texto do footer */
+}
+
+.social-links {
+    margin-top: 30px; /* Aumenta a margem superior para posicionar corretamente */
+    display: flex;
+    justify-content: center;
+    gap: 5px; /* Adiciona espaço entre os itens */
+}
+
+.social-links li {
+    margin-right: 0; /* Remove qualquer margem à direita */
+}
+
+.social-links li a {
+    color: #e0e0e0; /* Cor clara para os links das redes sociais */
+    transition: color 0.3s;
+    text-decoration: none; /* Remove a sublinha dos links */
+    padding: 5px 10px; /* Adiciona padding para melhorar o clique */
+    border-radius: 5px; /* Adiciona borda arredondada */
+}
+
+.social-links li a:hover {
+    color: #50a050;
+    background-color: #f0f8ff; /* Adiciona cor de fundo no hover */
+}
+
+.footer-section form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.footer-section form input {
+    padding: 10px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    border: 1px solid #50a050; /* Borda verde */
+    width: 100%;
+    max-width: 300px;
+}
+
+.footer-section form button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #50a050;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.footer-section form button:hover {
+    background-color: #66bb66;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding: 5px 0; /* Reduz o padding no footer-bottom */
+    background-color: #333;
+    border-top: 2px solid #50a050;
+}

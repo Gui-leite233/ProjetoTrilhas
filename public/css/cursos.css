@@ -1,0 +1,278 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.6;
+    background-color: #f9f9f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #50a050;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px 20px;
+    background-color: #f0fff0;
+}
+
+#title {
+    display: flex;
+    align-items: center;
+}
+
+#title img {
+    height: 50px;
+    margin-right: 10px;
+}
+
+#title h1 {
+    margin: 0;
+    font-size: 1.8em;
+    color: #665f5f;
+}
+
+header ul {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+header ul a {
+    color: #665f5f;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+header ul a:hover {
+    color: #fff;
+    background-color: #66c266;
+}
+/* Estilização da seção introdutória */
+.intro-section {
+    text-align: center;
+    margin: 40px 20px;
+}
+
+.intro-section h2 {
+    font-size: 2.5em;
+    color: #333333;
+    margin-bottom: 20px;
+}
+
+.intro-section p {
+    font-size: 1.2em;
+    color: #777777;
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.card-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 50px 0;
+    padding: 0 15px;
+}
+
+.card {
+    width: 300px;
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    transition: transform 0.3s;
+}
+
+.card:hover img {
+    transform: scale(1.05);
+}
+
+.card-content {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.card-content h3 {
+    font-size: 1.8em;
+    margin-bottom: 8px;
+    color: #333;
+    text-align: center;
+}
+
+.card-content p {
+    color: #666;
+    font-size: 14px;
+    line-height: 1.6;
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+.card-content .btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #50a050;
+    text-decoration: none;
+    border-radius: 4px;
+    color: #fff;
+    margin-top: 16px;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.card-content .btn:hover {
+    background-color: #66bb66;
+    transform: scale(1.05);
+}
+
+
+footer {
+    background-color: #f0f8ff;
+    padding: 20px 0;
+    color: #333;
+    width: 100%;
+    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.footer-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: nowrap;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+    text-align: center;
+}
+
+.footer-section {
+    flex: 1;
+    margin: 5px 0; /* Reduz o espaçamento entre as seções */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centraliza os itens dentro das seções */
+}
+
+.footer-section h4 {
+    font-size: 18px;
+    margin-bottom: 5px; /* Reduz o espaçamento inferior */
+    color: #50a050;
+    text-align: center; /* Centraliza o texto */
+}
+
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0; /* Remover qualquer margem */
+}
+
+.footer-section ul li {
+    margin-bottom: 5px; /* Reduz o espaçamento entre os itens da lista */
+    position: relative; /* Para usar o top */
+}
+
+.footer-section ul li a {
+    color: #333;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-section ul li a:hover {
+    color: #50a050;
+}
+
+.footer-section p {
+    margin: 0.5em 0;
+    text-align: center; /* Centraliza os parágrafos do footer */
+    line-height: 1.6; /* Ajusta o espaçamento entre linhas */
+    font-family: 'Arial', sans-serif; /* Mantém a fonte do body */
+}
+
+.social-links {
+    margin-top: 30px; /* Aumenta a margem superior para posicionar corretamente */
+    display: flex;
+    justify-content: center;
+    gap: 5px; /* Adiciona espaço entre os itens */
+}
+
+.social-links li {
+    margin-right: 0; /* Remove qualquer margem à direita */
+}
+
+.social-links li a {
+    color: #333;
+    transition: color 0.3s;
+    text-decoration: none; /* Remove a sublinha dos links */
+    padding: 5px 10px; /* Adiciona padding para melhorar o clique */
+    border-radius: 5px; /* Adiciona borda arredondada */
+}
+
+.social-links li a:hover {
+    color: #50a050;
+    background-color: #f0f8ff; /* Adiciona cor de fundo no hover */
+}
+
+.footer-section form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.footer-section form input {
+    padding: 10px;
+    margin-bottom: 5px; /* Reduz o espaçamento entre os inputs */
+    border-radius: 5px;
+    border: none;
+    width: 100%;
+    max-width: 300px;
+}
+
+.footer-section form button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #50a050;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.footer-section form button:hover {
+    background-color: #66bb66;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding: 5px 0; /* Reduz o padding no footer-bottom */
+    background-color: #e0f7fa;
+    border-top: 2px solid #50a050;
+}

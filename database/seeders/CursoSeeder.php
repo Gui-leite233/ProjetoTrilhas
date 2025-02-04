@@ -25,6 +25,11 @@ class CursoSeeder extends Seeder
                 'descricao' => 'Curso técnico em Mecânica com ênfase em processos de fabricação e manutenção industrial.',
                 'link' => 'https://www.exemplo.com/mecanica',
             ],
+            [
+                'nome' => 'Produção cultural',
+                'descricao' => 'Curso técnico em Produção cultural com ênfase em processos de fabricação e manutenção industrial.',
+                'link' => 'https://www.exemplo.com/Prod',
+            ]
         ];
 
         foreach ($cursos as $curso) {
