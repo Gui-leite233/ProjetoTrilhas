@@ -9,18 +9,19 @@
     <link href="/styles/media.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="{{asset('css/style.css')}}">
-    <title>Landing Page</title>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <title>Registre-se no Trilhas</title>
 </head>
 <body>
     <header>
-        <div id="title">
-            <h1>Trilhas de</h1>
-            <h1>aprendizagem</h1>
+    <div id="title">
+            <img src="{{asset('img/images.png')}}" alt="Logo">
+            <h1>Trilhas de aprendizagem</h1>
         </div>
 
         <ul>
-            <a href="#"><li><i class="fas fa-info-circle"></i> Sobre</li></a>
-            <a href="#" id="inscreva-se-btn"><li><i class="fas fa-user"></i> Já tem uma conta?</li></a>
+            <a href="{{ route('sobre') }}"><li><i class="fas fa-info-circle"></i> Sobre</li></a>
+            <a href="{{ route('login') }}" id="inscreva-se-btn"><li><i class="fas fa-user"></i> Já tem uma conta?</li></a>
         </ul>
     </header>
 
@@ -34,8 +35,11 @@
             <form method="POST" action="{{ route('register') }}" 
                   x-data="{ 
                       loading: false, 
-                      selectedRole: '{{ old('role_id', '') }}',
-                      isAluno() { return this.selectedRole === '3' }
+                      selectedRole: null, 
+                      isAluno() { 
+                          console.log('Selected role:', this.selectedRole);
+                          return parseInt(this.selectedRole) === 3;
+                      }
                   }" 
                   @submit="loading = true">
                 @csrf
@@ -50,8 +54,9 @@
                     </div>
                 @endif
 
-                <div class="radio-group">
-                    <select name="role_id" id="role_id" x-model="selectedRole" required>
+                <div class="input-group">
+                    <i class="fas fa-user-tag"></i>
+                    <select name="role_id" id="role_id" x-model.number="selectedRole" required>
                         <option value="" disabled selected>Selecione uma função</option>
                         @foreach($roles as $role)
                             <option value="{{ $role->id }}" {{ old('role_id') == $role->id ? 'selected' : '' }}>
@@ -81,7 +86,7 @@
                     <input type="password" name="password_confirmation" placeholder="Confirmar Senha" required>
                 </div>
 
-                <div class="input-group" x-show="isAluno()">
+                <div class="input-group" x-cloak x-show="isAluno()">
                     <i class="fas fa-book"></i>
                     <select name="curso_id" x-bind:required="isAluno()">
                         <option value="" disabled selected>Selecione um curso</option>
@@ -93,7 +98,7 @@
                     </select>
                 </div>
 
-                <div class="input-group" x-show="isAluno()">
+                <div class="input-group" x-cloak x-show="isAluno()">
                     <i class="fas fa-calendar-alt"></i>
                     <select name="ano" x-bind:required="isAluno()">
                         <option value="" disabled selected>Selecione o ano</option>
@@ -113,7 +118,7 @@
         </aside>
 
         <article>
-            <img src="./components/images/Design sem nome (2).png" alt="trilhas-img">
+            <img src="{{ asset('img/Design sem nome (2).png') }}" alt="trilhas-img">
         </article>
     </main>
     <footer>
@@ -136,5 +141,76 @@
             <p>&copy; 2025 Projeto Trilhas IFPR. Todos os direitos reservados.</p>
         </div>
     </footer>
+    <style>
+        [x-cloak] { display: none !important; }
+
+        /* Fix animations and timing */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Ensure form elements are visible initially */
+        .input-group {
+            opacity: 1;
+            animation: fadeInUp 0.3s ease-out;
+        }
+
+        /* Adjust animation delays */
+        .input-group:nth-child(1) { animation-delay: 0s; }
+        .input-group:nth-child(2) { animation-delay: 0.1s; }
+        .input-group:nth-child(3) { animation-delay: 0.2s; }
+        .input-group:nth-child(4) { animation-delay: 0.3s; }
+        .input-group:nth-child(5) { animation-delay: 0.4s; }
+
+        /* Fix button styles */
+        button {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            color: white !important;
+        }
+
+        button span {
+            color: white !important;
+        }
+
+        /* Smooth transition for conditional fields */
+        [x-show="isAluno()"] {
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* Button hover effect */
+        button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        button:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        /* Input focus effect */
+        .input-group input:focus,
+        .input-group select:focus {
+            transition: all 0.2s ease;
+            transform: scale(1.01);
+        }
+
+        /* Error message animation */
+        .alert {
+            animation: shake 0.5s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+    </style>
 </body>
 </html>
