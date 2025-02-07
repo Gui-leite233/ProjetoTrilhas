@@ -5,7 +5,7 @@
 @section('action_button')
     @auth
         @if(Auth::user()->role_id == 1 || Auth::user()->role_id == 2)
-            <a href="{{ route('admin.projeto.create') }}" class="add-button">
+            <a href="{{ route('projeto.create') }}" class="add-button">
                 <i class="fas fa-plus"></i> Novo Projeto
             </a>
         @endif
@@ -46,10 +46,10 @@
                     <div class="card-actions">
                         @auth
                             @if(Auth::user()->role_id == 1 || Auth::user()->role_id == 2)
-                                <a href="{{ route('admin.projeto.edit', $item->id) }}" class="btn btn-edit">
+                                <a href="{{ route('projeto.edit', $item->id) }}" class="btn btn-edit">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <form action="{{ route('admin.projeto.destroy', $item->id) }}" method="POST" style="display: inline;">
+                                <form action="{{ route('projeto.destroy', $item->id) }}" method="POST" style="display: inline;">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-delete" onclick="return confirm('Tem certeza que deseja excluir este projeto?')">

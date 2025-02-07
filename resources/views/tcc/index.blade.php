@@ -3,7 +3,7 @@
 @section('title', 'TCCs - Projeto Trilhas')
 
 @section('action_button')
-    <a href="{{ route('admin.tcc.create') }}" class="add-button">
+    <a href="{{ route('tcc.create') }}" class="add-button">
         <i class="fas fa-plus"></i> Novo TCC
     </a>
 @endsection

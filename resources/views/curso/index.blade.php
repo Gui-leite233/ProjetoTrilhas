@@ -1,62 +1,61 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
+@extends('layouts.site')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projeto Trilhas IFPR</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="{{asset('css/cursos.css')}}">
-</head>
+@section('title', 'Cursos - Projeto Trilhas')
 
-<body>
-    <header>
-        <div id="title">
-            <img src="{{asset('img/images.png')}}" alt="Logo">
-            <h1>Trilhas de aprendizagem</h1>
-        </div>
-
-        <ul>
-            <a href="./index.html">
-                <li><i class="fas fa-info-circle"></i> Início</li>
+@section('action_button')
+    @auth
+        @if(Auth::user()->role_id == 1 || Auth::user()->role_id == 2)
+            <a href="{{ route('curso.create') }}" class="add-button">
+                <i class="fas fa-plus"></i> Novo Curso
             </a>
-            <a href="./sobre.html">
-                <li><i class="fas fa-envelope"></i> Sobre</li>
-            </a>
-            <a href="./contato.html" id="cadastre-se-btn">
-                <li><i class="fas fa-user"></i> Contato</li>
-            </a>
-        </ul>
-    </header>
+        @endif
+    @endauth
+@endsection
 
-    <!-- Título Informativo -->
+@section('content')
+<div class="container">
     <section class="intro-section">
         <h2>Conheça Nossos Cursos</h2>
         <p>Explore os diversos cursos oferecidos pelo IFPR Paranaguá e descubra aquele que mais se adapta aos seus
-            interesses e aspirações. Clique em "Saiba mais" para obter mais informações sobre cada curso.</p>
+            interesses e aspirações.</p>
     </section>
 
     <div class="card-container">
         @foreach ($cursos as $item)
             <div class="card">
-                <img src="{{ $item->imagem ?? '' }}" alt="{{ $item->nome }}">
+                @if($item->imagem)
+                    <div class="card-image">
+                        <img src="{{ $item->imagem }}" alt="{{ $item->nome }}">
+                    </div>
+                @else
+                    <div class="card-icon">
+                        <i class="fas fa-graduation-cap fa-3x"></i>
+                    </div>
+                @endif
                 <div class="card-content">
                     <h3>{{ $item->nome }}</h3>
                     <p>{{ Str::limit($item->descricao, 100) }}</p>
-                    <div class="button-group">
-                        <a href="{{ $item->link }}" class="btn" target="_blank">Saiba mais</a>
-                        @auth
-                            <a href="{{ route('curso.edit', $item->id) }}" class="btn btn-edit">
-                                <i class="fas fa-edit"></i>
+                    
+                    <div class="card-actions">
+                        @if($item->link)
+                            <a href="{{ $item->link }}" class="btn btn-primary" target="_blank">
+                                <i class="fas fa-external-link-alt"></i> Saiba mais
                             </a>
-                            <form action="{{ route('curso.destroy', $item->id) }}" method="POST" class="d-inline">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-delete"
-                                    onclick="return confirm('Tem certeza que deseja excluir este curso?')">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </form>
+                        @endif
+
+                        @auth
+                            @if(Auth::user()->role_id == 1 || Auth::user()->role_id == 2)
+                                <a href="{{ route('curso.edit', $item->id) }}" class="btn btn-edit">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <form action="{{ route('curso.destroy', $item->id) }}" method="POST" style="display: inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-delete" onclick="return confirm('Tem certeza que deseja excluir este curso?')">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                            @endif
                         @endauth
                     </div>
                 </div>
@@ -65,42 +64,115 @@
     </div>
 
     @if($cursos->isEmpty())
-        @section('action_button')
-        @auth
-
-        @endauth
-        @endsection
+        <div class="empty-state">
+            <i class="fas fa-graduation-cap fa-4x"></i>
+            <p>Nenhum curso disponível no momento.</p>
+        </div>
     @endif
+</div>
+@endsection
 
-    <footer>
-        <div class="footer-container">
-            <div class="footer-section">
-                <h4>Informações de Contato:</h4>
-                <p>Endereço: Av. Antônio Carlos Rodrigues, 453 - Porto Seguro, Paranaguá - PR, 83215-750</p>
-                <p>Telefone: (41) 3300-0134</p>
-                <p>Email: sepae.paranagua@ifpr.edu.br</p>
-            </div>
-            <div class="footer-section">
-                <h4>Acompanhe:</h4>
-                <ul class="social-links">
-                    <li><a href="https://www.instagram.com/trilhas.ifpr?igsh=ZXozejc1cmdra2Nm"><i
-                                class="bx bxl-instagram"></i> Instagram</a></li>
-                    <li><a href="https://w.app/BDigQJ"><i class="bx bxl-whatsapp"></i> WhatsApp</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2025 Projeto Trilhas IFPR. Todos os direitos reservados.</p>
-        </div>
-    </footer>
+@section('additional_css')
+<style>
+    .card-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 2rem;
+        padding: 2rem 0;
+    }
 
-    @auth
-        @if(Auth::user()->role_id == 1 || Auth::user()->role_id == 2)
-            <a href="{{ route('curso.create') }}" class="add-button">
-                <i class="fas fa-plus"></i> Novo Curso
-            </a>
-        @endif
-    @endauth
-</body>
+    .card {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        overflow: hidden;
+    }
 
-</html>
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .card-image {
+        height: 200px;
+        overflow: hidden;
+    }
+
+    .card-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .card-icon {
+        height: 120px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background:rgb(11, 75, 50);
+        color: #4a90e2;
+    }
+
+    .card-content {
+        padding: 1.5rem;
+    }
+
+    .card-content h3 {
+        color: #2d5faf;
+        margin-bottom: 1rem;
+        font-size: 1.25rem;
+    }
+
+    .card-content p {
+        color: #666;
+        margin-bottom: 1.5rem;
+    }
+
+    .card-actions {
+        display: flex;
+        gap: 0.5rem;
+        justify-content: flex-start;
+        align-items: center;
+    }
+
+    .btn {
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+    }
+
+    .btn-primary {
+        background-color: #2d5faf;
+        color: white;
+        text-decoration: none;
+    }
+
+    .btn-edit {
+        background-color: #ffc107;
+        color: white;
+    }
+
+    .btn-delete {
+        background-color: #dc3545;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 3rem;
+        color: #666;
+    }
+
+    .empty-state i {
+        margin-bottom: 1rem;
+        color: #4a90e2;
+    }
+</style>
+@endsection

@@ -127,24 +127,27 @@ Route::middleware('guest')->group(function () {
         ->name('register');
 });
 
-/*
-|--------------------------------------------------------------------------
-| Protected Routes
-|--------------------------------------------------------------------------
-*/
+// Public routes for resource index pages
+Route::get('/curso', [CursoController::class, 'index'])->name('curso.index');
+Route::get('/prova', [ProvaController::class, 'index'])->name('prova.index');
+Route::get('/tcc', [TccController::class, 'index'])->name('tcc.index');
+Route::get('/bolsa', [BolsaController::class, 'index'])->name('bolsa.index');
+Route::get('/aluno', [AlunoController::class, 'index'])->name('aluno.index');
+Route::get('/projeto', [ProjetoController::class, 'index'])->name('projeto.index');
+Route::get('/resumo', [ResumoController::class, 'index'])->name('resumo.index');
 
-    // Dashboard and Profile routes
-    Route::view('/dashboard', 'dashboard')->name('dashboard');
-    
-    // Profile routes
-    Route::controller(ProfileController::class)->prefix('profile')->name('profile.')->group(function () {
-        Route::get('/', 'edit')->name('edit');
-        Route::patch('/', 'update')->name('update');
-        Route::delete('/', 'destroy')->name('destroy');
-        Route::put('/password', 'updatePassword')->name('password.update');
-    });
+Route::view('/dashboard', 'dashboard')->name('dashboard');
 
-    // Resources
+Route::controller(ProfileController::class)->prefix('profile')->name('profile.')->group(function () {
+    Route::get('/', 'edit')->name('edit');
+    Route::patch('/', 'update')->name('update');
+    Route::delete('/', 'destroy')->name('destroy');
+    Route::put('/password', 'updatePassword')->name('password.update');
+});
+
+// Protected routes for administrative actions
+Route::middleware(['auth'])->group(function () {
+    // Resources except index
     Route::resources([
         'tcc' => TccController::class,
         'prova' => ProvaController::class,
@@ -153,8 +156,8 @@ Route::middleware('guest')->group(function () {
         'aluno' => AlunoController::class,
         'projeto' => ProjetoController::class,
         'resumo' => ResumoController::class,
-    ]);
-
+    ], ['except' => ['index']]);
+    
     // PDF routes
     Route::prefix('resumo')->name('resumo.')->group(function () {
         Route::get('viewPdf/{id}', [ResumoController::class, 'viewPdf'])->name('viewPdf');
@@ -174,3 +177,4 @@ Route::middleware('guest')->group(function () {
     // Email routes
     Route::post('/send-email', [MailController::class, 'sendEmail'])->name('send.email');
     Route::post('/send-welcome-email/{user}', [MailController::class, 'sendWelcomeEmail'])->name('send.welcome');
+});

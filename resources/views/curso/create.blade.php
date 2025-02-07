@@ -14,7 +14,7 @@
                     </h4>
                 </div>
                 <div class="card-body p-4">
-                    <form action="{{ route('admin.curso.store') }}" method="POST">
+                    <form action="{{ route('curso.store') }}" method="POST">
                         @csrf
                         <div class="mb-4">
                             <label class="form-label text-muted small fw-bold">NOME DO CURSO</label>
@@ -44,7 +44,7 @@
                         </div>
 
                         <div class="d-flex justify-content-between">
-                            <a href="{{ route('admin.curso.index') }}" class="btn btn-secondary px-4">
+                            <a href="{{ route('curso.index') }}" class="btn btn-secondary px-4">
                                 <i class="bi bi-arrow-left-short"></i>
                                 Voltar
                             </a>

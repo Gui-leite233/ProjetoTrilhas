@@ -29,7 +29,7 @@ class CursoController extends Controller
 
     public function create()
     {
-        return view('admin.curso.create');
+        return view('curso.create');
     }
 
     public function store(Request $request)
@@ -38,13 +38,13 @@ class CursoController extends Controller
 
         Curso::create($request->only(['nome', 'descricao', 'link']));  // Inclua 'link' aqui
 
-        return redirect()->route('admin.curso.index');
+        return redirect()->route('curso.index');
     }
 
     public function edit(string $id)
     {
         $dados = Curso::findOrFail($id);
-        return view('admin.curso.edit', compact('dados'));
+        return view('curso.edit', compact('dados'));
     }
 
     public function update(Request $request, string $id)
@@ -55,7 +55,7 @@ class CursoController extends Controller
 
         $obj->update($request->only(['nome', 'descricao', 'link']));  // Inclua 'link' aqui
 
-        return redirect()->route('admin.curso.index');
+        return redirect()->route('curso.index');
     }
 
     public function destroy(string $id)
@@ -64,7 +64,7 @@ class CursoController extends Controller
         $curso->bolsas()->delete();
         $curso->delete();
 
-        return redirect()->route('admin.curso.index');
+        return redirect()->route('curso.index');
     }
 
     
