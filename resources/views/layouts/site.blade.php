@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="{{asset('css/telaPrincipal.css')}}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     @yield('additional_css')
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <body>
@@ -20,15 +21,24 @@
         </a>
 
         <ul>
-            <a href="{{ route('register') }}">
-                <li><i class="fas fa-info-circle"></i> Inicio</li>
+            <a href="{{ route('home') }}">
+                <li><i class="fas fa-home"></i> Inicio</li>
             </a>
             <a href="{{ route('sobre') }}">
-                <li><i class="fas fa-envelope"></i> Sobre</li>
+                <li><i class="fas fa-info-circle"></i> Sobre</li>
             </a>
-            <a href="{{ url('/contato') }}" id="cadastre-se-btn">
-                <li><i class="fas fa-user"></i> Contato</li>
+            <a href="{{ route('contato') }}">
+                <li><i class="fas fa-envelope"></i> Contato</li>
             </a>
+            @auth
+                <a href="{{ route('dashboard') }}">
+                    <li><i class="fas fa-user"></i> Minha Conta</li>
+                </a>
+            @else
+                <a href="{{ route('login') }}" id="cadastre-se-btn">
+                    <li><i class="fas fa-sign-in-alt"></i> Entrar</li>
+                </a>
+            @endauth
         </ul>
     </header>
 
@@ -62,6 +72,7 @@
         </div>
     </footer>
     @yield('scripts')
+    @yield('additional_js')
 </body>
 
 </html>

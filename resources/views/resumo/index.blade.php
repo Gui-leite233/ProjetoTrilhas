@@ -22,52 +22,59 @@
     <div class="card-container">
         @foreach ($data as $item)
             <div class="card">
-                <i class="fas fa-book-open fa-3x"></i>
-                <div class="card-content">
-                    <div class="content-main">
-                        <h3>{{ $item->titulo }}</h3>
-                        <p>{{ Str::limit($item->descricao, 100) }}</p>
+                <div class="card-inner">
+                    <div class="card-header">
+                        <i class="fas fa-book-open fa-3x"></i>
                     </div>
-
-                    <div class="content-footer">
-                        <div class="badges-row">
-                            @if ($item->documento)
-                                <div class="documento-badge">
-                                    <i class="fas fa-file-pdf"></i> PDF Disponível
-                                </div>
-                            @endif
+                    <div class="card-content">
+                        <div class="content-main">
+                            <h3>{{ $item->titulo }}</h3>
+                            <p class="description" data-full-text="{{ $item->descricao }}">
+                                {{ Str::limit($item->descricao, 100) }}
+                                @if (strlen($item->descricao) > 100)
+                                    <button class="ver-mais-btn">Ver mais...</button>
+                                @endif
+                            </p>
                         </div>
 
-                        <div class="action-row">
-                            <div class="view-buttons">
-                                @if ($item->documento)
-                                    <a href="{{ route('site.resumo.viewPdf', $item->id) }}" class="btn" target="_blank">
-                                        <i class="fas fa-eye"></i>
-                                    </a>
-                                    <a href="{{ route('site.resumo.download', $item->id) }}" class="btn">
-                                        <i class="fas fa-download"></i>
-                                    </a>
-                                @endif
-                            </div>
-                            
-                            @auth
-                                @if(Auth::user()->role_id == 1 || Auth::user()->role_id == 2)
-                                    <div class="admin-buttons">
-                                        <a href="{{ route('resumo.edit', $item->id) }}" class="btn btn-edit">
-                                            <i class="fas fa-edit"></i>
+                        <div class="content-footer">
+                            <div class="action-row">
+                                <div class="view-buttons">
+                                    @if ($item->documento)
+                                        <a href="{{ route('site.resumo.viewPdf', $item->id) }}" class="btn" target="_blank">
+                                            <i class="fas fa-eye"></i>
                                         </a>
-                                        <form action="{{ route('resumo.destroy', $item->id) }}" method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-delete" onclick="return confirm('Tem certeza que deseja excluir este resumo?')">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </form>
-                                    </div>
-                                @endif
-                            @endauth
+                                        <a href="{{ route('site.resumo.download', $item->id) }}" class="btn">
+                                            <i class="fas fa-download"></i>
+                                        </a>
+                                    @endif
+                                </div>
+                                
+                                @auth
+                                    @if(Auth::user()->role_id == 1 || Auth::user()->role_id == 2)
+                                        <div class="admin-buttons">
+                                            <a href="{{ route('resumo.edit', $item->id) }}" class="btn btn-edit">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <form action="{{ route('resumo.destroy', $item->id) }}" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-delete" onclick="return confirm('Tem certeza que deseja excluir este resumo?')">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    @endif
+                                @endauth
+                            </div>
                         </div>
                     </div>
+                    
+                    @if ($item->documento)
+                        <div class="documento-badge" style="margin-top: 25px; margin-left: 20px;">
+                            <i class="fas fa-file-pdf"></i> PDF Disponível
+                        </div>
+                    @endif
                 </div>
             </div>
         @endforeach
@@ -86,25 +93,90 @@
 <style>
     .card {
         transition: transform 0.2s ease, box-shadow 0.2s ease;
+        height: 100%;
     }
 
-    .card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    .card-inner {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        position: relative;
+        padding: 1rem;
+    }
+
+    .card-header {
+        margin-bottom: 1rem;
+    }
+
+    .card-content {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+    }
+
+    .content-main {
+        flex: 1;
+    }
+
+    .content-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 15px;
+        border-top: 1px solid #eee;
+        margin-bottom: 1rem;
+    }
+
+    .badges-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        min-width: fit-content;
+    }
+
+    .action-row {
+        display: flex;
+        gap: 12px;
+        margin-left: auto;
+        position: relative;
+        z-index: 2;  /* Ensure buttons are above the badge */
+    }
+
+    .view-buttons, .admin-buttons {
+        display: flex;
+        gap: 8px;
+    }
+
+    .admin-buttons {
+        border-left: 1px solid #eee;
+        padding-left: 12px;
+    }
+
+    .documento-badge {
+        width: 100%;
+        text-align: center;
+        background: linear-gradient(135deg, #50a050, #408040);
+        color: white;
+        padding: 5px 10px;
+        border-radius: 5px;
+        margin-top: auto;
+        position: relative;
+        z-index: 1;  /* Keep badge below the buttons */
+    }
+
+    .mt-auto {
+        margin-top: auto;
     }
 
     .btn {
         transform: scale(1);
         transition: all 0.2s ease;
+        position: relative;
+        z-index: 2;  /* Ensure buttons are above the badge */
     }
 
     .btn:hover {
         transform: scale(1.05);
-    }
-
-    .documento-badge {
-        background: linear-gradient(135deg, #50a050, #408040);
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
 
     .card-container {
@@ -136,15 +208,6 @@
     @keyframes fadeIn {
         from { opacity: 0; }
         to { opacity: 1; }
-    }
-
-    .documento-badge {
-        display: inline-block;
-        background-color: #50a050;
-        color: white;
-        padding: 5px 10px;
-        border-radius: 5px;
-        margin: 10px 0;
     }
 
     .card-actions {
@@ -236,6 +299,29 @@
 
     .content-footer {
         display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 15px 0;
+        border-top: 1px solid #eee;
+        gap: 15px;
+    }
+
+    .badges-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        order: 2;
+    }
+
+    .action-row {
+        display: flex;
+        gap: 12px;
+        justify-content: flex-end;
+        order: 1;
+    }
+
+    .content-footer {
+        display: flex;
         justify-content: space-between;
         align-items: center;
         padding: 15px 0;
@@ -265,5 +351,57 @@
         border-left: 1px solid #eee;
         padding-left: 12px;
     }
+
+    .description {
+        position: relative;
+        transition: all 0.3s ease;
+    }
+
+    .description.expanded {
+        white-space: normal;
+    }
+
+    .ver-mais-btn {
+        background: none;
+        border: none;
+        color: #50a050;
+        cursor: pointer;
+        padding: 0;
+        margin-left: 5px;
+        font-size: 0.9em;
+    }
+
+    .ver-mais-btn:hover {
+        text-decoration: underline;
+    }
 </style>
+@endsection
+
+@section('additional_js')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.ver-mais-btn').forEach(button => {
+        button.addEventListener('click', function(e) {
+            const descriptionElement = this.parentElement;
+            const fullText = descriptionElement.dataset.fullText;
+            
+            if (descriptionElement.classList.contains('expanded')) {
+                descriptionElement.textContent = fullText.substring(0, 100) + '...';
+                descriptionElement.classList.remove('expanded');
+                const newButton = document.createElement('button');
+                newButton.className = 'ver-mais-btn';
+                newButton.textContent = 'Ver mais...';
+                descriptionElement.appendChild(newButton);
+            } else {
+                descriptionElement.textContent = fullText;
+                descriptionElement.classList.add('expanded');
+                const newButton = document.createElement('button');
+                newButton.className = 'ver-mais-btn';
+                newButton.textContent = 'Ver menos';
+                descriptionElement.appendChild(newButton);
+            }
+        });
+    });
+});
+</script>
 @endsection

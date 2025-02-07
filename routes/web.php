@@ -56,6 +56,9 @@ Route::get('/bolsas', 'BolsasController@index')->name('bolsas.index');
 Route::get('/semanas', 'SemanasController@index')->name('semanas.index');
 Route::get('/tccs', 'TccsController@index')->name('tccs.index');
 
+// Add the contact route
+Route::get('/contato', [App\Http\Controllers\ContatoController::class, 'index'])->name('contato');
+
 // Site routes - publicly accessible
 Route::prefix('site')->name('site.')->group(function () {
     Route::controller(SiteController::class)->group(function () {
@@ -133,7 +136,7 @@ Route::get('/prova', [ProvaController::class, 'index'])->name('prova.index');
 Route::get('/tcc', [TccController::class, 'index'])->name('tcc.index');
 Route::get('/bolsa', [BolsaController::class, 'index'])->name('bolsa.index');
 Route::get('/aluno', [AlunoController::class, 'index'])->name('aluno.index');
-Route::get('/projeto', [ProjetoController::class, 'index'])->name('projeto.index');
+Route::get('/projeto', [ProjetoController::class, 'index'])->name('projeto.index');  // Moved here
 Route::get('/resumo', [ResumoController::class, 'index'])->name('resumo.index');
 
 Route::view('/dashboard', 'dashboard')->name('dashboard');

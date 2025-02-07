@@ -11,7 +11,8 @@ class ProjetoController extends BaseController
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->except(['index']); // Allow index without auth
+        
     }
     public function index()
     {

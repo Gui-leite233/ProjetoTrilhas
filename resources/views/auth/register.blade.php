@@ -14,9 +14,11 @@
 </head>
 <body>
     <header>
-    <div id="title">
-            <img src="{{asset('img/images.png')}}" alt="Logo">
-            <h1>Trilhas de aprendizagem</h1>
+        <div id="title">
+            <a href="{{ route('home') }}">
+                <h1>Trilhas de aprendizagem</h1>
+                
+            </a>
         </div>
 
         <ul>
@@ -35,9 +37,8 @@
             <form method="POST" action="{{ route('register') }}" 
                   x-data="{ 
                       loading: false, 
-                      selectedRole: null, 
+                      selectedRole: {{ auth()->check() && auth()->user()->role_id === 1 ? 'null' : '3' }}, 
                       isAluno() { 
-                          console.log('Selected role:', this.selectedRole);
                           return parseInt(this.selectedRole) === 3;
                       }
                   }" 
@@ -54,16 +55,32 @@
                     </div>
                 @endif
 
-                <div class="input-group">
-                    <i class="fas fa-user-tag"></i>
-                    <select name="role_id" id="role_id" x-model.number="selectedRole" required>
-                        <option value="" disabled selected>Selecione uma função</option>
-                        @foreach($roles as $role)
-                            <option value="{{ $role->id }}" {{ old('role_id') == $role->id ? 'selected' : '' }}>
-                                {{ $role->name }}
-                            </option>
-                        @endforeach
-                    </select>
+                <div class="input-group role-selection">
+                    <div class="radio-group">
+                        @if(auth()->check() && auth()->user()->role_id === 1)
+                            @foreach($roles as $role)
+                                <label>
+                                    <input type="radio" 
+                                           name="role_id" 
+                                           value="{{ $role->id }}" 
+                                           x-model.number="selectedRole" 
+                                           {{ old('role_id') == $role->id ? 'checked' : '' }}
+                                           required>
+                                    {{ $role->name }}
+                                </label>
+                            @endforeach
+                        @else
+                            <label>
+                                <input type="radio" 
+                                       name="role_id" 
+                                       value="3" 
+                                       x-model.number="selectedRole" 
+                                       checked
+                                       required>
+                                Aluno
+                            </label>
+                        @endif
+                    </div>
                 </div>
 
                 <div class="input-group">
@@ -142,6 +159,52 @@
         </div>
     </footer>
     <style>
+        /* Updated header styles */
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 30px;
+            background-color: #333;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+        }
+
+        header ul {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        header ul a {
+            text-decoration: none;
+            color: white;
+        }
+
+        header ul a li {
+            padding: 8px 16px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        header ul a:not(#inscreva-se-btn):hover li {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        #inscreva-se-btn li {
+            background: #007bff;
+            transition: background 0.2s ease;
+        }
+
+        #inscreva-se-btn:hover li {
+            background: #0056b3;
+        }
+
+        /* Existing styles */
         [x-cloak] { display: none !important; }
 
         /* Fix animations and timing */
@@ -210,6 +273,209 @@
             0%, 100% { transform: translateX(0); }
             25% { transform: translateX(-5px); }
             75% { transform: translateX(5px); }
+        }
+
+        /* Add these new styles */
+        .role-selection {
+            margin-bottom: 20px;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .radio-label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            padding: 10px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .radio-label:hover {
+            border-color: #007bff;
+            background: #f8f9fa;
+        }
+
+        .radio-label input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .radio-label input[type="radio"]:checked + .radio-text {
+            color: #007bff;
+        }
+
+        .radio-label input[type="radio"]:checked + .radio-text i {
+            color: #007bff;
+        }
+
+        .radio-label:has(input[type="radio"]:checked) {
+            border-color: #007bff;
+            background: #f0f7ff;
+        }
+
+        .radio-text {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #495057;
+            font-weight: 500;
+        }
+
+        .radio-text i {
+            font-size: 1.1rem;
+            color: #6c757d;
+        }
+
+        /* Role Selection Styles */
+        .role-selection {
+            margin: 20px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .role-group-label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #2b2b2b;
+            text-align: center;
+        }
+
+        .radio-group {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 10px;
+        }
+
+        .radio-label {
+            position: relative;
+            display: flex;
+            align-items: center;
+            padding: 12px 25px;
+            background: white;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            min-width: 140px;
+            justify-content: center;
+        }
+
+        .radio-label:hover {
+            border-color: #007bff;
+        }
+
+        .radio-label input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .radio-custom {
+            position: absolute;
+            left: 10px;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #dee2e6;
+            border-radius: 50%;
+            transition: all 0.2s ease;
+        }
+
+        .radio-label input[type="radio"]:checked ~ .radio-custom {
+            border-color: #007bff;
+            background: #007bff;
+            box-shadow: inset 0 0 0 4px white;
+        }
+
+        .radio-label input[type="radio"]:checked ~ .radio-text {
+            color: #007bff;
+        }
+
+        .radio-text {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #495057;
+            font-weight: 500;
+            font-size: 1rem;
+        }
+
+        .radio-text i {
+            font-size: 1.2rem;
+        }
+
+        .radio-label input[type="radio"]:checked + .radio-label {
+            border-color: #007bff;
+            background: #f0f7ff;
+        }
+
+        /* Make sure these styles don't conflict with other elements */
+        .input-group.role-selection {
+            background: transparent;
+            border: none;
+            box-shadow: none;
+        }
+
+        /* Simplified Radio Button Styles */
+        .role-selection {
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .radio-group {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 10px 0;
+        }
+
+        .radio-group label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: all 0.2s ease;
+            color: #495057;
+        }
+
+        .radio-group label:hover {
+            background-color: #f8f9fa;
+            color: #007bff;
+        }
+
+        .radio-group input[type="radio"] {
+            margin-right: 5px;
+        }
+
+        .radio-group input[type="radio"]:checked + i {
+            color: #007bff;
+        }
+
+        .radio-group label:has(input[type="radio"]:checked) {
+            color: #007bff;
+            background-color: #e7f1ff;
+        }
+
+        .radio-group i {
+            font-size: 1.1rem;
+            color: #6c757d;
+            transition: color 0.2s ease;
+        }
+
+        /* Remove any conflicting styles */
+        .role-selection {
+            background: transparent;
+            padding: 0;
         }
     </style>
 </body>
