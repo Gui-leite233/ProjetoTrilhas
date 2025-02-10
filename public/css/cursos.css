@@ -8,8 +8,8 @@
 body {
     font-family: 'Poppins', sans-serif;
     line-height: 1.6;
-    background-color: #f9f9f9;
-    color: #333;
+    background-color: #333;
+    color: #e0e0e0;
     margin: 0;
     padding: 0;
 }
@@ -21,7 +21,12 @@ header {
     border-bottom: 2px solid #50a050;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 18px 20px;
-    background-color: #f0fff0;
+    background-color: #222;
+}
+
+header a {
+    text-decoration: none;
+    color: inherit;
 }
 
 #title {
@@ -37,7 +42,7 @@ header {
 #title h1 {
     margin: 0;
     font-size: 1.8em;
-    color: #665f5f;
+    color: #50a050;
 }
 
 header ul {
@@ -48,7 +53,7 @@ header ul {
 }
 
 header ul a {
-    color: #665f5f;
+    color: #e0e0e0;
     text-decoration: none;
     font-weight: bold;
     padding: 10px 15px;
@@ -68,13 +73,13 @@ header ul a:hover {
 
 .intro-section h2 {
     font-size: 2.5em;
-    color: #333333;
+    color: #50a050;
     margin-bottom: 20px;
 }
 
 .intro-section p {
     font-size: 1.2em;
-    color: #777777;
+    color: #e0e0e0;
     max-width: 800px;
     margin: 0 auto;
     line-height: 1.6;
@@ -90,10 +95,10 @@ header ul a:hover {
 
 .card {
     width: 300px;
-    background-color: #fff;
+    background-color: #444;
     border-radius: 8px;
     overflow: hidden;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     margin: 20px;
     display: flex;
     flex-direction: column;
@@ -127,12 +132,12 @@ header ul a:hover {
 .card-content h3 {
     font-size: 1.8em;
     margin-bottom: 8px;
-    color: #333;
+    color: #e0e0e0;
     text-align: center;
 }
 
 .card-content p {
-    color: #666;
+    color: #bbb;
     font-size: 14px;
     line-height: 1.6;
     text-align: center;
@@ -155,11 +160,16 @@ header ul a:hover {
     transform: scale(1.05);
 }
 
+.card-icon {
+    color: #50a050;
+    font-size: 3em;
+    margin: 20px 0;
+}
 
 footer {
-    background-color: #f0f8ff;
+    background-color: #222;
     padding: 20px 0;
-    color: #333;
+    color: #e0e0e0;
     width: 100%;
     box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -201,7 +211,7 @@ footer {
 }
 
 .footer-section ul li a {
-    color: #333;
+    color: #e0e0e0;
     text-decoration: none;
     transition: color 0.3s;
 }
@@ -238,7 +248,7 @@ footer {
 
 .social-links li a:hover {
     color: #50a050;
-    background-color: #f0f8ff; /* Adiciona cor de fundo no hover */
+    background-color: #333; /* Adiciona cor de fundo no hover */
 }
 
 .footer-section form {
@@ -273,6 +283,93 @@ footer {
 .footer-bottom {
     text-align: center;
     padding: 5px 0; /* Reduz o padding no footer-bottom */
-    background-color: #e0f7fa;
+    background-color: #333;
     border-top: 2px solid #50a050;
+    color: #e0e0e0;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+    margin: 5px;
+    min-width: 100px;
+}
+
+.btn i {
+    margin-right: 8px;
+}
+
+.btn-primary {
+    background-color: #50a050;
+    color: white;
+    box-shadow: 0 2px 4px rgba(80, 160, 80, 0.2);
+}
+
+.btn-primary:hover {
+    background-color: #408040;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(80, 160, 80, 0.3);
+}
+
+.btn-edit {
+    background-color: #f0ad4e;
+    color: white;
+    box-shadow: 0 2px 4px rgba(240, 173, 78, 0.2);
+}
+
+.btn-edit:hover {
+    background-color: #ec971f;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(240, 173, 78, 0.3);
+}
+
+.btn-delete {
+    background-color: #dc3545;
+    color: white;
+    box-shadow: 0 2px 4px rgba(220, 53, 69, 0.2);
+}
+
+.btn-delete:hover {
+    background-color: #c82333;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
+}
+
+.card-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 16px;
+    width: 100%;
+}
+
+.action-button {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.inline-form {
+    display: inline-block;
+}
+
+.empty-state {
+    color: #e0e0e0;
+    text-align: center;
+    padding: 40px;
+}
+
+.empty-state i {
+    color: #50a050;
+    font-size: 3em;
+    margin-bottom: 20px;
 }

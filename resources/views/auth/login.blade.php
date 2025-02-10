@@ -11,11 +11,10 @@
 </head>
 <body>
     <header> 
-        <img src="./components/images/ifpr.jpg" alt="Imagem do Cabeçalho">
+        <img src="{{asset('img/ifpr.jpg')}}" alt="Imagem do Cabeçalho">
         <ul>
-            <li><a href="./index.html"><i class="fas fa-envelope"></i> SEJA BEM VINDO</a></li>
-            <li><a href="./sobre.html"><i class="fas fa-info-circle"></i> SOBRE</a></li>
-            <li><a href="./contato.html"><i class="fas fa-envelope"></i> CONTATO</a></li>
+            <li><a href="{{ route('sobre') }}"><i class="fas fa-info-circle"></i> SOBRE</a></li>
+            <li><a href="{{ route('contato') }}"><i class="fas fa-envelope"></i> CONTATO</a></li>
         </ul>
     </header>
     <div class="wrapper">

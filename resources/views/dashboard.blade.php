@@ -13,10 +13,12 @@
 </head>
 <body>
     <header>
-    <div id="title">
-            <img src="{{asset('img/images.png')}}" alt="Logo">
-            <h1>Trilhas de aprendizagem</h1>
-        </div>
+        <a href="{{ url('/') }}" style="text-decoration: none; color: inherit;">
+            <div id="title">
+                <img src="{{asset('img/images.png')}}" alt="Logo">
+                <h1>Trilhas de aprendizagem</h1>
+            </div>
+        </a>
         <ul>
             <form method="POST" action="{{ route('logout') }}" class="d-inline">
                 @csrf
@@ -34,7 +36,7 @@
                 <div class="card" x-data="{ hover: false }" 
                      @mouseenter="hover = true" 
                      @mouseleave="hover = false">
-                    <a href="{{ route('profile.edit') }}" class="card-content">
+                    <a href="{{ route('profile.edit') }}" class="card-content" onclick="window.location.href='{{ route('profile.edit') }}'">
                         <i class="fas fa-user-circle fa-3x"></i>
                         <h3>Perfil</h3>
                         <p>Edite suas informações pessoais</p>
@@ -46,7 +48,7 @@
                      @mouseleave="hover = false">
                     <form method="POST" action="{{ route('logout') }}" class="card-content">
                         @csrf
-                        <button type="submit">
+                        <button type="submit" style="display: flex; flex-direction: column; align-items: center; width: 100%;">
                             <i class="fas fa-sign-out-alt fa-3x"></i>
                             <h3>Sair</h3>
                             <p>Encerrar sessão</p>
@@ -115,6 +117,9 @@
             text-decoration: none;
             color: inherit;
             display: block;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
         }
 
         .card i {
@@ -146,9 +151,22 @@
             background: none;
             border: none;
             width: 100%;
+            height: 100%;
             cursor: pointer;
             padding: 0;
             transition: all 0.3s ease;
+            color: inherit;
+            font-family: inherit;
+        }
+
+        .card button h3 {
+            margin: 1rem 0;
+            color: #333;
+        }
+
+        .card button p {
+            color: #666;
+            font-size: 0.9rem;
         }
 
         /* Enhanced animations */

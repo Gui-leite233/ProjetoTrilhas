@@ -34,17 +34,23 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 |--------------------------------------------------------------------------
 */
 
-Route::get('/test', function () {
-    return view('/sobre/index');
-})->name('sobre');
+// Remove or comment out this route
+// Route::get('/test', function () {
+//     return view('/sobre/index');
+// })->name('sobre');
 
 Route::get('/', function () {
     return view('index');
 })->name('home');
 
-Route::get('/sobre', function() {
+// Update this route to point to the correct view
+Route::get('/sobre', function () {
     return view('sobre.index');
-})->name('sobre.index');
+})->name('sobre');
+
+Route::get('/contato', function () {
+    return view('contato');
+})->name('contato');
 
 // Comment out or remove these since they're not currently implemented
 // Route::get('/contato', 'ContatoController@index')->name('contato.index');
