@@ -47,7 +47,7 @@ class BolsaController extends Controller
         $reg->ativo = $request->ativo;
         $reg->save();
 
-        return redirect()->route('admin.bolsa.index');
+        return redirect()->route('bolsa.index');
     }
 
     public function edit(string $id)
@@ -92,7 +92,7 @@ class BolsaController extends Controller
         $obj->ativo = $request->ativo;
         $obj->save();
 
-        return redirect()->route('admin.bolsa.index')->with('success', 'Bolsa atualizada com sucesso!');
+        return redirect()->route('bolsa.index')->with('success', 'Bolsa atualizada com sucesso!');
     }
 
     public function destroy(string $id)
@@ -103,6 +103,6 @@ class BolsaController extends Controller
         }
 
         $obj->delete();
-        return redirect()->route('admin.bolsa.index');
+        return redirect()->route('bolsa.index');
     }
 }

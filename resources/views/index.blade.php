@@ -20,6 +20,15 @@
             <a href="{{ route('register') }}"><li><i class="fas fa-info-circle"></i> Inicio</li></a>
             <a href="{{ route('sobre') }}"><li><i class="fas fa-envelope"></i> Sobre</li></a>
             <a href="{{ url('/contato') }}" id="cadastre-se-btn"><li><i class="fas fa-user"></i> Contato</li></a>
+            @auth
+                
+                {{-- Check for admin role using role_id --}}
+                @if(Auth::user()->role_id === 1)
+                    <a href="{{ route('admin.register') }}" class="admin-register-btn">
+                        <li><i class="fas fa-user-plus"></i> Novo Usuário</li>
+                    </a>
+                @endif
+            @endauth
         </ul>
     </header>
 

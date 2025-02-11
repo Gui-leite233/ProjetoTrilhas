@@ -105,4 +105,36 @@ class RegisteredUserController extends Controller
 
         return redirect()->route('unauthorized');
     }
+
+    /**
+     * Display the admin registration view.
+     */
+    public function createAdmin(): View
+    {
+        return view('auth.admin-register');
+    }
+
+    /**
+     * Handle an incoming admin registration request.
+     */
+    public function storeAdmin(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'role_id' => ['required', 'exists:roles,id'],
+        ]);
+
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role_id' => $request->role_id,
+        ]);
+
+        event(new Registered($user));
+
+        return redirect()->route('home')->with('success', 'User registered successfully');
+    }
 }

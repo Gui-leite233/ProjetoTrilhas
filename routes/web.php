@@ -93,10 +93,22 @@ Route::get('/unauthorized', function () {
     return view('unauthorized');
 })->name('unauthorized');
 
-// Add this new route before your other routes
-Route::get('/admin/register', function () {
-    return view('auth.register');
-})->name('admin.register')->middleware('can:viewAdminItems,App\Models\User');
+/*
+|--------------------------------------------------------------------------
+| Admin Routes
+|--------------------------------------------------------------------------
+*/
+
+// Create an admin middleware group
+Route::middleware(['auth'])->group(function () {
+    Route::middleware(['admin'])->group(function () {
+        Route::get('/admin/register', [RegisteredUserController::class, 'createAdmin'])
+            ->name('admin.register');
+        
+        Route::post('/admin/register', [RegisteredUserController::class, 'storeAdmin'])
+            ->name('admin.register.store');
+    });
+});
 
 /*
 |--------------------------------------------------------------------------
@@ -175,7 +187,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::prefix('tcc')->name('tcc.')->group(function () {
         Route::get('viewPdf/{id}', [TccController::class, 'viewPdf'])->name('viewPdf');
-        Route::get('download/{id}', [TccController::class, 'downloadPdf'])->name('download');
+        Route::get('download/{id}', [TccController::class, 'downloadPdf'])->name('downloadPdf');
     });
 
     Route::prefix('prova')->name('prova.')->group(function () {

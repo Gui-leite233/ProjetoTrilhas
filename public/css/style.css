@@ -445,6 +445,120 @@ td .btn-group {
 }
 
 .card {
+    background-color: #444;
+    border-radius: 8px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 16px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+    margin-top: 50px; /* Increased to give more space for the icon */
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.card-inner {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.card-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.card-header i {
+    color: #50a050;
+    font-size: 2.5em;
+}
+
+.card-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    text-align: center;
+}
+
+.card-content > div:first-child {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.card-content i.fa-3x {
+    color: #50a050;
+    margin-bottom: 16px;
+    font-size: 3em;
+}
+
+.card-content h3 {
+    color: #e0e0e0;
+    font-size: 1.4em;
+    margin: 12px 0;
+}
+
+.card-content p {
+    color: #bbb;
+    font-size: 0.95em;
+    line-height: 1.5;
+    margin: 0 0 16px 0;
+}
+
+.badges-section {
+    margin: 16px 0;
+    display: flex;
+    justify-content: center;
+}
+
+.documento-badge {
+    background: linear-gradient(135deg, #50a050, #408040);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9em;
+}
+
+.actions-section {
+    margin-top: auto;
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn {
+    background-color: #50a050;
+    padding: 8px 16px;
+    border-radius: 4px;
+    color: white;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9em;
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #408040;
+    transform: translateY(-2px);
+}
+
+.card {
     width: 300px;
     background-color: #444;
     border-radius: 8px;
@@ -599,4 +713,91 @@ td .btn-group {
 .btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.card {
+    background-color: #444;
+    border-radius: 8px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 16px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+    margin-top: 50px; /* Increased to give more space for the icon */
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.card i.fa-3x {
+    color: #50a050;
+    margin-bottom: 16px;
+}
+
+.card h3 {
+    color: #e0e0e0;
+    font-size: 1.4em;
+    margin-bottom: 12px;
+}
+
+.card p {
+    color: #bbb;
+    font-size: 0.95em;
+    line-height: 1.5;
+    margin-bottom: 16px;
+}
+
+.actions-section {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    margin-top: auto;
+}
+
+.icon-wrapper {
+    position: absolute;
+    top: -35px; /* Adjusted position */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70px; /* Increased size */
+    height: 70px; /* Increased size */
+    background-color: #444;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 4px solid #333;
+    box-sizing: border-box;
+    margin: 0 auto;
+    z-index: 1;
+}
+
+.icon-wrapper i {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+}
+
+.icon-wrapper i.fa-file-signature {
+    color: #50a050;
+    font-size: 28px; /* Adjusted size */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
 }

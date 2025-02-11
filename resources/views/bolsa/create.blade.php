@@ -1,22 +1,15 @@
-@extends('templates.main', ['menu' => "admin", 'submenu' => "Nova Bolsa"])
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Cadastrar Bolsa') }}
+        </h2>
+    </x-slot>
 
-@section('titulo') Nova Bolsa @endsection
-
-@section('conteudo')
-<div class="container py-4">
-    <div class="row">
-        <div class="col-md-8 mx-auto">
-            <div class="card border-0 shadow-sm">
-                <div class="card-header bg-dark text-white">
-                    <h4 class="card-title mb-0 d-flex align-items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-wallet2 me-2" viewBox="0 0 16 16">
-                            <path d="M12.136.326A1.5 1.5 0 0 1 14 1.78V3h.5A1.5 1.5 0 0 1 16 4.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 13.5v-9a.5 1.5 0 0 1 1.432-1.499L12.136.326zM5.562 3H13V1.78a.5.5 0 0 0-.621-.484L5.562 3zM1.5 4a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-13z"/>
-                        </svg>
-                        Nova Bolsa
-                    </h4>
-                </div>
-                <div class="card-body p-4">
-                    <form action="{{ route('admin.bolsa.store') }}" method="POST">
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 bg-white border-b border-gray-200">
+                    <form action="{{ route('bolsa.store') }}" method="POST">
                         @csrf
                         <div class="mb-4">
                             <label class="form-label text-muted small fw-bold">TÍTULO</label>
@@ -71,7 +64,7 @@
                         </div>
 
                         <div class="d-flex justify-content-between">
-                            <a href="{{ route('admin.bolsa.index') }}" class="btn btn-secondary btn-block align-content-center">
+                            <a href="{{ route('bolsa.index') }}" class="btn btn-secondary btn-block align-content-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
                                     class="bi bi-arrow-left-square-fill" viewBox="0 0 16 16">
                                     <path
@@ -93,5 +86,4 @@
             </div>
         </div>
     </div>
-</div>
-@endsection
+</x-app-layout>
