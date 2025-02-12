@@ -462,6 +462,7 @@ footer {
     flex-direction: column;
 }
 
+/* Updated Card Container and Card Styles */
 .card-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Adjusted minmax */
@@ -469,6 +470,99 @@ footer {
     padding: 1.5rem; /* Reduced from 2rem */
     max-width: 1200px;
     margin: 0 auto;
+}
+
+.card {
+    position: relative;
+    background-color: #444;
+    border-radius: 12px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    width: 100%;
+    max-width: 320px;
+    margin: 1rem auto;
+    min-height: 450px; /* Increased from 400px */
+    padding-bottom: 6rem; /* Increased padding-bottom to make room for buttons */
+}
+
+.card-inner {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    gap: 1rem;
+}
+
+.content-main {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    flex: 1;
+    overflow: visible; /* Allow content to scroll if needed */
+    padding-bottom: 1rem; /* Add some space between content and buttons */
+}
+
+.description {
+    color: #bbb;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    overflow-wrap: break-word; /* Ensure long words don't overflow */
+    word-break: break-word;
+    margin-bottom: 1rem;
+}
+
+.button-row {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #444;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0 0 12px 12px;
+    padding: 1rem;
+    margin-top: auto;
+}
+
+.card-inner {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.content-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.button-row {
+    position: relative;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    padding-top: 1rem;
+    margin-top: auto;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+@media (max-width: 768px) {
+    .card-container {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        padding: 1rem;
+        gap: 1rem;
+    }
+    
+    .card {
+        max-width: 100%; /* Allow cards to fill width on mobile */
+    }
 }
 
 @media (max-width: 768px) {
@@ -537,6 +631,143 @@ footer {
 /* If the buttons are inside a table cell */
 td .btn-group {
     justify-content: flex-start;
+}
+
+.card {
+    background-color: #444;
+    border-radius: 8px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 16px;
+    position: relative;
+    margin-top: 45px;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: visible;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.card-inner {
+    padding: 16px; /* Reduced from 24px */
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.card-header {
+    position: relative;
+    width: 100%;
+    height: 70px; /* Match the icon-wrapper height */
+    margin-bottom: 30px; /* Add space below the icon */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-header i {
+    color: #50a050;
+    font-size: 2.5em;
+}
+
+.card-content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.card-content > div:first-child {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.card-content i.fa-3x {
+    color: #50a050;
+    margin-bottom: 16px;
+    font-size: 3em;
+}
+
+.card-content h3 {
+    color: #e0e0e0;
+    font-size: 1.4em;
+    margin: 0;
+}
+
+.card-content p {
+    color: #bbb;
+    font-size: 0.95em;
+    line-height: 1.5;
+    margin: 0;
+    position: relative;
+}
+
+.badges-section {
+    margin: 16px 0;
+    display: flex;
+    justify-content: center;
+}
+
+.documento-badge {
+    background: linear-gradient(135deg, #50a050, #408040);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9em;
+    margin-top: 8px;
+}
+
+.actions-section {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 16px;
+}
+
+.btn {
+    padding: 8px 16px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9em;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: white;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #408040;
+    transform: translateY(-2px);
+}
+
+.btn i {
+    font-size: 1em;
+}
+
+.ver-mais-btn {
+    background: none;
+    border: none;
+    color: #66bb66;
+    cursor: pointer;
+    padding: 0 4px;
+    font-size: 0.9em;
 }
 
 .card {
@@ -912,6 +1143,10 @@ td .btn-group {
     padding: 3rem;
     margin: auto;
     text-align: center;
+    background-color: rgba(80, 160, 80, 0.1);
+    border-radius: 8px;
+    border: 1px solid rgba(80, 160, 80, 0.2);
+    max-width: 400px;
 }
 
 .empty-state i {
@@ -1098,23 +1333,28 @@ td .btn-group {
 
 .my-resume-badge {
     position: absolute;
-    top: -10px;
-    right: -10px;
+    top: -6px;
+    right: -6px;
     background: #66bb66;
     color: white;
-    padding: 5px 10px;
-    border-radius: 15px;
-    font-size: 0.8em;
+    padding: 1px 4px !important;  /* Reduced padding */
+    border-radius: 8px; /* Smaller radius */
+    font-size: 0.65em; /* Smaller font */
     display: flex;
     align-items: center;
-    gap: 5px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    gap: 2px; /* Smaller gap */
+    box-shadow: 0 1px 2px rgba(0,0,0,0.2);
     z-index: 2;
+    justify-content: center; /* Added to center the content */
+    height: 16px; /* Fixed height to ensure vertical centering */
+    line-height: 1; /* Ensures text is vertically centered */
 }
 
 .my-resume-badge i {
-    font-size: 0.9em;
-    color: #fff;
+    font-size: 0.7em !important; 
+    display: flex; /* Added to properly align the icon */
+    align-items: center; /* Center icon vertically */
+    justify-content: center; /* Center icon horizontally */
 }
 
 /* ...existing code... */
@@ -1180,3 +1420,460 @@ td .btn-group {
 }
 
 /* ...rest of existing code... */
+
+/* Updated Card Styles */
+.card {
+    background-color: #444;
+    border-radius: 8px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 16px;
+    position: relative;
+    margin-top: 45px;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: visible;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card-content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.content-main {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.selected-users {
+    margin: 8px 0;
+    width: 100%;
+}
+
+.users-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 4px;
+}
+
+.card-badges {
+    margin-top: auto;
+    width: 100%;
+}
+
+.card-actions {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.documento-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    background: rgba(80, 160, 80, 0.1);
+    border-radius: 16px;
+    border: 1px solid rgba(80, 160, 80, 0.2);
+    font-size: 0.9em;
+    color: #50a050;
+}
+
+.btn {
+    padding: 8px;
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    background-color: #50a050;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn i {
+    font-size: 0.9em;
+}
+
+/* ...existing code... */
+
+/* Updated button styles */
+.btn {
+    padding: 8px;
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    background-color: #50a050;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-edit {
+    background-color: #f0ad4e;
+}
+
+.btn-edit:hover {
+    background-color: #ec971f;
+}
+
+.btn-delete {
+    background-color: #dc3545;
+    width: 32px;
+    height: 32px;
+    padding: 8px;
+    border: none;
+}
+
+.btn-delete:hover {
+    background-color: #c82333;
+}
+
+.card-actions {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.card-actions form {
+    margin: 0;
+    padding: 0;
+}
+
+.btn i {
+    font-size: 0.9em;
+}
+
+/* ...existing code... */
+
+/* Add any missing styles from telaPrincipal.css */
+.video-container {
+    text-align: center;
+    padding: 20px 0;
+    background-color: #444;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 40px;
+}
+
+video {
+    max-width: 80%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.video-caption {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 1.2em;
+    color: #e0e0e0;
+    font-style: italic;
+}
+
+/* Add any other styles that might be missing */
+/* ...existing code... */
+
+/* ...existing code... */
+
+/* Updated Card Styles for Resumo */
+.button-row {
+    margin-top: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.3rem !important;
+    padding-top: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.view-buttons, .admin-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.admin-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.documento-badge {
+    padding: 4px 12px;
+    border-radius: 16px;
+    font-size: 0.85em;
+    background: rgba(80, 160, 80, 0.1);
+    border: 1px solid rgba(80, 160, 80, 0.2);
+    color: #50a050;
+    margin: 8px 0;
+}
+
+.selected-users {
+    margin: 8px 0;
+}
+
+.users-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 4px;
+    margin-top: 4px;
+}
+
+/* ...existing code... */
+
+/* ...existing code... */
+
+.card {
+    position: relative;
+    background-color: #444;
+    border-radius: 12px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    width: 100%;
+    max-width: 320px;
+    margin: 1rem auto;
+    min-height: 450px; /* Add space for buttons */
+    padding-bottom: 100px; /* Increased to accommodate buttons and badge */
+}
+
+.card-inner {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    position: relative;
+}
+
+.icon-wrapper {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.icon-wrapper i {
+    font-size: 3rem;
+    color: #50a050;
+}
+
+.content-main {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    flex: 1;
+    margin-bottom: 60px; /* Space for badge and buttons */
+    overflow: visible; /* Changed from auto to visible */
+    padding-bottom: 7rem; /* Add enough space for PDF badge and buttons */
+}
+
+.content-main h3 {
+    font-size: 1.4rem;
+    color: #fff;
+    margin: 0;
+    line-height: 1.3;
+    text-align: center;
+}
+
+.selected-users {
+    background: rgba(80, 160, 80, 0.1);
+    border-radius: 8px;
+    padding: 0.75rem;
+    margin: 0.5rem 0;
+}
+
+.users-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.description {
+    color: #bbb;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    flex: 1;
+    margin-bottom: 1rem;
+}
+
+.documento-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    background: rgba(80, 160, 80, 0.15);
+    border-radius: 8px;
+    color: #66bb66;
+    font-size: 0.9rem;
+    justify-content: center;
+    margin: 0.5rem 0;
+    position: absolute;
+    bottom: -40px; /* Position above the buttons */
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    z-index: 1;
+}
+
+/* Update button row styles */
+.button-row {
+    position: absolute;
+    bottom: -60px; /* Align with card padding */
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #444;
+    border-radius: 0 0 12px 12px;
+    padding: 1rem;
+    margin-top: auto;
+    border-top: none; /* Remove the dividing line */
+    z-index: 1;
+}
+
+.action-buttons {
+    display: flex;
+    width: 100%; /* Make it full width */
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1rem; /* Move padding here */
+}
+
+.btn {
+    flex: 1; /* Make buttons grow equally */
+    max-width: 80px; /* Limit maximum width */
+    height: 36px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    padding: 0;
+    margin: 0;
+}
+
+.view-buttons, .admin-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.admin-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    padding: 0;
+    margin: 0;
+}
+
+.my-resume {
+    border: 2px solid #66bb66;
+}
+
+.my-resume-badge {
+    background: #66bb66;
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 15px;
+    font-size: 0.8em;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    margin-bottom: 0.5rem;
+}
+
+/* ...existing code... */
+
+/* Add the new style */
+.icon-group-small {
+    font-size: 0.9em;
+}
+
+/* ...existing code... */
+
+/* ...existing code... */
+
+.card {
+    position: relative;
+    background-color: #444;
+    border-radius: 12px;
+    padding: 1.4rem;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 320px;
+    margin: 1rem auto;
+    min-height: 550px;
+    padding-bottom: 100px; /* Increased to fully contain badge and buttons */
+    margin-bottom: 15px; /* Add space between cards */
+}
+
+.card-inner {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    position: relative;
+}
+
+.content-main {
+    flex: 1;
+    margin-bottom: 20px; /* Space for badge */
+}
+
+.documento-badge {
+    position: absolute;
+    bottom: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 0;
+    z-index: 2;
+    background-color: #444; /* Match card background */
+}
+
+.button-row {
+    position: absolute;
+    bottom: -30px;
+    left: 0;
+    right: 0;
+    padding: 1rem;
+    margin: 0;
+    border-radius: 0 0 12px 12px;
+    background-color: #444;
+    z-index: 1;
+}
+
+/* ...existing code... */

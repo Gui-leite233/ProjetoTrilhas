@@ -53,55 +53,143 @@
         <p>Abaixo você encontrará diversas trilhas de aprendizagem que desenvolvemos para você. Clique em "Saiba mais" para explorar cada uma delas.</p>
     </section>
     
-    <!-- Change the card-container class to index-cards -->
-    <div class="index-cards">
+    <!-- Change the card-container class to include homepage-cards -->
+    <div class="card-container homepage-cards">
         <div class="card">
-            <i class="fas fa-graduation-cap fa-5x"></i> <!-- Ícone de Cursos -->
-            <div class="card-content">
-                <h3>CURSOS</h3>
-                <p>Invista no seu futuro com nossos cursos técnicos. Adquira habilidades e aumente suas oportunidades de carreira!🚀📚</p>
-                <a href="{{ route('curso.index') }}" class="btn">Saiba mais</a>
+            <div class="card-inner">
+                <div class="card-header">
+                    <div class="icon-wrapper">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <div class="content-main">
+                        <h3>CURSOS</h3>
+                        <p class="description">
+                            Invista no seu futuro com nossos cursos técnicos. Adquira habilidades e aumente suas oportunidades de carreira!🚀📚
+                        </p>
+                        <div class="button-row-center">
+                            <a href="{{ route('curso.index') }}" class="btn btn-saiba-mais">
+                                <i class="fas fa-external-link-alt"></i> Saiba mais
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+
         <div class="card">
-            <i class="fas fa-book-open fa-5x"></i> <!-- Ícone de Resumos -->
-            <div class="card-content">
-                <h3>RESUMOS</h3>
-                <p>Publique seus resumos e ajude a comunidade a crescer. Vamos construir conhecimento juntos! 🌟📚</p>
-                <a href="{{ route('resumo.index') }}" class="btn">Saiba mais</a>
+            <div class="card-inner">
+                <div class="card-header">
+                    <div class="icon-wrapper">
+                        <i class="fas fa-book-open"></i>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <div class="content-main">
+                        <h3>RESUMOS</h3>
+                        <p class="description">
+                            Publique seus resumos e ajude a comunidade a crescer. Vamos construir conhecimento juntos! 🌟📚
+                        </p>
+                        <div class="button-row-center">
+                            <a href="{{ route('resumo.index') }}" class="btn btn-saiba-mais">
+                                <i class="fas fa-external-link-alt"></i> Saiba mais
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+
         <div class="card">
-            <i class="fas fa-project-diagram fa-5x"></i> <!-- Ícone de Projetos -->
-            <div class="card-content">
-                <h3>PROJETOS</h3>
-                <p>Participe de nossos projetos acadêmicos e fortaleça sua experiência prática e aprendizado colaborativo! 🚀📚</p>
-                <a href="{{ route('projeto.index') }}" class="btn">Saiba mais</a>
+            <div class="card-inner">
+                <div class="card-header">
+                    <div class="icon-wrapper">
+                        <i class="fas fa-project-diagram"></i>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <div class="content-main">
+                        <h3>PROJETOS</h3>
+                        <p class="description">
+                            Participe de nossos projetos acadêmicos e fortaleça sua experiência prática e aprendizado colaborativo! 🚀📚
+                        </p>
+                        <div class="button-row-center">
+                            <a href="{{ route('projeto.index') }}" class="btn btn-saiba-mais">
+                                <i class="fas fa-external-link-alt"></i> Saiba mais
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+
         <div class="card">
-            <i class="fas fa-file-alt fa-5x"></i> <!-- Ícone de Provas -->
-            <div class="card-content">
-                <h3>PROVAS</h3>
-                <p>Explore provas antigas e melhore sua preparação. Estude de maneira inteligente!📚📝</p>
-                <a href="{{ route('prova.index') }}" class="btn">Saiba mais</a>
+            <div class="card-inner">
+                <div class="card-header">
+                    <div class="icon-wrapper">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <div class="content-main">
+                        <h3>PROVAS</h3>
+                        <p class="description">
+                            Explore provas antigas e melhore sua preparação. Estude de maneira inteligente!📚📝
+                        </p>
+                        <div class="button-row-center">
+                            <a href="{{ route('prova.index') }}" class="btn btn-saiba-mais">
+                                <i class="fas fa-external-link-alt"></i> Saiba mais
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+
         <div class="card">
-            <i class="fas fa-hand-holding-usd fa-5x"></i> <!-- Ícone de Bolsas -->
-            <div class="card-content">
-                <h3>BOLSAS</h3>
-                <p>Aproveite nossas bolsas de estudo e impulsione seu futuro acadêmico. Garanta seu sucesso! 🌟🎓</p>
-                <a href="{{ route('bolsa.index') }}" class="btn">Saiba mais</a>
+            <div class="card-inner">
+                <div class="card-header">
+                    <div class="icon-wrapper">
+                        <i class="fas fa-hand-holding-usd"></i>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <div class="content-main">
+                        <h3>BOLSAS</h3>
+                        <p class="description">
+                            Aproveite nossas bolsas de estudo e impulsione seu futuro acadêmico. Garanta seu sucesso! 🌟🎓
+                        </p>
+                        <div class="button-row-center">
+                            <a href="{{ route('bolsa.index') }}" class="btn btn-saiba-mais">
+                                <i class="fas fa-external-link-alt"></i> Saiba mais
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        
+
         <div class="card">
-            <i class="fas fa-file-signature fa-5x"></i> <!-- Ícone de TCC'S -->
-            <div class="card-content">
-                <h3>TCC'S</h3>
-                <p>Explore os TCC's realizados e inspire-se para criar o seu próprio trabalho acadêmico! 🌟📚</p>
-                <a href="{{ route('tcc.index') }}" class="btn">Saiba mais</a>
+            <div class="card-inner">
+                <div class="card-header">
+                    <div class="icon-wrapper">
+                        <i class="fas fa-file-signature"></i>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <div class="content-main">
+                        <h3>TCC'S</h3>
+                        <p class="description">
+                            Explore os TCC's realizados e inspire-se para criar o seu próprio trabalho acadêmico! 🌟📚
+                        </p>
+                        <div class="button-row-center">
+                            <a href="{{ route('tcc.index') }}" class="btn btn-saiba-mais">
+                                <i class="fas fa-external-link-alt"></i> Saiba mais
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

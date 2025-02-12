@@ -46,13 +46,18 @@ class RegisteredUserController extends Controller
             'nome' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'role_id' => ['sometimes', 'required', 'exists:roles,id'],
+            'curso_id' => ['required_if:role_id,3'],
+            'ano' => ['required_if:role_id,3'],
         ]);
 
         $user = User::create([
             'nome' => $request->nome,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role_id' => $request->is('admin/*') ? 1 : 2, // 1 for admin, 2 for regular user
+            'role_id' => $request->role_id ?? 3, // Default to student (3) if not specified
+            'curso_id' => $request->curso_id,
+            'ano' => $request->ano,
         ]);
 
         event(new Registered($user));
