@@ -9,26 +9,36 @@
 </head>
 <body>
     <header>
-        <a href="{{ url('/') }}" style="text-decoration: none; color: inherit;">
+        <a href="{{ url('/') }}" class="title-link">
             <div id="title">
                 <img src="{{asset('img/images.png')}}" alt="Logo">
                 <h1>Trilhas de aprendizagem</h1>
             </div>
         </a>
 
-        <ul>
-            <a href="{{ route('register') }}"><li><i class="fas fa-info-circle"></i> Inicio</li></a>
-            <a href="{{ route('sobre') }}"><li><i class="fas fa-envelope"></i> Sobre</li></a>
-            <a href="{{ url('/contato') }}" id="cadastre-se-btn"><li><i class="fas fa-user"></i> Contato</li></a>
-            @auth
-                
-                {{-- Check for admin role using role_id --}}
+        <ul class="nav-links">
+            <a href="{{ url('/') }}"><li><i class="fas fa-home"></i> Inicio</li></a>
+            <a href="{{ route('sobre') }}"><li><i class="fas fa-info-circle"></i> Sobre</li></a>
+            <a href="{{ route('contato') }}"><li><i class="fas fa-envelope"></i> Contato</li></a>
+            @if(Auth::check())
+                <li class="logged-user">
+                    <i class="fas fa-user-circle"></i>
+                    <span>Olá, {{ Auth::user()->nome }}</span>
+                </li>
                 @if(Auth::user()->role_id === 1)
                     <a href="{{ route('admin.register') }}" class="admin-register-btn">
                         <li><i class="fas fa-user-plus"></i> Novo Usuário</li>
                     </a>
                 @endif
-            @endauth
+                <a href="{{ route('dashboard') }}"><li><i class="fas fa-tachometer-alt"></i> Dashboard</li></a>
+                <form method="POST" action="{{ route('logout') }}" style="display: inline;">
+                    @csrf
+                    <button type="submit" class="nav-button"><i class="fas fa-sign-out-alt"></i> Sair</button>
+                </form>
+            @else
+                <a href="{{ route('login') }}"><li><i class="fas fa-sign-in-alt"></i> Login</li></a>
+                <a href="{{ route('register') }}"><li><i class="fas fa-user-plus"></i> Registrar</li></a>
+            @endif
         </ul>
     </header>
 

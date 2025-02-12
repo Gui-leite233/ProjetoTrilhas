@@ -20,4 +20,9 @@ class Curso extends Model
     {
         return $this->hasMany(Aluno::class);
     }
+
+    public function bolsas()
+    {
+        return $this->hasMany(Bolsa::class);
+    }
 }

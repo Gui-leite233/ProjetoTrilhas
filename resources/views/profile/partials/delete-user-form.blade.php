@@ -1,17 +1,17 @@
 <section>
     <div class="alert alert-danger">
         <h4 class="alert-heading">
-            <i class="fas fa-exclamation-triangle me-2"></i>{{ __('Delete Account') }}
+            <i class="fas fa-exclamation-triangle me-2"></i>{{ __('Atenção!') }}
         </h4>
         <p class="mb-0">
-            {{ __('Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.') }}
+            {{ __('Assim que sua conta for deletada, todos os seus recursos e dados serão excluídos permanentemente. Antes de excluir sua conta, por favor, faça o download de qualquer informação ou dados que deseja manter.') }}
         </p>
     </div>
 
     <button class="btn btn-danger"
         x-data=""
         x-on:click.prevent="$dispatch('open-modal', 'confirm-user-deletion')">
-        <i class="fas fa-trash-alt me-2"></i>{{ __('Delete Account') }}
+        <i class="fas fa-trash-alt me-2"></i>{{ __('Deletar Conta') }}
     </button>
 
     <x-modal name="confirm-user-deletion" :show="$errors->userDeletion->isNotEmpty()" focusable>
@@ -21,8 +21,8 @@
 
             <div class="text-center mb-4">
                 <i class="fas fa-exclamation-circle text-danger" style="font-size: 48px;"></i>
-                <h4 class="mt-3">{{ __('Are you sure you want to delete your account?') }}</h4>
-                <p class="text-muted">{{ __('This action cannot be undone.') }}</p>
+                <h4 class="mt-3">{{ __('Tem certeza que deseja deletar sua conta?') }}</h4>
+                <p class="text-muted">{{ __('Esta ação não poderá ser desfeita.') }}</p>
             </div>
 
             <div class="mb-3">

@@ -21,6 +21,13 @@
         <form method="POST" action="{{ route('login') }}" x-data="{ loading: false }" @submit="loading = true">
             @csrf
             <h1>Conecte-se</h1>
+            
+            @if (session('status'))
+                <div class="alert alert-success">
+                    {{ session('status') }}
+                </div>
+            @endif
+            
             <x-auth-session-status class="mb-4" :status="session('status')" />
             
             <div class="input-box">

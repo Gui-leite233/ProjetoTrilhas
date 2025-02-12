@@ -8,25 +8,54 @@ body {
     flex-direction: column;
     min-height: 100vh; /* Garante que o footer fique no fim da página */
     overflow-x: hidden; /* Evita rolagem horizontal */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    background-color: rgb(34, 34, 34);
+    color: white;
+    font-family: poppinsregular;
 }
 
+/* Updated header styles */
 header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 30px;
-    background-color: #333; /* Fundo escuro */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 1rem 2rem;
+    background-color: #333;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     position: relative;
     z-index: 1000;
-    width: 100%;
-    box-sizing: border-box; /* Inclui padding e border na largura total */
+}
+
+#botao{
+    color: white;
 }
 
 #title {
     display: flex;
     align-items: center;
+}
+
+.title-link {
+    text-decoration: none;
+    color: white;
+    transition: color 0.3s ease;
+    display: flex;
+    align-items: center;
     gap: 15px;
+}
+
+.title-link:hover {
+    color: #66bb66;
+}
+
+.title-link h1 {
+    font-size: 1.5rem;
+    margin: 0;
+    font-weight: 500;
 }
 
 #title img {
@@ -38,6 +67,65 @@ header {
 nav {
     display: flex;
     align-items: center;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 1.5rem;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+}
+
+.nav-links li a {
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.nav-links li a:hover {
+    color: #66bb66;
+    background-color: rgba(102, 187, 102, 0.1);
+}
+
+.login-btn {
+    border: 2px solid #66bb66;
+    border-radius: 25px;
+}
+
+.login-btn:hover {
+    background-color: #66bb66;
+    color: white !important;
+}
+
+@media (max-width: 768px) {
+    header {
+        padding: 1rem;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .nav-links {
+        flex-direction: column;
+        width: 100%;
+        gap: 0.5rem;
+    }
+
+    .nav-links li {
+        width: 100%;
+    }
+
+    .nav-links li a {
+        justify-content: center;
+        padding: 0.75rem;
+    }
 }
 
 nav ul {
@@ -235,6 +323,7 @@ footer {
     box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
     font-size: 18px; /* Aumenta o tamanho da fonte do footer */
     box-sizing: border-box; /* Inclui padding e border na largura total */
+    margin-top: auto;
 }
 
 .footer-container {
@@ -365,13 +454,19 @@ footer {
     padding: 0 2rem;
     max-width: 1200px;
     margin: 0 auto;
+    flex: 1;
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
 }
 
 .card-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    padding: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Adjusted minmax */
+    gap: 1.5rem; /* Reduced from 2rem */
+    padding: 1.5rem; /* Reduced from 2rem */
     max-width: 1200px;
     margin: 0 auto;
 }
@@ -445,19 +540,19 @@ td .btn-group {
 }
 
 .card {
+    width: 280px; /* Reduced from 300px */
     background-color: #444;
     border-radius: 8px;
-    padding: 24px;
+    padding: 16px; /* Reduced from 24px */
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    gap: 16px;
-    transition: transform 0.3s, box-shadow 0.3s;
+    gap: 12px; /* Reduced from 16px */
     position: relative;
-    margin-top: 50px; /* Increased to give more space for the icon */
-    width: 100%;
+    margin-top: 45px;
     box-sizing: border-box;
+    overflow: visible;
 }
 
 .card:hover {
@@ -466,15 +561,20 @@ td .btn-group {
 }
 
 .card-inner {
-    padding: 24px;
+    padding: 16px; /* Reduced from 24px */
     display: flex;
     flex-direction: column;
     height: 100%;
 }
 
 .card-header {
-    text-align: center;
-    margin-bottom: 20px;
+    position: relative;
+    width: 100%;
+    height: 70px; /* Match the icon-wrapper height */
+    margin-bottom: 30px; /* Add space below the icon */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .card-header i {
@@ -608,16 +708,16 @@ td .btn-group {
 }
 
 .content-main h3 {
-    font-size: 1.8em;
-    margin-bottom: 8px;
+    font-size: 1.5em; /* Reduced from 1.8em */
+    margin-bottom: 6px; /* Reduced from 8px */
     color: #e0e0e0;
 }
 
 .content-main p {
     color: #bbb;
-    font-size: 14px;
-    line-height: 1.6;
-    margin-bottom: 16px;
+    font-size: 13px; /* Reduced from 14px */
+    line-height: 1.5;
+    margin-bottom: 12px; /* Reduced from 16px */
 }
 
 .content-footer {
@@ -729,6 +829,7 @@ td .btn-group {
     margin-top: 50px; /* Increased to give more space for the icon */
     width: 100%;
     box-sizing: border-box;
+    overflow: visible; /* Add this to ensure the icon is visible outside the card */
 }
 
 .card:hover {
@@ -801,3 +902,281 @@ td .btn-group {
     margin: 0;
     padding: 0;
 }
+
+/* Add empty state styles */
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem;
+    margin: auto;
+    text-align: center;
+}
+
+.empty-state i {
+    color: #50a050;
+    margin-bottom: 1rem;
+}
+
+.empty-state p {
+    color: #bbb;
+    font-size: 1.2em;
+}
+
+/* ...existing code... */
+
+.title-link {
+    text-decoration: none;
+    color: white;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 20px;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: white;
+}
+
+.nav-links li {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.nav-links li:hover {
+    background-color: rgba(102, 187, 102, 0.1);
+    color: #66bb66;
+}
+
+.logged-user {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #66bb66;
+}
+
+.admin-register-btn {
+    text-decoration: none;
+}
+
+.admin-register-btn li {
+    
+    color: white;
+    padding: 8px 16px;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+}
+
+.admin-register-btn li:hover {
+    background-color: #50a050;
+    transform: scale(1.05);
+}
+
+/* ...rest of existing code... */
+
+/* ...existing code... */
+
+.user-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin: 8px 0;
+    color: #66bb66;
+    font-size: 0.9em;
+}
+
+.user-info i {
+    font-size: 1em;
+}
+
+.user-info span {
+    color: #bbb;
+}
+
+/* ...rest of existing code... */
+
+/* ...existing code... */
+
+.selected-users {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    margin: 12px 0;
+    padding: 8px;
+}
+
+.selected-users i {
+    color: #66bb66;
+    font-size: 1.2em;
+    margin-bottom: 4px;
+}
+
+.users-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+    max-width: 100%;
+}
+
+.user-tag {
+    background: rgba(102, 187, 102, 0.2);
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.85em;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid rgba(102, 187, 102, 0.3);
+    margin: 2px;
+}
+
+.user-name {
+    color: #66bb66;
+}
+
+.user-course {
+    color: #aaa;
+    font-size: 0.9em;
+    padding-left: 6px;
+    border-left: 1px solid rgba(102, 187, 102, 0.3);
+}
+
+.no-users {
+    color: #888;
+    font-style: italic;
+    font-size: 0.9em;
+}
+
+/* ...rest of existing code... */
+
+/* ...existing code... */
+
+.course-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin: 8px 0;
+    padding: 4px 12px;
+    background: rgba(80, 160, 80, 0.1);
+    border-radius: 16px;
+    border: 1px solid rgba(80, 160, 80, 0.2);
+}
+
+.course-info i {
+    color: #50a050;
+    font-size: 1em;
+}
+
+.course-info span {
+    color: #e0e0e0;
+    font-size: 0.9em;
+}
+
+/* ...rest of existing code... */
+
+/* ...existing code... */
+
+.my-resume {
+    border: 2px solid #66bb66;
+    position: relative;
+}
+
+.my-resume-badge {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: #66bb66;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 0.8em;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    z-index: 2;
+}
+
+.my-resume-badge i {
+    font-size: 0.9em;
+    color: #fff;
+}
+
+/* ...existing code... */
+
+/* ...existing code... */
+
+.my-resumes-counter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 16px;
+    padding: 8px 16px;
+    background: rgba(102, 187, 102, 0.1);
+    border-radius: 20px;
+    border: 1px solid rgba(102, 187, 102, 0.3);
+    display: inline-flex;
+}
+
+.my-resumes-counter i {
+    color: #66bb66;
+    font-size: 1.1em;
+}
+
+.my-resumes-counter span {
+    color: #e0e0e0;
+    font-size: 1em;
+}
+
+/* ...rest of existing code... */
+
+/* Updated header styles */
+.nav-button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    color: white;
+    font-family: inherit;
+    font-size: inherit;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: white;
+}
+
+.nav-link li {
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.nav-link:hover li {
+    background-color: rgba(102, 187, 102, 0.1);
+    color: #66bb66;
+}
+
+/* ...rest of existing code... */

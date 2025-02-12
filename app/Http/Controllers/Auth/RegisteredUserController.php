@@ -42,68 +42,23 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        // Allow both guests and admin users to create new users
-        if (!auth()->check() || (auth()->check() && auth()->user()->role_id === 1)) {
-            try {
-                \Log::info('Registration attempt with data:', $request->all());
+        $request->validate([
+            'nome' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        ]);
 
-                $validated = $request->validate([
-                    'nome' => ['required', 'string', 'max:255'],
-                    'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-                    'password' => ['required', 'confirmed'],
-                    'role_id' => ['required', 'exists:roles,id'],
-                    'curso_id' => ['nullable', 'exists:cursos,id'],
-                    'ano' => ['nullable', 'integer', 'min:1', 'max:5'],
-                ]);
+        $user = User::create([
+            'nome' => $request->nome,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role_id' => $request->is('admin/*') ? 1 : 2, // 1 for admin, 2 for regular user
+        ]);
 
-                $userData = [
-                    'nome' => $request->nome,
-                    'email' => $request->email,
-                    'password' => Hash::make($request->password),
-                    'role_id' => $request->role_id
-                ];
+        event(new Registered($user));
 
-                // Only add curso_id and ano if role_id is 3 (student)
-                if ($request->role_id == 3) {
-                    $userData['curso_id'] = $request->curso_id;
-                    $userData['ano'] = $request->ano;
-                }
-
-                \Log::info('Creating user with data:', array_merge($userData, ['password' => '[hidden]']));
-
-                $user = User::create($userData);
-
-                \Log::info('User created successfully:', ['user_id' => $user->id]);
-
-                // Send welcome email using the named route
-                try {
-                    $response = app('router')->toRoute('send.welcome', ['user' => $user]);
-                    \Log::info('Welcome email sent successfully');
-                } catch (\Exception $e) {
-                    \Log::error('Failed to send welcome email:', ['error' => $e->getMessage()]);
-                }
-
-                if (!auth()->check()) {
-                    Auth::login($user);
-                    return redirect()->route('dashboard');
-                }
-
-                return redirect()->route('index')->with('success', 'Usuário criado com sucesso!');
-
-            } catch (\Exception $e) {
-                \Log::error('Registration failed:', [
-                    'error' => $e->getMessage(),
-                    'trace' => $e->getTraceAsString(),
-                    'request_data' => $request->except(['password', 'password_confirmation'])
-                ]);
-
-                return back()
-                    ->withInput($request->except(['password', 'password_confirmation']))
-                    ->withErrors(['error' => 'Erro no registro. Por favor, tente novamente.']);
-            }
-        }
-
-        return redirect()->route('unauthorized');
+        return redirect()->route('login')
+            ->with('status', 'Registration successful! Please login to continue.');
     }
 
     /**
@@ -111,7 +66,9 @@ class RegisteredUserController extends Controller
      */
     public function createAdmin(): View
     {
-        return view('auth.admin-register');
+        $roles = Role::all();
+        $cursos = Curso::all();
+        return view('auth.admin-register', compact('roles', 'cursos'));
     }
 
     /**
@@ -120,21 +77,22 @@ class RegisteredUserController extends Controller
     public function storeAdmin(Request $request): RedirectResponse
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
+            'nome' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'role_id' => ['required', 'exists:roles,id'],
         ]);
 
         $user = User::create([
-            'name' => $request->name,
+            'nome' => $request->nome,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role_id' => $request->role_id,
+            'role_id' => 1, // Explicitly set role_id to 1 for admin
+            'curso_id' => $request->curso_id,
         ]);
 
         event(new Registered($user));
 
-        return redirect()->route('home')->with('success', 'User registered successfully');
+        return redirect()->route('login')
+            ->with('status', 'Admin registration successful! Please login to continue.');
     }
 }

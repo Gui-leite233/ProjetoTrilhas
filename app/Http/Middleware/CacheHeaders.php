@@ -15,7 +15,8 @@ class CacheHeaders
             return $response;
         }
 
+        // Add cache headers
         return $response->header('Cache-Control', 'public, max-age=3600')
-                       ->header('Vary', 'Accept-Encoding');
+                       ->header('Expires', gmdate('D, d M Y H:i:s', time() + 3600) . ' GMT');
     }
 }

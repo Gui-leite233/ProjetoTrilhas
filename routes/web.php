@@ -1,13 +1,16 @@
 <?php
 
-// Auth Related Controllers
+use Illuminate\Support\Facades\Route;
+
+// Auth Controllers
 use App\Http\Controllers\Auth\{
     AuthenticatedSessionController,
     RegisteredUserController,
     PasswordResetLinkController,
+    NewPasswordController,
+    EmailVerificationPromptController,
     EmailVerificationNotificationController,
-    VerifyEmailController,
-    NewPasswordController
+    VerifyEmailController
 };
 
 // Resource Controllers
@@ -21,12 +24,8 @@ use App\Http\Controllers\{
     AlunoController,
     ProjetoController,
     MailController,
-    ResumoController,
+    ResumoController
 };
-
-use Illuminate\Support\Facades\Route;
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
-
 
 /*
 |--------------------------------------------------------------------------
@@ -34,39 +33,24 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 |--------------------------------------------------------------------------
 */
 
-// Remove or comment out this route
-// Route::get('/test', function () {
-//     return view('/sobre/index');
-// })->name('sobre');
+// Landing pages
+Route::view('/', 'index')->name('home');
+Route::view('/sobre', 'sobre.index')->name('sobre');
+Route::view('/contato', 'contato.index')->name('contato');
+Route::view('/unauthorized', 'unauthorized')->name('unauthorized');
 
-Route::get('/', function () {
-    return view('index');
-})->name('home');
+// Public resource index pages
+Route::get('/resumos', [ResumoController::class, 'index'])->name('resumo.index');
+Route::get('/projetos', [ProjetoController::class, 'index'])->name('projeto.index');
+Route::get('/provas', [ProvaController::class, 'index'])->name('prova.index');
+Route::get('/bolsas', [BolsaController::class, 'index'])->name('bolsa.index');
+Route::get('/semanas', [SiteController::class, 'semanas'])->name('semana.index');
+Route::get('/tccs', [TccController::class, 'index'])->name('tcc.index');
+Route::get('/cursos', [CursoController::class, 'index'])->name('curso.index');
 
-// Update this route to point to the correct view
-Route::get('/sobre', function () {
-    return view('sobre.index');
-})->name('sobre');
-
-Route::get('/contato', function () {
-    return view('contato');
-})->name('contato');
-
-// Comment out or remove these since they're not currently implemented
-// Route::get('/contato', 'ContatoController@index')->name('contato.index');
-// Route::get('/cursos', 'CursosController@index')->name('cursos.index');
-Route::get('/resumos', 'ResumosController@index')->name('resumos.index');
-Route::get('/projetos', 'ProjetosController@index')->name('projetos.index');
-Route::get('/provas', 'ProvasController@index')->name('provas.index');
-Route::get('/bolsas', 'BolsasController@index')->name('bolsas.index');
-Route::get('/semanas', 'SemanasController@index')->name('semanas.index');
-Route::get('/tccs', 'TccsController@index')->name('tccs.index');
-
-// Add the contact route
-Route::get('/contato', [App\Http\Controllers\ContatoController::class, 'index'])->name('contato');
-
-// Site routes - publicly accessible
-Route::prefix('site')->name('site.')->group(function () {
+// Site routes group
+Route::name('site.')->prefix('site')->group(function () {
+    // Site controller routes
     Route::controller(SiteController::class)->group(function () {
         Route::get('/curso', 'getCursos')->name('curso');
         Route::get('/prova', 'getProvas')->name('prova');
@@ -77,36 +61,20 @@ Route::prefix('site')->name('site.')->group(function () {
         Route::get('/resumo', 'getResumos')->name('resumo');
     });
 
-    // PDF view and download routes
-    Route::get('/prova/view/{id}', [ProvaController::class, 'viewPdf'])->name('prova.viewPdf');
-    Route::get('/prova/download/{id}', [ProvaController::class, 'downloadPdf'])->name('prova.download');
-    
-    Route::get('/tcc/view/{id}', [TccController::class, 'viewPdf'])->name('tcc.viewPdf');
-    Route::get('/tcc/download/{id}', [TccController::class, 'downloadPdf'])->name('tcc.downloadPdf');
-    
-    Route::get('/resumo/view/{id}', [ResumoController::class, 'viewPdf'])->name('resumo.viewPdf');
-    Route::get('/resumo/download/{id}', [ResumoController::class, 'downloadPdf'])->name('resumo.download');
-});
+    // Public PDF routes
+    Route::prefix('prova')->name('prova.')->group(function () {
+        Route::get('view/{id}', [ProvaController::class, 'viewPdf'])->name('viewPdf');
+        Route::get('download/{id}', [ProvaController::class, 'downloadPdf'])->name('download');
+    });
 
-// Add unauthorized route
-Route::get('/unauthorized', function () {
-    return view('unauthorized');
-})->name('unauthorized');
+    Route::prefix('tcc')->name('tcc.')->group(function () {
+        Route::get('view/{id}', [TccController::class, 'viewPdf'])->name('viewPdf');
+        Route::get('download/{id}', [TccController::class, 'downloadPdf'])->name('download');
+    });
 
-/*
-|--------------------------------------------------------------------------
-| Admin Routes
-|--------------------------------------------------------------------------
-*/
-
-// Create an admin middleware group
-Route::middleware(['auth'])->group(function () {
-    Route::middleware(['admin'])->group(function () {
-        Route::get('/admin/register', [RegisteredUserController::class, 'createAdmin'])
-            ->name('admin.register');
-        
-        Route::post('/admin/register', [RegisteredUserController::class, 'storeAdmin'])
-            ->name('admin.register.store');
+    Route::prefix('resumo')->name('resumo.')->group(function () {
+        Route::get('view/{id}', [ResumoController::class, 'viewPdf'])->name('viewPdf');
+        Route::get('download/{id}', [ResumoController::class, 'downloadPdf'])->name('download');
     });
 });
 
@@ -116,19 +84,14 @@ Route::middleware(['auth'])->group(function () {
 |--------------------------------------------------------------------------
 */
 
-Route::controller(AuthenticatedSessionController::class)->group(function () {
-    Route::get('login', 'create')->name('login');
-    Route::post('login', 'store');
-    Route::post('logout', 'destroy')->name('logout');
-});
-
-/*
-|--------------------------------------------------------------------------
-| Password Reset Routes
-|--------------------------------------------------------------------------
-*/
-
 Route::middleware('guest')->group(function () {
+    // Login
+    Route::controller(AuthenticatedSessionController::class)->group(function () {
+        Route::get('login', 'create')->name('login');
+        Route::post('login', 'store');
+    });
+
+    // Password Reset
     Route::controller(PasswordResetLinkController::class)->group(function () {
         Route::get('forgot-password', 'create')->name('password.request');
         Route::post('forgot-password', 'store')->name('password.email');
@@ -139,36 +102,61 @@ Route::middleware('guest')->group(function () {
         Route::post('reset-password', 'store')->name('password.update');
     });
 
-    Route::get('register', [RegisteredUserController::class, 'create'])
-        ->middleware(['guest'])
-        ->name('register');
+    // Registration
+    Route::controller(RegisteredUserController::class)->group(function () {
+        Route::get('register', 'create')->name('register');
+        Route::post('register', 'store');
+    });
 
-    Route::post('register', [RegisteredUserController::class, 'store'])
-        ->middleware(['guest'])
-        ->name('register');
+    // Admin Registration
+    Route::get('/register/admin', [RegisteredUserController::class, 'createAdmin'])
+        ->name('register.admin');
+    
+    Route::post('/register/admin', [RegisteredUserController::class, 'storeAdmin'])
+        ->name('register.admin.store');
 });
 
-// Public routes for resource index pages
-Route::get('/curso', [CursoController::class, 'index'])->name('curso.index');
-Route::get('/prova', [ProvaController::class, 'index'])->name('prova.index');
-Route::get('/tcc', [TccController::class, 'index'])->name('tcc.index');
-Route::get('/bolsa', [BolsaController::class, 'index'])->name('bolsa.index');
-Route::get('/aluno', [AlunoController::class, 'index'])->name('aluno.index');
-Route::get('/projeto', [ProjetoController::class, 'index'])->name('projeto.index');  // Moved here
-Route::get('/resumo', [ResumoController::class, 'index'])->name('resumo.index');
+/*
+|--------------------------------------------------------------------------
+| Email Verification Routes
+|--------------------------------------------------------------------------
+*/
 
-Route::view('/dashboard', 'dashboard')->name('dashboard');
+Route::middleware('auth')->group(function () {
+    Route::get('/verify-email', [EmailVerificationPromptController::class, 'create'])
+        ->name('verification.notice');
 
-Route::controller(ProfileController::class)->prefix('profile')->name('profile.')->group(function () {
-    Route::get('/', 'edit')->name('edit');
-    Route::patch('/', 'update')->name('update');
-    Route::delete('/', 'destroy')->name('destroy');
-    Route::put('/password', 'updatePassword')->name('password.update');
+    Route::get('/verify-email/{id}/{hash}', [VerifyEmailController::class, 'verify'])
+        ->middleware(['signed', 'throttle:6,1'])
+        ->name('verification.verify');
+
+    Route::post('/email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
+        ->middleware('throttle:6,1')
+        ->name('verification.send');
 });
 
-// Protected routes for administrative actions
-Route::middleware(['auth'])->group(function () {
-    // Resources except index
+/*
+|--------------------------------------------------------------------------
+| Authenticated Routes
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware('auth')->group(function () {
+    // Logout
+    Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
+    
+    // Dashboard
+    Route::view('/dashboard', 'dashboard')->name('dashboard');
+
+    // Profile routes
+    Route::controller(ProfileController::class)->prefix('profile')->name('profile.')->group(function () {
+        Route::get('/', 'edit')->name('edit');
+        Route::patch('/', 'update')->name('update');
+        Route::delete('/', 'destroy')->name('destroy');
+        Route::put('/password', 'updatePassword')->name('password.update');
+    });
+
+    // Resource routes (except index)
     Route::resources([
         'tcc' => TccController::class,
         'prova' => ProvaController::class,
@@ -178,24 +166,27 @@ Route::middleware(['auth'])->group(function () {
         'projeto' => ProjetoController::class,
         'resumo' => ResumoController::class,
     ], ['except' => ['index']]);
-    
-    // PDF routes
-    Route::prefix('resumo')->name('resumo.')->group(function () {
-        Route::get('viewPdf/{id}', [ResumoController::class, 'viewPdf'])->name('viewPdf');
-        Route::get('download/{id}', [ResumoController::class, 'downloadPdf'])->name('download');
-    });
-
-    Route::prefix('tcc')->name('tcc.')->group(function () {
-        Route::get('viewPdf/{id}', [TccController::class, 'viewPdf'])->name('viewPdf');
-        Route::get('download/{id}', [TccController::class, 'downloadPdf'])->name('downloadPdf');
-    });
-
-    Route::prefix('prova')->name('prova.')->group(function () {
-        Route::get('viewPdf/{id}', [ProvaController::class, 'viewPdf'])->name('viewPdf');
-        Route::get('download/{id}', [ProvaController::class, 'downloadPdf'])->name('downloadPdf');
-    });
 
     // Email routes
-    Route::post('/send-email', [MailController::class, 'sendEmail'])->name('send.email');
-    Route::post('/send-welcome-email/{user}', [MailController::class, 'sendWelcomeEmail'])->name('send.welcome');
+    Route::controller(MailController::class)->group(function () {
+        Route::post('/send-email', 'sendEmail')->name('send.email');
+        Route::post('/send-welcome-email/{user}', 'sendWelcomeEmail')->name('send.welcome');
+    });
+});
+
+/*
+|--------------------------------------------------------------------------
+| Admin Routes
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/admin/register', function () {
+        if (auth()->user()->role_id !== 1) {
+            return redirect()->route('unauthorized');
+        }
+        $roles = \App\Models\Role::all();
+        $cursos = \App\Models\Curso::all();
+        return view('auth.register', compact('roles', 'cursos'));
+    })->name('admin.register');
 });

@@ -1,18 +1,3 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="/styles/style.css" rel="stylesheet">
-    <link href="/styles/fonts.css" rel="stylesheet">
-    <link href="/styles/media.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="{{asset('css/style.css')}}">
-    <title>Projetos - Projeto Trilhas</title>
-</head>
-<body>
-
 @extends('layouts.site')
 
 @section('title', 'Projetos - Projeto Trilhas')
@@ -39,51 +24,40 @@
             <div class="card">
                 <i class="fas fa-project-diagram fa-3x"></i>
                 <div class="card-content">
-                    <div class="content-wrapper">
-                        <div class="content-main">
-                            <h3>{{ $item->titulo }}</h3>
-                            <p>{{ Str::limit($item->descricao, 100) }}</p>
+                    <h3>{{ $item->titulo }}</h3>
+                    <p>{{ Str::limit($item->descricao, 100) }}</p>
+                    
+                    @if($item->users->isNotEmpty())
+                        <div class="documento-badge participants-badge">
+                            <i class="fas fa-users"></i> {{ $item->users->count() }} participante(s)
                         </div>
-
-                        <div class="action-bar">
-                            <div class="buttons-row">
-                                @auth
-                                    @if(Auth::user()->role_id == 1 || Auth::user()->role_id == 2)
-                                        <div class="admin-buttons">
-                                            <a href="{{ route('projeto.edit', $item->id) }}" class="btn btn-edit" title="Editar">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-                                            <form action="{{ route('projeto.destroy', $item->id) }}" method="POST">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-delete" title="Excluir" 
-                                                        onclick="return confirm('Tem certeza que deseja excluir este projeto?')">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </form>
-                                        </div>
-                                    @endif
-                                @endauth
-                            </div>
+                    @endif
+                    @if($item->aluno)
+                        <div class="documento-badge aluno-badge">
+                            <i class="fas fa-user-graduate"></i> {{ $item->aluno->nome }}
                         </div>
-                    </div>
+                    @endif
+                    @if($item->curso)
+                        <div class="documento-badge curso-badge">
+                            <i class="fas fa-graduation-cap"></i> {{ $item->curso->nome }}
+                        </div>
+                    @endif
 
-                    <div class="badge-bar">
-                        @if($item->users->isNotEmpty())
-                            <div class="documento-badge">
-                                <i class="fas fa-users"></i> {{ $item->users->count() }} participante(s)
-                            </div>
-                        @endif
-                        @if($item->aluno)
-                            <div class="documento-badge">
-                                <i class="fas fa-user-graduate"></i> {{ $item->aluno->nome }}
-                            </div>
-                        @endif
-                        @if($item->curso)
-                            <div class="documento-badge">
-                                <i class="fas fa-graduation-cap"></i> {{ $item->curso->nome }}
-                            </div>
-                        @endif
+                    <div class="card-actions">
+                        @auth
+                            @if(Auth::user()->role_id == 1 || Auth::user()->role_id == 2)
+                                <a href="{{ route('projeto.edit', $item->id) }}" class="btn btn-edit">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <form action="{{ route('projeto.destroy', $item->id) }}" method="POST" style="display: inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-delete" onclick="return confirm('Tem certeza que deseja excluir este projeto?')">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                            @endif
+                        @endauth
                     </div>
                 </div>
             </div>
@@ -92,9 +66,7 @@
 
     @if($data->isEmpty())
         <div class="empty-state">
-            <div class="empty-state-icon">
-                <i class="fas fa-project-diagram"></i>
-            </div>
+            <i class="fas fa-project-diagram fa-4x"></i>
             <p>Nenhum projeto disponível no momento.</p>
         </div>
     @endif
@@ -103,88 +75,62 @@
 
 @section('additional_css')
 <style>
-    .card {
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    // ...existing card container and basic card styles...
+
+    .participants-badge {
+        background: linear-gradient(135deg, #4a90e2, #357abd);
     }
 
-    .card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    .aluno-badge {
+        background: linear-gradient(135deg, #50a050, #408040);
     }
 
-    .card-content {
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-    }
-
-    .content-wrapper {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .content-main {
-        flex: 1;
-        margin-bottom: 15px;
-    }
-
-    .action-bar {
-        padding: 15px 0;
-        border-top: 1px solid #eee;
-    }
-
-    .badge-bar {
-        padding-top: 15px;
-        border-top: 1px solid #eee;
-        margin-top: auto;
-    }
-
-    .buttons-row {
-        display: flex;
-        gap: 12px;
-        justify-content: flex-end;
-    }
-
-    .admin-buttons {
-        display: flex;
-        gap: 8px;
+    .curso-badge {
+        background: linear-gradient(135deg, #f39c12, #d35400);
     }
 
     .documento-badge {
-        background-color: #50a050;
+        display: inline-block;
         color: white;
         padding: 5px 10px;
         border-radius: 5px;
-        display: inline-flex;
-        align-items: center;
-        gap: 5px;
-        margin-right: 8px;
+        margin: 5px 0;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
 
-    .empty-state {
+    .intro-section {
+        margin-bottom: 2rem;
         text-align: center;
-        padding: 50px 0;
-        color: #666;
+        padding: 2rem 0;
     }
 
-    .empty-state-icon {
-        font-size: 4em;
-        color:rgb(58, 181, 60);
-        margin-bottom: 20px;
+    .intro-section h2 {
+        font-size: 2.5rem;
+        color: #4a90e2;
+        margin-bottom: 1rem;
+    }
+
+    .intro-section p {
+        color: #666;
+        font-size: 1.1rem;
+    }
+
+    .card-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 15px;
     }
 
     .btn {
-        padding: 6px 12px;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        padding: 0.25rem 0.5rem;
+        font-size: 0.7rem;
         border-radius: 4px;
         color: white;
         text-decoration: none;
         transition: all 0.2s ease;
-    }
-
-    .btn:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
 
     .btn-edit {
@@ -196,7 +142,7 @@
         border: none;
         cursor: pointer;
     }
+
+    // ...existing animation styles...
 </style>
 @endsection
-</body>
-</html>

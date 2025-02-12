@@ -13,48 +13,54 @@
 </head>
 <body>
     <header>
-        <a href="{{ url('/') }}" style="text-decoration: none; color: inherit;">
-            <div id="title">
+        <div id="title">
+            <a href="{{ url('/') }}" class="title-link">
                 <img src="{{asset('img/images.png')}}" alt="Logo">
                 <h1>Trilhas de aprendizagem</h1>
-            </div>
-        </a>
-        <ul>
-            <form method="POST" action="{{ route('logout') }}" class="d-inline">
-                @csrf
-                <button type="submit" class="nav-link">
-                    <li><i class="fas fa-sign-out-alt"></i> Sair</li>
-                </button>
-            </form>
-        </ul>
+            </a>
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <form method="POST" action="{{ route('logout') }}" class="nav-link">
+                    @csrf
+                    <button type="submit" class="nav-button">
+                        <li>
+                            <i class="fas fa-sign-out-alt"></i>
+                            Sair
+                        </li>
+                    </button>
+                </form>
+            </ul>
+        </nav>
     </header>
 
     <main>
         <aside>
             <h2><span>Dashboard</span></h2>
             <div class="dashboard-cards">
-                <div class="card" x-data="{ hover: false }" 
+                <a href="{{ route('profile.edit') }}" class="card" x-data="{ hover: false }" 
                      @mouseenter="hover = true" 
                      @mouseleave="hover = false">
-                    <a href="{{ route('profile.edit') }}" class="card-content" onclick="window.location.href='{{ route('profile.edit') }}'">
+                    <div class="card-content">
                         <i class="fas fa-user-circle fa-3x"></i>
                         <h3>Perfil</h3>
                         <p>Edite suas informações pessoais</p>
-                    </a>
-                </div>
+                    </div>
+                </a>
 
-                <div class="card" x-data="{ hover: false }"
+                <a href="#" class="card" x-data="{ hover: false }"
                      @mouseenter="hover = true" 
-                     @mouseleave="hover = false">
-                    <form method="POST" action="{{ route('logout') }}" class="card-content">
-                        @csrf
-                        <button type="submit" style="display: flex; flex-direction: column; align-items: center; width: 100%;">
-                            <i class="fas fa-sign-out-alt fa-3x"></i>
-                            <h3>Sair</h3>
-                            <p>Encerrar sessão</p>
-                        </button>
-                    </form>
-                </div>
+                     @mouseleave="hover = false"
+                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    <div class="card-content">
+                        <i class="fas fa-sign-out-alt fa-3x"></i>
+                        <h3>Sair</h3>
+                        <p>Encerrar sessão</p>
+                    </div>
+                </a>
+                <form id="logout-form" method="POST" action="{{ route('logout') }}" style="display: none;">
+                    @csrf
+                </form>
             </div>
         </aside>
     </main>
@@ -101,6 +107,8 @@
             animation: fadeInUp 0.6s ease-out forwards;
             opacity: 0;
             position: relative;
+            text-decoration: none; /* Add this */
+            display: block; /* Add this */
         }
 
         .card:hover {

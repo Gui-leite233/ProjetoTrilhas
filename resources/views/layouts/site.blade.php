@@ -14,25 +14,30 @@
 
 <body>
     <header>
-        <a href="{{ url('/') }}" style="text-decoration: none; color: inherit;"></a>
+        <a href="{{ url('/') }}" class="title-link">
             <div id="title">
                 <img src="{{asset('img/images.png')}}" alt="Logo">
                 <h1>Trilhas de aprendizagem</h1>
             </div>
         </a>
 
-        <ul>
-            <a href="{{ route('register') }}">
-                <li><i class="fas fa-info-circle"></i> Inicio</li>
-            </a>
-            <a href="{{ route('sobre') }}">
-                <li><i class="fas fa-envelope"></i> Sobre</li>
-            </a>
-            <a href="{{ url('/contato') }}" id="inscreva-se-btn">
-                <li><i class="fas fa-user"></i> Contato</li>
-            </a>
+        <ul class="nav-links">
+            <a href="{{ url('/') }}"><li><i class="fas fa-home"></i> Inicio</li></a>
+            <a href="{{ route('sobre') }}"><li><i class="fas fa-info-circle"></i> Sobre</li></a>
+            <a href="{{ route('contato') }}"><li><i class="fas fa-envelope"></i> Contato</li></a>
+            @if(Auth::check())
+                <li class="logged-user">
+                    <i class="fas fa-user-circle"></i>
+                    <span>Olá, {{ Auth::user()->nome }}</span>
+                </li>
+                @if(Auth::user()->role_id === 1)
+                    <a href="{{ route('admin.register') }}" class="admin-register-btn">
+                        <li><i class="fas fa-user-plus"></i> Novo Usuário</li>
+                    </a>
+                @endif
+            @endif
         </ul>
-    </header>   
+    </header>  
 
     @hasSection('action_button')
         <div class="action-button-container">
@@ -40,7 +45,9 @@
         </div>
     @endif
 
-    @yield('content')
+    <main class="container">
+        @yield('content')
+    </main>
 
     <footer>
         <div class="footer-container">

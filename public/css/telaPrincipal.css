@@ -12,16 +12,51 @@ body {
     color: #e0e0e0; /* Cor clara para o texto */
     margin: 0;
     padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 2px solid #50a050;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 20px 50px;
-    background-color: #333; /* Fundo escuro */
+    padding: 1rem 2rem;
+    background-color: #333;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.title-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+#title {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+#title img {
+    height: 50px;
+}
+
+#title h1 {
+    color: #333;
+    margin: 0;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.nav-links a {
+    text-decoration: none
 }
 
 #title {
@@ -58,7 +93,7 @@ header ul a {
 
 header ul a:hover {
     color: #fff;
-    background-color: #50a050;
+    
 }
 
 .video-container {
@@ -309,6 +344,7 @@ footer {
     box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
     font-size: 18px; /* Aumenta o tamanho da fonte do footer */
     box-sizing: border-box; /* Inclui padding e border na largura total */
+    margin-top: auto;
 }
 
 .footer-container {
@@ -532,4 +568,40 @@ footer {
     .card-container {
         grid-template-columns: 1fr;
     }
+}
+
+.logged-user {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 15px;
+    color: #50a050;
+    font-weight: 500;
+    background-color: rgba(80, 160, 80, 0.1);
+    border-radius: 20px;
+    margin: 0 10px;
+}
+
+.logged-user i {
+    font-size: 1.1em;
+}
+
+.nav-button {
+    background: none;
+    border: none;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    display: inline-block;
+}
+
+.nav-button:hover {
+    color: #007bff;
+}
+
+.container {
+    flex: 1;
+    padding-bottom: 2rem;
 }
