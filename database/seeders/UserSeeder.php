@@ -16,7 +16,8 @@ class UserSeeder extends Seeder
             'nome' => 'Administrador',
             'email' => 'admin@exemplo.com',
             'password' => bcrypt('password'),
-            'role_id' => Role::where('name', 'Admin')->first()->id
+            'role_id' => Role::where('name', 'Admin')->first()->id,
+            'is_admin' => true
         ]);
 
         //Para quando o site for ao ar
@@ -40,7 +41,8 @@ class UserSeeder extends Seeder
             'nome' => 'Coordenador',
             'email' => 'coordenador@exemplo.com',
             'password' => bcrypt('password'),
-            'role_id' => Role::where('name', 'Coordenador')->first()->id
+            'role_id' => Role::where('name', 'Coordenador')->first()->id,
+            'is_admin' => false
         ]);
 
         // Create Alunos
@@ -50,7 +52,8 @@ class UserSeeder extends Seeder
             'password' => bcrypt('password'),
             'role_id' => Role::where('name', 'Aluno')->first()->id,
             'curso_id' => Curso::where('nome', 'Meio Ambiente')->first()->id,
-            'ano' => 1
+            'ano' => 1,
+            'is_admin' => false
         ]);
 
         User::create([
@@ -59,7 +62,8 @@ class UserSeeder extends Seeder
             'password' => bcrypt('password'),
             'role_id' => Role::where('name', 'Aluno')->first()->id,
             'curso_id' => Curso::where('nome', 'Informática')->first()->id,
-            'ano' => 2
+            'ano' => 2,
+            'is_admin' => false
         ]);
     }
 }

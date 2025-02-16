@@ -6,8 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory, Notifiable, HasApiTokens;
 
@@ -23,6 +24,7 @@ class User extends Authenticatable
         'role_id',
         'curso_id',
         'ano',
+        'is_admin',
     ];
 
     /**
@@ -91,5 +93,28 @@ class User extends Authenticatable
     public function isAdmin()
     {
         return $this->role && $this->role->name === 'Admin';
+    }
+
+    /**
+     * Mark the given user's email as verified.
+     *
+     * @return bool
+     */
+    public function markEmailAsVerified()
+    {
+        $timestamp = now();
+        $this->forceFill([
+            'email_verified_at' => $timestamp,
+        ]);
+        
+        $saved = $this->save();
+        
+        if ($saved) {
+            \Log::info("Email verified for user {$this->id} at {$timestamp}");
+        } else {
+            \Log::error("Failed to verify email for user {$this->id}");
+        }
+        
+        return $saved;
     }
 }

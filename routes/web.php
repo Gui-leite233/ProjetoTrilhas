@@ -111,9 +111,11 @@ Route::middleware('guest')->group(function () {
     // Admin Registration
     Route::get('/register/admin', [RegisteredUserController::class, 'createAdmin'])
         ->name('register.admin');
-    
+
     Route::post('/register/admin', [RegisteredUserController::class, 'storeAdmin'])
         ->name('register.admin.store');
+
+    Route::get('/register/admin/confirm', [RegisteredUserController::class, 'confirmAdmin']);
 });
 
 /*
@@ -123,14 +125,14 @@ Route::middleware('guest')->group(function () {
 */
 
 Route::middleware('auth')->group(function () {
-    Route::get('/verify-email', [EmailVerificationPromptController::class, 'create'])
+    Route::get('verify-email', [EmailVerificationPromptController::class, '__invoke'])
         ->name('verification.notice');
 
-    Route::get('/verify-email/{id}/{hash}', [VerifyEmailController::class, 'verify'])
+    Route::get('verify-email/{id}/{hash}', [VerifyEmailController::class, '__invoke'])
         ->middleware(['signed', 'throttle:6,1'])
         ->name('verification.verify');
 
-    Route::post('/email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
+    Route::post('email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
         ->middleware('throttle:6,1')
         ->name('verification.send');
 });
@@ -144,7 +146,7 @@ Route::middleware('auth')->group(function () {
 Route::middleware('auth')->group(function () {
     // Logout
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
-    
+
     // Dashboard
     Route::view('/dashboard', 'dashboard')->name('dashboard');
 
@@ -182,7 +184,7 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/admin/register', function () {
-        if (auth()->user()->role_id !== 1) {
+        if (auth()->user()->is_admin !== 1) {
             return redirect()->route('unauthorized');
         }
         $roles = \App\Models\Role::all();

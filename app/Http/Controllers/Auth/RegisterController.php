@@ -78,15 +78,14 @@ class RegisterController extends Controller
     {
         $this->validator($request->all())->validate();
 
-        \Log::info('Register Request Data:', $request->all());  // Debug log
+        \Log::info('Register Request Data:', $request->all());
 
         event(new Registered($user = $this->create($request->all())));
 
         $this->guard()->login($user);
 
-        \Log::info('User Registered Successfully:', ['user_id' => $user->id]);  // Debug log
+        \Log::info('User Registered Successfully:', ['user_id' => $user->id]);
 
-        return $this->registered($request, $user)
-            ?: redirect($this->redirectPath());
+        return redirect()->route('verification.notice');
     }
 }
