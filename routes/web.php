@@ -10,7 +10,7 @@ use App\Http\Controllers\Auth\{
     NewPasswordController,
     EmailVerificationPromptController,
     EmailVerificationNotificationController,
-    VerifyEmailController
+    VerifyEmailController,
 };
 
 // Resource Controllers
@@ -23,9 +23,14 @@ use App\Http\Controllers\{
     BolsaController,
     AlunoController,
     ProjetoController,
-    MailController,
-    ResumoController
+    SendMailController,
+    ResumoController,
+    AdminController,
+    UnauthorizedController
 };
+
+// Place this before any other routes
+Route::get('/unauthorized', UnauthorizedController::class)->name('unauthorized');
 
 /*
 |--------------------------------------------------------------------------
@@ -37,7 +42,6 @@ use App\Http\Controllers\{
 Route::view('/', 'index')->name('home');
 Route::view('/sobre', 'sobre.index')->name('sobre');
 Route::view('/contato', 'contato.index')->name('contato');
-Route::view('/unauthorized', 'unauthorized')->name('unauthorized');
 
 // Public resource index pages
 Route::get('/resumos', [ResumoController::class, 'index'])->name('resumo.index');
@@ -157,8 +161,24 @@ Route::middleware('auth')->group(function () {
         Route::delete('/', 'destroy')->name('destroy');
         Route::put('/password', 'updatePassword')->name('password.update');
     });
+    
 
-    // Resource routes (except index)
+    // Email routes
+    Route::post('/send-email', [SendMailController::class, 'send'])->name('send.email');
+});
+
+/*
+|--------------------------------------------------------------------------
+| Admin Routes
+|--------------------------------------------------------------------------
+*/
+
+Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
+    Route::get('/', [AdminController::class, 'index'])->name('admin.dashboard');
+    Route::get('/users', [AdminController::class, 'users'])->name('admin.users');
+    Route::get('/reports', [AdminController::class, 'reports'])->name('admin.reports');
+    
+    // Admin resource routes
     Route::resources([
         'tcc' => TccController::class,
         'prova' => ProvaController::class,
@@ -168,27 +188,8 @@ Route::middleware('auth')->group(function () {
         'projeto' => ProjetoController::class,
         'resumo' => ResumoController::class,
     ], ['except' => ['index']]);
-
-    // Email routes
-    Route::controller(MailController::class)->group(function () {
-        Route::post('/send-email', 'sendEmail')->name('send.email');
-        Route::post('/send-welcome-email/{user}', 'sendWelcomeEmail')->name('send.welcome');
-    });
 });
 
-/*
-|--------------------------------------------------------------------------
-| Admin Routes
-|--------------------------------------------------------------------------
-*/
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('/admin/register', function () {
-        if (auth()->user()->is_admin !== 1) {
-            return redirect()->route('unauthorized');
-        }
-        $roles = \App\Models\Role::all();
-        $cursos = \App\Models\Curso::all();
-        return view('auth.register', compact('roles', 'cursos'));
-    })->name('admin.register');
-});
+
+

@@ -26,7 +26,7 @@ class RegisteredUserController extends Controller
     public function create(): View
     {
         // Allow both guests and admin users to access registration
-        if (!auth()->check() || (auth()->check() && auth()->user()->role_id === 1)) {
+        if (!auth()->check() || (auth()->check() && auth()->user()->is_admin === true)) {
             $roles = Role::where('id', '!=', 1)->get(); // Filter out admin role (ID 1)
             $cursos = Curso::all();
             return view('auth.register', compact('roles', 'cursos'));

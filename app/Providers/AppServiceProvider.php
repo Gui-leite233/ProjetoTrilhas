@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Blade;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -44,5 +45,7 @@ class AppServiceProvider extends ServiceProvider
 
         // Cache configuration settings
         Config::set('cache.ttl', env('CACHE_TTL', 3600));
+
+        Blade::component('layouts.guest-error', 'guest-error-layout');
     }
 }
