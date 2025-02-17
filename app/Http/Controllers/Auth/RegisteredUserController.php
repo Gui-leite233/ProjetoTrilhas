@@ -62,8 +62,10 @@ class RegisteredUserController extends Controller
 
         event(new Registered($user));
 
-        return redirect()->route('login')
-            ->with('status', 'Registration successful! Please login to continue.');
+        Auth::login($user); // Log the user in immediately after registration
+
+        return redirect()->route('verification.notice')
+            ->with('status', 'Please verify your email address to continue.');
     }
 
     /**
@@ -97,7 +99,9 @@ class RegisteredUserController extends Controller
 
         event(new Registered($user));
 
-        return redirect()->route('login')
-            ->with('status', 'Admin registration successful! Please login to continue.');
+        Auth::login($user); // Log the user in immediately after registration
+
+        return redirect()->route('verification.notice')
+            ->with('status', 'Please verify your email address to continue.');
     }
 }

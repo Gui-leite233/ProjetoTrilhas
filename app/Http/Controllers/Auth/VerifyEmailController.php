@@ -15,29 +15,14 @@ class VerifyEmailController extends Controller
      */
     public function __invoke(EmailVerificationRequest $request): RedirectResponse
     {
-        Log::info('Email verification attempt for user: ' . $request->user()->id);
-
         if ($request->user()->hasVerifiedEmail()) {
-            Log::info('User already verified');
-            return redirect()->intended(route('dashboard', absolute: false).'?verified=1');
+            return redirect()->intended(route('verification-success'));
         }
 
-        try {
-            $result = $request->user()->forceFill([
-                'email_verified_at' => now()
-            ])->save();
-
-            if ($result) {
-                event(new Verified($request->user()));
-                Log::info('User email verified successfully');
-            } else {
-                Log::error('Failed to save verification status');
-            }
-        } catch (\Exception $e) {
-            Log::error('Error verifying email: ' . $e->getMessage());
-            return redirect()->route('verification.notice')->with('error', 'Verification failed');
+        if ($request->user()->markEmailAsVerified()) {
+            event(new Verified($request->user()));
         }
 
-        return redirect()->intended(route('dashboard', absolute: false).'?verified=1');
+        return redirect()->route('verification-success');
     }
 }

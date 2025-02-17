@@ -162,9 +162,12 @@ Route::middleware('auth')->group(function () {
         Route::put('/password', 'updatePassword')->name('password.update');
     });
     
-
     // Email routes
     Route::post('/send-email', [SendMailController::class, 'send'])->name('send.email');
+
+    Route::get('/email-verified', function () {
+        return view('auth.verification-success');
+    })->name('verification-success');
 });
 
 /*
