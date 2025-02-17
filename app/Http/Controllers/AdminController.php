@@ -16,20 +16,20 @@ class AdminController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['auth', 'admin']);
+        parent::middleware(['auth', 'admin']);
     }
 
     public function index()
     {
         return view('admin.index', [
             'stats' => [
-                'users' => \App\Models\User::count(),
-                'cursos' => \App\Models\Curso::count(),
-                'tccs' => \App\Models\Tcc::count(),
-                'provas' => \App\Models\Prova::count(),
-                'bolsas' => \App\Models\Bolsa::count(),
-                'projetos' => \App\Models\Projeto::count(),
-                'resumos' => \App\Models\Resumo::count(),
+                'users' => User::count(),
+                'cursos' => Curso::count(),
+                'tccs' => Tcc::count(),
+                'provas' => Prova::count(),
+                'bolsas' => Bolsa::count(),
+                'projetos' => Projeto::count(),
+                'resumos' => Resumo::count(),
             ]
         ]);
     }

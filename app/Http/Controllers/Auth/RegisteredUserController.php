@@ -79,13 +79,31 @@ class RegisteredUserController extends Controller
     }
 
     /**
-     * Handle an incoming admin registration request.
+     * Display the coordinator registration view.
      */
-    public function storeAdmin(Request $request): RedirectResponse
+    public function createCoordinator(): View
     {
+        // Ensure only admin can access this
+        if (!auth()->user()->role_id === 1) {
+            return redirect()->route('unauthorized');
+        }
+        
+        return view('auth.coordinator-register');
+    }
+
+    /**
+     * Handle an incoming coordinator registration request.
+     */
+    public function storeCoordinator(Request $request): RedirectResponse
+    {
+        // Ensure only admin can perform this action
+        if (!auth()->user()->role_id === 1) {
+            return redirect()->route('unauthorized');
+        }
+
         $request->validate([
             'nome' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
@@ -93,15 +111,11 @@ class RegisteredUserController extends Controller
             'nome' => $request->nome,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role_id' => 1, // Explicitly set role_id to 1 for admin
-            'curso_id' => $request->curso_id,
+            'role_id' => 2, // Set role as coordinator
+            'email_verified_at' => now(), // Auto verify coordinator email
         ]);
 
-        event(new Registered($user));
-
-        Auth::login($user); // Log the user in immediately after registration
-
-        return redirect()->route('verification.notice')
-            ->with('status', 'Please verify your email address to continue.');
+        return redirect()->route('dashboard')
+            ->with('status', 'Coordenador registrado com sucesso.');
     }
 }

@@ -75,7 +75,7 @@ class ResumoController extends BaseController
             'descricao' => 'required',
             'user_ids' => 'required|array',
             'user_ids.*' => 'exists:users,id',
-            'documento' => 'required|file|mimes:pdf|max:2048',
+            'documento' => 'required|file|mimes:pdf|max:10000',
         ];
 
         $msgs = [

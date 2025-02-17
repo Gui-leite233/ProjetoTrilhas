@@ -114,7 +114,7 @@ Route::middleware('guest')->group(function () {
 
     // Admin Registration
     Route::get('/register/admin', [RegisteredUserController::class, 'createAdmin'])
-        ->name('register.admin');
+        ->name('admin.register');
 
     Route::post('/register/admin', [RegisteredUserController::class, 'storeAdmin'])
         ->name('register.admin.store');
@@ -176,7 +176,11 @@ Route::middleware('auth')->group(function () {
 |--------------------------------------------------------------------------
 */
 
-Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
+// Move the resumo resource route outside of any middleware group
+Route::resource('resumo', ResumoController::class);
+
+// Adjust the admin middleware group
+Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('admin.dashboard');
     Route::get('/users', [AdminController::class, 'users'])->name('admin.users');
     Route::get('/reports', [AdminController::class, 'reports'])->name('admin.reports');
@@ -188,10 +192,21 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
         'bolsa' => BolsaController::class,
         'curso' => CursoController::class,
         'aluno' => AlunoController::class,
-        'projeto' => ProjetoController::class,
-        'resumo' => ResumoController::class,
+        'projeto' => ProjetoController::class
     ], ['except' => ['index']]);
+
+    // Add these new routes for admin registration
+    Route::get('/register/coordinator', [RegisteredUserController::class, 'createCoordinator'])
+        ->name('coordinator.register');  // Changed from register.coordinator
+    Route::post('/register/coordinator', [RegisteredUserController::class, 'storeCoordinator'])
+        ->name('coordinator.store');    // Changed from register.coordinator.store
 });
+
+// Move the home route to ensure it's not blocked
+Route::get('/', function () {
+    return view('index');
+})->name('home');
+
 
 
 

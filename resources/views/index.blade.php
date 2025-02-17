@@ -26,7 +26,7 @@
                     <span>Olá, {{ Auth::user()->nome }}</span>
                 </li>
                 @if(Auth::user()->role_id === 1)
-                    <a href="{{ route('admin.register') }}" class="admin-register-btn">
+                    <a href="{{ route('coordinator.register') }}" class="admin-register-btn">
                         <li><i class="fas fa-user-plus"></i> Novo Usuário</li>
                     </a>
                 @endif
