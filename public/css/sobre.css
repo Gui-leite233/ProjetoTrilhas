@@ -1,147 +1,283 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
 body {
-    font-family: Arial, sans-serif;
     line-height: 1.6;
-    background-color: #333; /* Cor escura para o body */
-    margin: 0;
-    padding: 0;
-    text-align: center; /* Centraliza o texto no corpo */
-  }
-  
-  header {
+    background-color: #333;
+    color: #e0e0e0;
+    min-height: 100vh;
     display: flex;
-    justify-content: space-between; /* Ajusta o espaçamento entre os itens */
+    flex-direction: column;
+}
+
+/* Header Styles */
+.title-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Updated Header and Nav Styles to match main index */
+header {
+    display: flex;
+    justify-content: space-between;
     align-items: center;
-    border-bottom: 2px solid #50a050;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 15px 20px;
-    background-color: #222; /* Cor escura para o header */
-  }
-  
-  .header-content {
+    padding: 1rem 2rem;
+    background-color: #333;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#title {
     display: flex;
     align-items: center;
-  }
-  
-  .header-content img {
+    gap: 1rem;
+}
+
+#title img {
     height: 50px;
-    margin-right: 10px; /* Aproxima o título da logo */
-  }
-  
-  .header-content h1 {
+    width: auto;
+}
+
+#title h1 {
+    color: #50a050;
+    font-size: 1.8rem;
     margin: 0;
-    font-size: 1.8em;
-    color: #e0e0e0; /* Ajusta a cor do título para verde */
-  }
-  
-  nav {
-    margin-left: 600px; /* Move o menu de navegação para o lado direito */
-  }
-  
-  nav ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+}
+
+.nav-links {
     display: flex;
-  }
-  
-  nav ul li {
-    margin-left: 20px;
-  }
-  
-  nav ul li a {
-    color: #e0e0e0; /* Cor clara para os links do menu */
+    align-items: center;
+    gap: 2rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.nav-links a {
+    color: #e0e0e0;
     text-decoration: none;
     font-weight: bold;
     padding: 10px 15px;
     border-radius: 5px;
     transition: background-color 0.3s, color 0.3s;
-  }
-  
-  nav ul li a:hover {
+}
+
+.nav-links a:hover {
     color: #fff;
-    background-color: #66c266;
-  }
-  
-  .container {
-    max-width: 900px; /* Aumenta a largura máxima */
-    margin: 30px auto; /* Centraliza o container */
-    padding: 20px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* Aumenta a sombra */
-    border-radius: 10px; /* Adiciona bordas arredondadas */
-    transition: transform 0.3s; /* Adiciona uma transição suave */
-    background-color: #e0e0e0; /* Cor escura para o container */
-  }
-  
-  h2 {
-    color: #333; /* Ajusta a cor do texto do título para clara */
-    text-align: center;
-    font-family: 'Courier New', Courier, monospace; /* Muda a fonte */
-    border-bottom: 2px solid #50a050; /* Adiciona uma borda inferior */
-    display: inline-block;
-    padding-bottom: 10px; /* Adiciona espaço abaixo do texto */
-  }
-  
-  p.container-text {
-    margin: 1em 0;
-    text-align: justify; /* Justifica o texto */
-    line-height: 1.8; /* Aumenta o espaçamento entre linhas */
-    font-family: 'Georgia', serif; /* Muda a fonte */
-    color: #222; /* Cor clara para o texto do container */
-    
-  }
-  
-  ul {
-    list-style-type: disc;
-    margin-left: 20px;
-    text-align: left; /* Mantém as listas alinhadas à esquerda */
-    font-family: 'Georgia', serif; /* Muda a fonte */
-    line-height: 1.6; /* Aumenta o espaçamento entre linhas */
-    color: #222; /* Cor clara para o texto das listas */
-  }
-  
-  a {
-    color: #50a050; /* Ajusta a cor dos links */
-    text-decoration: none; /* Remove o sublinhado dos links */
-  }
-  
-  a:hover {
-    color: #333; /* Muda a cor dos links ao passar o mouse */
-    text-decoration: underline; /* Adiciona sublinhado ao passar o mouse */
-  }
-  
-  .docs-section {
-    max-width: 900px;
-    margin: 30px auto;
-    padding: 20px;
-    background: #e0e0e0; /* Cor escura para a seção */
-    border-radius: 10px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-    text-align: center;
-  }
-  
-  .docs-section h3, .docs-section h4 {
-    font-size: 24px; /* Tamanho da fonte maior */
-    color: #222; /* Cor clara para o texto dos títulos */
-    text-align: center; /* Centraliza o texto */
-  }
-  
-  .docs-section embed {
-    margin-top: 20px;
+}
+
+.nav-links a.active {
+    color: #50a050;
+    background-color: rgba(80, 160, 80, 0.1);
+}
+
+.admin-register-btn {
+    background-color: #ff6b6b;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.admin-register-btn:hover {
+    background-color: #ff5252;
+    color: white;
+}
+
+.logged-user {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background-color: rgba(80, 160, 80, 0.1);
+    border-radius: 20px;
+    color: #50a050;
+}
+
+.nav-button {
+    background: none;
     border: none;
-  }
-  
-  footer {
-    background-color: #222; /* Cor escura para o footer */
-    padding: 20px 0;
+    color: #e0e0e0;
+    font: inherit;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.nav-button:hover {
+    color: #50a050;
+}
+
+/* Content Styles */
+.container {
+    flex: 1;
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+}
+
+/* Updated Content Styles */
+.content-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+/* New styles for the sobre section */
+#sobre.content-card {
+    grid-column: 1 / -1;
+    background-color: #444;
+    border-radius: 15px;
+    padding: 3rem;
+    margin-bottom: 2rem;
+    border: 2px solid #50a050;
+    position: relative;
+    overflow: hidden;
+}
+
+#sobre.content-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, #50a050, #66bb66);
+}
+
+#sobre.content-card .section-icon {
+    font-size: 3.5rem;
+    margin-bottom: 1.5rem;
+    color: #50a050;
+}
+
+#sobre.content-card h2 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: #50a050;
+    text-align: center;
+}
+
+#sobre.content-card p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #e0e0e0;
+    text-align: justify;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Rest of content cards */
+.content-card {
+    background-color: #444;
+    border-radius: 10px;
+    padding: 2rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+    position: relative;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.content-card:hover {
+    transform: translateY(-5px);
+}
+
+.section-icon {
+    color: #50a050;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.content-card h2 {
+    color: #50a050;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    border: none;
+}
+
+.list-content ul {
+    list-style: none;
+    margin: 1rem 0;
+}
+
+.list-content li {
+    display: flex;
+    align-items: start;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.list-content li i {
+    color: #50a050;
+    font-size: 1.2rem;
+    margin-top: 0.2rem;
+}
+
+/* Documents Section */
+.docs-section {
+    grid-column: 1 / -1;
+}
+
+.docs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.pdf-card {
+    background-color: #333;
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.pdf-card i {
+    color: #50a050;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.pdf-card h4 {
+    color: #e0e0e0;
+    margin-bottom: 1rem;
+}
+
+.pdf-card embed {
+    border-radius: 4px;
+    width: 100%;
+    height: 400px;
+}
+
+/* Updated Footer Styles to match main index */
+footer {
+    background-color: #222;
+    padding: 40px 0;
     color: #e0e0e0;
     width: 100%;
     box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
-    font-size: 18px; /* Aumenta o tamanho da fonte do footer */
-      
-      
-  }
-  
-  .footer-container {
+    font-size: 18px;
+    box-sizing: border-box;
+    margin-top: auto;
+}
+
+.footer-container {
     display: flex;
     justify-content: center;
     flex-wrap: nowrap;
@@ -149,109 +285,81 @@ body {
     margin: 0 auto;
     padding: 0 15px;
     text-align: center;
-  }
-  
-  .footer-section {
+    box-sizing: border-box;
+}
+
+.footer-section {
     flex: 1;
-    margin: 5px 0; /* Reduz o espaçamento entre as seções */
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Centraliza os itens dentro das seções */
-  }
-  
-  .footer-section h4 {
-    font-size: 18px;
-    margin-bottom: 5px; /* Reduz o espaçamento inferior */
-    color: #50a050;
-    text-align: center; /* Centraliza o texto */
-  }
-  
-  .footer-section ul {
-    list-style: none;
-    padding: 0;
-    margin: 0; /* Remover qualquer margem */
-  }
-  
-  .footer-section ul li {
-    margin-bottom: 5px; /* Reduz o espaçamento entre os itens da lista */
-    position: relative; /* Para usar o top */
-  }
-  
-  .footer-section ul li a {
-    color: #e0e0e0; /* Cor clara para os links do footer */
-    text-decoration: none;
-    transition: color 0.3s;
-  }
-  
-  .footer-section ul li a:hover {
-    color: #50a050;
-  }
-  
-  .footer-section p {
-    margin: 0.5em 0;
-    text-align: center; /* Centraliza os parágrafos do footer */
-    line-height: 1.6; /* Ajusta o espaçamento entre linhas */
-    font-family: 'Arial', sans-serif; /* Mantém a fonte do body */
-    color: #e0e0e0; /* Cor clara para o texto do footer */
-  }
-  
-  .social-links {
-    margin-top: 30px; /* Aumenta a margem superior para posicionar corretamente */
-    display: flex;
-    justify-content: center;
-    gap: 5px; /* Adiciona espaço entre os itens */
-  }
-  
-  .social-links li {
-    margin-right: 0; /* Remove qualquer margem à direita */
-  }
-  
-  .social-links li a {
-    color: #e0e0e0; /* Cor clara para os links das redes sociais */
-    transition: color 0.3s;
-    text-decoration: none; /* Remove a sublinha dos links */
-    padding: 5px 10px; /* Adiciona padding para melhorar o clique */
-    border-radius: 5px; /* Adiciona borda arredondada */
-  }
-  
-  .social-links li a:hover {
-    color: #50a050;
-    background-color: #f0f8ff; /* Adiciona cor de fundo no hover */
-  }
-  
-  .footer-section form {
+    margin: 5px 0;
     display: flex;
     flex-direction: column;
     align-items: center;
-  }
-  
-  .footer-section form input {
-    padding: 10px;
-    margin-bottom: 5px; /* Reduz o espaçamento entre os inputs */
-    border-radius: 5px;
-    border: none;
-    width: 100%;
-    max-width: 300px;
-  }
-  
-  .footer-section form button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    background-color: #50a050;
-    color: white;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .footer-section form button:hover {
-    background-color: #66bb66;
-  }
-  
-  .footer-bottom {
+}
+
+.footer-section h4 {
+    font-size: 18px;
+    margin-bottom: 5px;
+    color: #50a050;
     text-align: center;
-    padding: 5px 0; /* Reduz o padding no footer-bottom */
+}
+
+.social-links {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2px;
+}
+
+.social-links li a {
+    color: #e0e0e0;
+    transition: color 0.3s;
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.social-links li a:hover {
+    color: #50a050;
+    background-color: #f0f8ff;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding: 10px 0;
     background-color: #333;
     border-top: 2px solid #50a050;
-  }
-  
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .header-content {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .nav-links {
+        flex-direction: column;
+        width: 100%;
+        gap: 0.5rem;
+    }
+
+    .nav-links li {
+        width: 100%;
+    }
+
+    .nav-links a {
+        justify-content: center;
+    }
+
+    .logged-user {
+        justify-content: center;
+        width: 100%;
+    }
+
+    .content-grid {
+        grid-template-columns: 1fr;
+    }
+}

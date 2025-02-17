@@ -12,17 +12,17 @@
                     </div>
 
                     <h3 class="mt-6 text-xl font-bold text-gray-900">
-                        {{ __('Unauthorized Access') }}
+                        {{ __('Acesso Não Autorizado') }}
                     </h3>
 
                     <p class="mt-3 text-base text-gray-600">
-                        {{ __('You do not have permission to access this area.') }}
+                        {{ __('Você não tem permissão para acessar esta área.') }}
                     </p>
 
                     @if(isset($attemptedUrl))
                         <div class="mt-4 mx-auto max-w-md">
                             <p class="text-sm text-gray-500 bg-gray-50 rounded-lg p-3 break-all">
-                                {{ __('Attempted to access: ') }} 
+                                {{ __('Tentou acessar: ') }} 
                                 <span class="font-mono text-xs block mt-1">{{ $attemptedUrl }}</span>
                             </p>
                         </div>
@@ -31,12 +31,12 @@
                     <div class="mt-8 flex flex-col sm:flex-row justify-center gap-4">
                         <a href="{{ route('home') }}" 
                            class="primary-button w-full sm:w-auto inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white">
-                            {{ __('Return to Home') }}
+                            {{ __('Voltar para Início') }}
                         </a>
                         @auth
                             <a href="{{ route('dashboard') }}" 
                                class="secondary-button w-full sm:w-auto inline-flex justify-center items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white">
-                                {{ __('Go to Dashboard') }}
+                                {{ __('Ir para Painel') }}
                             </a>
                         @endauth
                     </div>
