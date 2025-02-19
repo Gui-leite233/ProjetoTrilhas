@@ -1,43 +1,52 @@
+# Version control
+.git
+.gitignore
+.gitattributes
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Dependencies
+/vendor
+/node_modules
+
+# Development files
+.idea
+.vscode
+*.sublime-*
+*.swp
+*.swo
+
+# Storage and logs
+/storage/logs/*
+/storage/framework/cache/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+
+# Testing
+/phpunit.xml
+/tests
+
+# Build artifacts
+/public/hot
+/public/storage
+
 # Allow composer files
 !composer.json
 !composer.lock
 
-# Keep existing exclusions
-**/.git
-**/.gitignore
-**/.env
-**/node_modules
-**/.classpath
-**/.dockerignore
-**/.project
-**/.settings
-**/.toolstarget
-**/.vs
-**/.vscode
-**/*.*proj.user
-**/*.dbmdl
-**/*.jfm
-**/bin
-**/charts
-**/compose*
-**/npm-debug.log
-**/obj
-**/secrets.dev.yaml
-**/values.dev.yaml
-LICENSE
-README.md
-
-.git
-node_modules
-vendor
-.env
-.env.*
-storage/logs
+# Explicitly allow environment example
+!.env.example
 
 # Exclude unnecessary files from the build context
 **/*.bak
 **/*.tmp
 **/*.swp
+
+# Allow PHP configurations
+!docker/php/custom.ini
 
 # Exclude additional hidden directories and files
 **/.venv
