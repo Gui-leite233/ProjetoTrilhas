@@ -72,7 +72,7 @@
                 </div>
 
                 <div class="button-group">
-                    <a href="{{ route('dashboard') }}" class="btn btn-back">
+                    <a href="{{ route('home') }}" class="btn btn-back">
                         <i class="fas fa-arrow-left"></i>
                         Voltar
                     </a>

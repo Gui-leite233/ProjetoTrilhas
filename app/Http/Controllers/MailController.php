@@ -25,9 +25,9 @@ class MailController extends Controller
             $mail->CharSet = 'UTF-8';
 
             // Recipients
-            $mail->setFrom(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME')); // System sends from configured email
-            $mail->addReplyTo($request->email, $request->name); // Set reply-to as the form submitter
-            $mail->addAddress($request->email, $request->name); // Send to the email provided in the form
+            $mail->setFrom(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME')); 
+            $mail->addReplyTo($request->email, $request->name); 
+            $mail->addAddress($request->email, $request->name);
 
             // Content
             $mail->isHTML(true);
