@@ -1,57 +1,57 @@
-# Use uma imagem base do PHP 8.2
 FROM php:8.2-fpm
 
-# Defina o diretório de trabalho
-WORKDIR /var/www
-
-# Instale dependências do sistema e o Composer
+# Install system dependencies
 RUN apt-get update && apt-get install -y \
-    curl \
     git \
+    curl \
+    libpng-dev \
+    libonig-dev \
+    libxml2-dev \
+    zip \
     unzip \
-    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
+    supervisor \
+    nginx \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Adicione o grupo 'sail' com um ID de grupo específico
-RUN groupadd --force -g 1001 sail
+# Install PHP extensions
+RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
 
-# Adicione um usuário 'sail' e adicione-o ao grupo 'sail'
-RUN useradd -m -g sail sail
+# Set working directory
+WORKDIR /var/www
 
-# Copie os arquivos do Composer
-COPY composer.lock ./
-COPY composer.json ./
+# Install composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Copie o script de correção de permissões
-COPY fix_permissions.sh ./
+# Create system user
+RUN useradd -G www-data,root -u 1000 -d /home/laravel laravel
+RUN mkdir -p /home/laravel/.composer && \
+    chown -R laravel:laravel /home/laravel
 
-# Execute o script de correção de permissões
-RUN chmod +x fix_permissions.sh && ./fix_permissions.sh
+# Copy project files
+COPY . /var/www/
+COPY .env.example /var/www/.env
 
-# Debugging: List files and permissions before copying
-RUN ls -lR /var/www
+# Set permissions
+RUN chown -R laravel:laravel /var/www
+RUN chmod -R 755 /var/www/storage
 
-# Copie todos os arquivos do diretório atual, exceto .env
-COPY . ./
+# Install dependencies
+RUN composer install --no-interaction --no-dev --optimize-autoloader
 
-# Debugging: List files and permissions after copying
-RUN ls -lR /var/www
+# Generate application key
+RUN php artisan key:generate
 
-# Defina permissões para o arquivo .env e remova-o
-RUN chmod 644 .env && rm -f .env
+# Configure PHP
+RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
+COPY docker/php/custom.ini /usr/local/etc/php/conf.d/custom.ini
 
-# Defina permissões para arquivos e diretórios após copiar os arquivos
-RUN ./fix_permissions.sh
-
-# Debugging: List files and permissions after fixing permissions
-RUN ls -lR /var/www
-
-# Instale as dependências do Composer
-RUN composer install --no-dev --optimize-autoloader --no-interaction
-
-# Exponha a porta 9000
+# Expose port 9000
 EXPOSE 9000
 
-# Comando para iniciar o PHP-FPM
+# Configure healthcheck
+HEALTHCHECK --interval=30s --timeout=3s \
+    CMD php artisan health:check || exit 1
+
+# Start PHP-FPM
 CMD ["php-fpm"]
