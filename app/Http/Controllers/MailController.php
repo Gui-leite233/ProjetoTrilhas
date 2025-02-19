@@ -16,48 +16,30 @@ class MailController extends Controller
 
             // Server settings
             $mail->isSMTP();
-            $mail->Host = 'smtp.gmail.com';
+            $mail->Host = env('MAIL_HOST');
             $mail->SMTPAuth = true;
             $mail->Username = env('MAIL_USERNAME');
             $mail->Password = env('MAIL_PASSWORD');
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-            $mail->Port = 587;
-            $mail->SMTPOptions = array(
-                'ssl' => array(
-                    'verify_peer' => false,
-                    'verify_peer_name' => false,
-                    'allow_self_signed' => true
-                )
-            );
+            $mail->SMTPSecure = env('MAIL_ENCRYPTION', 'tls');
+            $mail->Port = env('MAIL_PORT', 2525);
             $mail->CharSet = 'UTF-8';
 
             // Recipients
-            $mail->setFrom($request->email, $request->name); // Remetente (pessoa que está enviando)
-            $mail->addAddress('sepae.paranagua@ifpr.edu.br', 'SEPAE Paranaguá'); // Destinatário fixo
+            $mail->setFrom(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME')); // System sends from configured email
+            $mail->addReplyTo($request->email, $request->name); // Set reply-to as the form submitter
+            $mail->addAddress($request->email, $request->name); // Send to the email provided in the form
 
             // Content
             $mail->isHTML(true);
             $mail->Subject = $request->subject;
-            
-            // Corpo do email formatado
-            $emailBody = "
-                <h2>Novo contato do site</h2>
-                <p><strong>Nome:</strong> {$request->name}</p>
-                <p><strong>Email:</strong> {$request->email}</p>
-                <p><strong>Assunto:</strong> {$request->subject}</p>
-                <p><strong>Mensagem:</strong></p>
-                <p>{$request->message}</p>
-            ";
-            
-            $mail->Body = $emailBody;
-            $mail->AltBody = strip_tags($emailBody);
+            $mail->Body = $request->message;
+            $mail->AltBody = strip_tags($request->message);
 
             $mail->send();
-            return redirect()->back()->with('success', 'Email enviado com sucesso! Entraremos em contato em breve.');
+            return redirect()->back()->with('success', 'Mensagem enviada com sucesso!');
 
         } catch (Exception $e) {
-            \Log::error("Mail error: " . $mail->ErrorInfo);
-            return redirect()->back()->with('error', "Erro ao enviar email. Por favor, tente novamente mais tarde.");
+            return redirect()->back()->with('error', 'Erro ao enviar mensagem. Por favor, tente novamente.');
         }
     }
 
@@ -68,19 +50,12 @@ class MailController extends Controller
 
             // Server settings
             $mail->isSMTP();
-            $mail->Host = 'smtp.gmail.com';
+            $mail->Host = env('MAIL_HOST');
             $mail->SMTPAuth = true;
             $mail->Username = env('MAIL_USERNAME');
             $mail->Password = env('MAIL_PASSWORD');
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-            $mail->Port = 587;
-            $mail->SMTPOptions = array(
-                'ssl' => array(
-                    'verify_peer' => false,
-                    'verify_peer_name' => false,
-                    'allow_self_signed' => true
-                )
-            );
+            $mail->SMTPSecure = env('MAIL_ENCRYPTION', 'tls');
+            $mail->Port = env('MAIL_PORT', 2525);
             $mail->CharSet = 'UTF-8';
 
             // Recipients

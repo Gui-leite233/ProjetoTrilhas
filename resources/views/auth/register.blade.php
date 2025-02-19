@@ -11,6 +11,15 @@
     <link rel="stylesheet" href="{{asset('css/style.css')}}">
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <title>Registre-se no Trilhas</title>
+    <style>
+        .role-indicator {
+            color: #4a90e2;
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            font-style: italic;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -32,6 +41,18 @@
         <aside>
             <h2><span>Inscreva-se agora</span></h2>
             <h2>no Trilhas</h2>
+            <div class="role-indicator" x-data="{ 
+                getRoleName() {
+                    const roleId = {{ auth()->check() && auth()->user()->role_id === 1 ? 'this.selectedRole' : '3' }};
+                    switch(parseInt(roleId)) {
+                        case 1: return 'Administrador';
+                        case 2: return 'Professor';
+                        case 3: return 'Aluno';
+                        default: return 'Usuário';
+                    }
+                }
+            }" x-text="'Registrando como: ' + getRoleName()">
+            </div>
             <p>
                 Venha fazer parte de nossa comunidade de aprendizado! Cadastre-se em nosso site e descubra trilhas de aprendizagem incríveis para desenvolver novas habilidades e avançar na sua carreira.
            </p>
