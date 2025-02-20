@@ -29,6 +29,9 @@
                     <a href="{{ route('coordinator.register') }}" class="admin-register-btn">
                         <li><i class="fas fa-user-plus"></i> Novo Usuário</li>
                     </a>
+                    <a href="/admin" class="admin-dashboard-btn">
+                        <li><i class="fas fa-solar-panel"></i> Admin Dashboard</li>
+                    </a>
                 @endif
                 <a href="{{ route('dashboard') }}"><li><i class="fas fa-tachometer-alt"></i> Dashboard</li></a>
                 <form method="POST" action="{{ route('logout') }}" style="display: inline;">

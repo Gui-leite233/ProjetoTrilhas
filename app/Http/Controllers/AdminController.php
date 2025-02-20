@@ -16,7 +16,7 @@ class AdminController extends Controller
 {
     public function __construct()
     {
-        parent::middleware(['auth', 'admin']);
+        $this->middleware(['auth', 'admin']);
     }
 
     public function index()
@@ -36,8 +36,8 @@ class AdminController extends Controller
 
     public function users()
     {
-        $users = User::with('roles')->paginate(10);
-        return view('admin.users.index', compact('users'));
+        $users = User::all();
+        return view('admin.users', compact('users'));
     }
 
     public function reports()
