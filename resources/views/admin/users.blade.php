@@ -1,6 +1,11 @@
-@extends('moonshine::layouts.app')
+@extends('Layouts.MoonShineLayout')
 
 @section('title', 'Users Management')
+
+@push('styles')
+    <link href="{{ asset('css/moonshine.css') }}" rel="stylesheet">
+@endpush
+
 
 @section('content')
     <div class="overflow-hidden card">

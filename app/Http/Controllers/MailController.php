@@ -39,6 +39,7 @@ class MailController extends Controller
             return redirect()->back()->with('success', 'Mensagem enviada com sucesso!');
 
         } catch (Exception $e) {
+            \Log::error("Mail error: " . $mail->ErrorInfo);
             return redirect()->back()->with('error', 'Erro ao enviar mensagem. Por favor, tente novamente.');
         }
     }

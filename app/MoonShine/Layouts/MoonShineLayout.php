@@ -53,6 +53,7 @@ final class MoonShineLayout extends AppLayout
                 MenuItem::make('Reports', route('admin.reports'))
                     ->icon('document-text'),
             ])->icon('cog-6-tooth'),
+            'layout' => \App\MoonShine\Layouts\MoonShineLayout::class,
         ];
     }
 
