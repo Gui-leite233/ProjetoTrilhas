@@ -10,9 +10,8 @@ class AdminMiddleware
 {
     public function handle(Request $request, Closure $next)
     {
-        // Simple check - if not admin, always redirect to unauthorized
         if (!Auth::check() || Auth::user()->is_admin !== 1) {
-            return redirect('/unauthorized');
+            return redirect('/unauthorized')->with('attemptedUrl', $request->url());
         }
 
         return $next($request);

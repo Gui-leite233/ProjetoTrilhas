@@ -33,6 +33,8 @@ use MoonShine\UI\Components\{Breadcrumbs,
 use MoonShine\MenuManager\MenuGroup;
 use MoonShine\MenuManager\MenuItem;
 use MoonShine\MenuManager\SystemMenu;
+use App\MoonShine\Resources\UsersResource;
+use App\MoonShine\Resources\UserResource;
 
 final class MoonShineLayout extends AppLayout
 {
@@ -48,12 +50,11 @@ final class MoonShineLayout extends AppLayout
         return [
             ...parent::menu(),
             MenuGroup::make('System', [
-                MenuItem::make('Users', route('admin.users'))
+                MenuItem::make('Users', UserResource::class)
                     ->icon('users'),
                 MenuItem::make('Reports', route('admin.reports'))
                     ->icon('document-text'),
             ])->icon('cog-6-tooth'),
-            'layout' => \App\MoonShine\Layouts\MoonShineLayout::class,
         ];
     }
 

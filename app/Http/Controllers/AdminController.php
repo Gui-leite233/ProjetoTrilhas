@@ -37,6 +37,7 @@ class AdminController extends Controller
     public function users()
     {
         $users = User::all();
+        // Change this to explicitly use admin.users view
         return view('admin.users', compact('users'));
     }
 

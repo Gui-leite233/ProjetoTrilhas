@@ -28,7 +28,8 @@ use App\Http\Controllers\{
     AdminController,
     UnauthorizedController,
     MailController,
-    OAuthController
+    OAuthController,
+    UserController  // Add this at the top with other use statements
 };
 
 // Place this before any other routes
@@ -169,6 +170,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/email-verified', function () {
         return view('auth.verification-success');
     })->name('verification-success');
+
+    // Regular users management (move this outside admin middleware)
+    Route::resource('users', UserController::class);
 });
 
 /*
@@ -182,15 +186,17 @@ Route::resource('resumo', ResumoController::class);
 
 // Adjust the admin middleware group
 Route::middleware(['auth', 'admin'])->group(function () {
-    // Admin dashboard route
+    // Admin routes
     Route::prefix('admin')->group(function () {
+        // Dashboard
         Route::get('/', function () {
             return app(\App\MoonShine\Pages\Dashboard::class);
         })->name('moonshine.index');
-    });
 
-    Route::get('/users', [AdminController::class, 'users'])->name('admin.users');
-    Route::get('/reports', [AdminController::class, 'reports'])->name('admin.reports');
+        // Users and reports
+        Route::get('/users', [AdminController::class, 'users'])->name('admin.users.index');
+        Route::get('/reports', [AdminController::class, 'reports'])->name('admin.reports');
+    });
 
     // Admin resource routes
     Route::resources([

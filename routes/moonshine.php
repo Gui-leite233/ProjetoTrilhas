@@ -16,7 +16,3 @@ Route::middleware(['web', 'moonshine'])->group(function () {
         ->name('moonshine.authenticate');
 });
 
-Route::prefix('moonshine')->group(function () {
-    Route::resource('roles', RoleController::class)->names('moonshine.roles');
-    Route::resource('users', UserController::class)->names('moonshine.users');
-});
