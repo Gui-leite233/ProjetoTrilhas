@@ -1,4 +1,4 @@
-@extends('layouts.site')
+@extends('layouts.main')
 
 @section('title', 'Cursos - Projeto Trilhas')
 

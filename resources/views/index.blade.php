@@ -6,43 +6,68 @@
     <title>Projeto Trilhas IFPR</title>
     <link rel="stylesheet" href="{{asset('css/telaPrincipal.css')}}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script defer src="{{asset('js/navbar.js')}}"></script>
 </head>
 <body>
     <header>
         <a href="{{ url('/') }}" class="title-link">
             <div id="title">
-                <img src="{{asset('img/images.png')}}" alt="Logo">
-                <h1>Trilhas de aprendizagem</h1>
+                <img src="{{asset('img/images.png')}}" alt="Logo IFPR" loading="lazy">
+                <h1>Trilhas de <span class="highlight">Aprendizagem</span></h1>
             </div>
         </a>
 
-        <ul class="nav-links">
-            <a href="{{ url('/') }}"><li><i class="fas fa-home"></i> Inicio</li></a>
-            <a href="{{ route('sobre') }}"><li><i class="fas fa-info-circle"></i> Sobre</li></a>
-            <a href="{{ route('contato') }}"><li><i class="fas fa-envelope"></i> Contato</li></a>
-            @if(Auth::check())
-                <li class="logged-user">
-                    <i class="fas fa-user-circle"></i>
-                    <span>Olá, {{ Auth::user()->nome }}</span>
+        <nav class="nav-menu">
+            <ul class="nav-links">
+                
+                
+                <li class="nav-item-dropdown">
+                    <a href="#" class="dropdown-trigger">
+                        <i class="fas fa-info-circle"></i> Informações
+                        <i class="fas fa-chevron-down"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ route('sobre') }}"><i class="fas fa-info-circle"></i> Sobre</a></li>
+                        <li><a href="{{ route('contato') }}"><i class="fas fa-envelope"></i> Contato</a></li>
+                    </ul>
                 </li>
-                @if(Auth::user()->role_id === 1)
-                    <a href="{{ route('coordinator.register') }}" class="admin-register-btn">
-                        <li><i class="fas fa-user-plus"></i> Novo Usuário</li>
-                    </a>
-                    <a href="/admin" class="admin-dashboard-btn">
-                        <li><i class="fas fa-solar-panel"></i> Admin Dashboard</li>
-                    </a>
+
+                @if(Auth::check())
+                    <li class="nav-item-dropdown">
+                        <a href="#" class="dropdown-trigger">
+                            <i class="fas fa-user-circle"></i> {{ Auth::user()->nome }}
+                            <i class="fas fa-chevron-down"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ route('dashboard') }}"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                            @if(Auth::user()->role_id === 1)
+                                <li><a href="{{ route('coordinator.register') }}"><i class="fas fa-user-plus"></i> Novo Usuário</a></li>
+                                <li><a href="/admin"><i class="fas fa-solar-panel"></i> Admin Dashboard</a></li>
+                            @endif
+                        </ul>
+                    </li>
+                    <li>
+                        <form method="POST" action="{{ route('logout') }}" class="logout-form">
+                            @csrf
+                            <button type="submit" class="nav-button logout-button">
+                                <i class="fas fa-sign-out-alt"></i> Sair
+                            </button>
+                        </form>
+                    </li>
+                @else
+                    <li class="nav-item-dropdown">
+                        <a href="#" class="dropdown-trigger">
+                            <i class="fas fa-user"></i> Conta
+                            <i class="fas fa-chevron-down"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ route('login') }}"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+                            <li><a href="{{ route('register') }}"><i class="fas fa-user-plus"></i> Registrar</a></li>
+                        </ul>
+                    </li>
                 @endif
-                <a href="{{ route('dashboard') }}"><li><i class="fas fa-tachometer-alt"></i> Dashboard</li></a>
-                <form method="POST" action="{{ route('logout') }}" style="display: inline;">
-                    @csrf
-                    <button type="submit" class="nav-button"><i class="fas fa-sign-out-alt"></i> Sair</button>
-                </form>
-            @else
-                <a href="{{ route('login') }}"><li><i class="fas fa-sign-in-alt"></i> Login</li></a>
-                <a href="{{ route('register') }}"><li><i class="fas fa-user-plus"></i> Registrar</li></a>
-            @endif
-        </ul>
+            </ul>
+        </nav>
     </header>
 
     <div class="video-container">
