@@ -13,18 +13,22 @@ document.addEventListener('DOMContentLoaded', function() {
             leiaButton.className = 'leia-mais-btn';
             leiaButton.innerHTML = '<span>Leia mais</span><i class="fas fa-chevron-down"></i>';
             description.parentNode.insertBefore(leiaButton, description.nextSibling);
-
-            leiaButton.addEventListener('click', function() {
-                const card = this.closest('.card');
-                description.classList.toggle('truncated');
-                card.classList.toggle('expanded');
-                
-                if (description.classList.contains('truncated')) {
-                    this.innerHTML = '<span>Leia mais</span><i class="fas fa-chevron-down"></i>';
-                } else {
-                    this.innerHTML = '<span>Leia menos</span><i class="fas fa-chevron-up"></i>';
-                }
-            });
         }
+    });
+
+    document.querySelectorAll('.leia-mais-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const card = this.closest('.card');
+            const description = card.querySelector('.description');
+            
+            card.classList.toggle('expanded');
+            description.classList.toggle('truncated');
+            
+            if (card.classList.contains('expanded')) {
+                this.innerHTML = '<span>Leia menos</span><i class="fas fa-chevron-up"></i>';
+            } else {
+                this.innerHTML = '<span>Leia mais</span><i class="fas fa-chevron-down"></i>';
+            }
+        });
     });
 });

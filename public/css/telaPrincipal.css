@@ -298,7 +298,6 @@ video {
     border: 1px solid rgba(255, 255, 255, 0.1);
     height: 420px;
     overflow: hidden;
-    backdrop-filter: blur(10px);
 }
 
 .card:hover {
@@ -309,8 +308,6 @@ video {
 
 .card.expanded {
     height: auto;
-    min-height: 420px;
-    z-index: 10;
 }
 
 /* Card Inner Structure */
@@ -368,10 +365,11 @@ video {
 }
 
 .card-content {
-    flex: 1;
+    position: relative;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    flex: 1;
+    height: 100%;
 }
 
 .content-main {
@@ -402,20 +400,86 @@ video {
     border-radius: 2px;
 }
 
+.description-container {
+    position: relative;
+    flex: 1;
+    overflow: hidden;
+    margin-bottom: 1rem;
+    mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+}
+
+.description-wrapper {
+    position: relative;
+    margin-bottom: 4rem;
+    flex: 1;
+}
+
 .description {
     color: #d0d0d0;
     font-size: 0.95rem;
     line-height: 1.6;
     margin-bottom: 0.5rem;
-    position: relative;
+    overflow: hidden;
 }
 
 .description.truncated {
     display: -webkit-box;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
-    overflow: hidden;
-    margin-bottom: 0.5rem;
+    max-height: 6.4em;
+}
+
+.leia-mais-btn {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 2rem 0 0.5rem;
+    background: linear-gradient(to bottom, transparent, #383838 40%);
+    border: none;
+    color: #50a050;
+    cursor: pointer;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3rem;
+    transition: all 0.3s ease;
+}
+
+.button-row {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1rem;
+    background: inherit;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+    z-index: 2;
+}
+
+.card.expanded {
+    height: auto;
+}
+
+.card.expanded .description {
+    max-height: none;
+    -webkit-line-clamp: unset;
+}
+
+.card.expanded .leia-mais-btn {
+    background: none;
+    padding: 0.5rem 0;
+}
+
+/* Remove duplicate styles */
+.ver-mais-btn {
+    display: none;
 }
 
 /* Card Buttons */
