@@ -38,9 +38,8 @@
                     <div class="card-content">
                         <div class="content-main">
                             <h3>{{ $item->nome }}</h3>
-                            <p class="description" data-full-text="{{ $item->descricao }}">
-                                {{ Str::limit($item->descricao, 100) }}
-                                
+                            <p class="description">
+                                {{ $item->descricao }}
                             </p>
                             
                             <div class="button-row">
@@ -110,4 +109,8 @@
         });
     });
 </script>
+@endsection
+
+@section('scripts')
+    <script src="{{ asset('js/curso/index.js') }}"></script>
 @endsection
