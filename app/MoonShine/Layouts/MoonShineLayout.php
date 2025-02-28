@@ -8,7 +8,8 @@ use MoonShine\Laravel\Layouts\AppLayout;
 use MoonShine\ColorManager\ColorManager;
 use MoonShine\Contracts\ColorManager\ColorManagerContract;
 use MoonShine\Laravel\Components\Layout\{Locales, Notifications, Profile, Search};
-use MoonShine\UI\Components\{Breadcrumbs,
+use MoonShine\UI\Components\{
+    Breadcrumbs,
     Components,
     Layout\Flash,
     Layout\Div,
@@ -29,7 +30,8 @@ use MoonShine\UI\Components\{Breadcrumbs,
     Layout\ThemeSwitcher,
     Layout\TopBar,
     Layout\Wrapper,
-    When};
+    When
+};
 use MoonShine\MenuManager\MenuGroup;
 use MoonShine\MenuManager\MenuItem;
 use MoonShine\MenuManager\SystemMenu;
@@ -48,13 +50,11 @@ final class MoonShineLayout extends AppLayout
     protected function menu(): array
     {
         return [
-            ...parent::menu(),
-            MenuGroup::make('System', [
-                MenuItem::make('Users', UserResource::class)
-                    ->icon('users'),
-                MenuItem::make('Reports', route('admin.reports'))
-                    ->icon('document-text'),
-            ])->icon('cog-6-tooth'),
+            MenuItem::make('Back to Site', '/')
+                ->icon('home'),
+
+            MenuItem::make('Users', UserResource::class)
+                ->icon('users'),
         ];
     }
 

@@ -70,177 +70,158 @@
         </nav>
     </header>
 
-    <div class="video-container">
-        <video src="{{asset('img/Conheça o Campus Paranaguá.mp4')}}" controls autoplay muted></video>
-        <p>Mapa do Campus</p>
-    </div>
-    
-    <!-- Título Informativo -->
-    <section class="intro-section">
-        <h2>Descubra Nossas Trilhas de Aprendizagem</h2>
-        <p>Abaixo você encontrará diversas trilhas de aprendizagem que desenvolvemos para você. Clique em "Saiba mais" para explorar cada uma delas.</p>
-    </section>
-    
-    <!-- Change the card-container class to include homepage-cards -->
-    <div class="card-container homepage-cards">
-        <div class="card">
-            <div class="card-inner">
-                <div class="card-header">
-                    <div class="icon-wrapper">
-                        <i class="fas fa-graduation-cap"></i>
+    <main>
+        <div class="video-container">
+            <video src="{{asset('img/Conheça o Campus Paranaguá.mp4')}}" controls autoplay muted></video>
+            <p>Mapa do Campus</p>
+        </div>
+        
+        <section class="intro-section">
+            <h2>Descubra Nossas Trilhas de Aprendizagem</h2>
+            <p>Abaixo você encontrará diversas trilhas de aprendizagem que desenvolvemos para você. Clique em "Saiba mais" para explorar cada uma delas.</p>
+        </section>
+        
+        <div class="card-container homepage-cards">
+            <div class="card">
+                <div class="card-inner">
+                    <div class="card-header">
+                        <div class="icon-wrapper">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div class="content-main">
+                            <h3>CURSOS</h3>
+                            <p class="description">
+                                Invista no seu futuro com nossos cursos técnicos. Adquira habilidades e aumente suas oportunidades de carreira!🚀📚
+                            </p>
+                            <div class="button-row-center">
+                                <a href="{{ route('curso.index') }}" class="btn btn-saiba-mais">
+                                    <i class="fas fa-external-link-alt"></i> Saiba mais
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="card-content">
-                    <div class="content-main">
-                        <h3>CURSOS</h3>
-                        <p class="description">
-                            Invista no seu futuro com nossos cursos técnicos. Adquira habilidades e aumente suas oportunidades de carreira!🚀📚
-                        </p>
-                        <div class="button-row-center">
-                            <a href="{{ route('curso.index') }}" class="btn btn-saiba-mais">
-                                <i class="fas fa-external-link-alt"></i> Saiba mais
-                            </a>
+            </div>
+
+            <div class="card">
+                <div class="card-inner">
+                    <div class="card-header">
+                        <div class="icon-wrapper">
+                            <i class="fas fa-book-open"></i>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div class="content-main">
+                            <h3>RESUMOS</h3>
+                            <p class="description">
+                                Publique seus resumos e ajude a comunidade a crescer. Vamos construir conhecimento juntos! 🌟📚
+                            </p>
+                            <div class="button-row-center">
+                                <a href="{{ route('resumo.index') }}" class="btn btn-saiba-mais">
+                                    <i class="fas fa-external-link-alt"></i> Saiba mais
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-inner">
+                    <div class="card-header">
+                        <div class="icon-wrapper">
+                            <i class="fas fa-project-diagram"></i>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div class="content-main">
+                            <h3>PROJETOS</h3>
+                            <p class="description">
+                                Participe de nossos projetos acadêmicos e fortaleça sua experiência prática e aprendizado colaborativo! 🚀📚
+                            </p>
+                            <div class="button-row-center">
+                                <a href="{{ route('projeto.index') }}" class="btn btn-saiba-mais">
+                                    <i class="fas fa-external-link-alt"></i> Saiba mais
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-inner">
+                    <div class="card-header">
+                        <div class="icon-wrapper">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div class="content-main">
+                            <h3>PROVAS</h3>
+                            <p class="description">
+                                Explore provas antigas e melhore sua preparação. Estude de maneira inteligente!📚📝
+                            </p>
+                            <div class="button-row-center">
+                                <a href="{{ route('prova.index') }}" class="btn btn-saiba-mais">
+                                    <i class="fas fa-external-link-alt"></i> Saiba mais
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-inner">
+                    <div class="card-header">
+                        <div class="icon-wrapper">
+                            <i class="fas fa-hand-holding-usd"></i>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div class="content-main">
+                            <h3>BOLSAS</h3>
+                            <p class="description">
+                                Aproveite nossas bolsas de estudo e impulsione seu futuro acadêmico. Garanta seu sucesso! 🌟🎓
+                            </p>
+                            <div class="button-row-center">
+                                <a href="{{ route('bolsa.index') }}" class="btn btn-saiba-mais">
+                                    <i class="fas fa-external-link-alt"></i> Saiba mais
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-inner">
+                    <div class="card-header">
+                        <div class="icon-wrapper">
+                            <i class="fas fa-file-signature"></i>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div class="content-main">
+                            <h3>TCC'S</h3>
+                            <p class="description">
+                                Explore os TCC's realizados e inspire-se para criar o seu próprio trabalho acadêmico! 🌟📚
+                            </p>
+                            <div class="button-row-center">
+                                <a href="{{ route('tcc.index') }}" class="btn btn-saiba-mais">
+                                    <i class="fas fa-external-link-alt"></i> Saiba mais
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </main>
 
-        <div class="card">
-            <div class="card-inner">
-                <div class="card-header">
-                    <div class="icon-wrapper">
-                        <i class="fas fa-book-open"></i>
-                    </div>
-                </div>
-                <div class="card-content">
-                    <div class="content-main">
-                        <h3>RESUMOS</h3>
-                        <p class="description">
-                            Publique seus resumos e ajude a comunidade a crescer. Vamos construir conhecimento juntos! 🌟📚
-                        </p>
-                        <div class="button-row-center">
-                            <a href="{{ route('resumo.index') }}" class="btn btn-saiba-mais">
-                                <i class="fas fa-external-link-alt"></i> Saiba mais
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-inner">
-                <div class="card-header">
-                    <div class="icon-wrapper">
-                        <i class="fas fa-project-diagram"></i>
-                    </div>
-                </div>
-                <div class="card-content">
-                    <div class="content-main">
-                        <h3>PROJETOS</h3>
-                        <p class="description">
-                            Participe de nossos projetos acadêmicos e fortaleça sua experiência prática e aprendizado colaborativo! 🚀📚
-                        </p>
-                        <div class="button-row-center">
-                            <a href="{{ route('projeto.index') }}" class="btn btn-saiba-mais">
-                                <i class="fas fa-external-link-alt"></i> Saiba mais
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-inner">
-                <div class="card-header">
-                    <div class="icon-wrapper">
-                        <i class="fas fa-file-alt"></i>
-                    </div>
-                </div>
-                <div class="card-content">
-                    <div class="content-main">
-                        <h3>PROVAS</h3>
-                        <p class="description">
-                            Explore provas antigas e melhore sua preparação. Estude de maneira inteligente!📚📝
-                        </p>
-                        <div class="button-row-center">
-                            <a href="{{ route('prova.index') }}" class="btn btn-saiba-mais">
-                                <i class="fas fa-external-link-alt"></i> Saiba mais
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-inner">
-                <div class="card-header">
-                    <div class="icon-wrapper">
-                        <i class="fas fa-hand-holding-usd"></i>
-                    </div>
-                </div>
-                <div class="card-content">
-                    <div class="content-main">
-                        <h3>BOLSAS</h3>
-                        <p class="description">
-                            Aproveite nossas bolsas de estudo e impulsione seu futuro acadêmico. Garanta seu sucesso! 🌟🎓
-                        </p>
-                        <div class="button-row-center">
-                            <a href="{{ route('bolsa.index') }}" class="btn btn-saiba-mais">
-                                <i class="fas fa-external-link-alt"></i> Saiba mais
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-inner">
-                <div class="card-header">
-                    <div class="icon-wrapper">
-                        <i class="fas fa-file-signature"></i>
-                    </div>
-                </div>
-                <div class="card-content">
-                    <div class="content-main">
-                        <h3>TCC'S</h3>
-                        <p class="description">
-                            Explore os TCC's realizados e inspire-se para criar o seu próprio trabalho acadêmico! 🌟📚
-                        </p>
-                        <div class="button-row-center">
-                            <a href="{{ route('tcc.index') }}" class="btn btn-saiba-mais">
-                                <i class="fas fa-external-link-alt"></i> Saiba mais
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <footer>
-        <div class="footer-container">
-            <div class="footer-section">
-                <h4>Informações de Contato:</h4>
-                <p>Endereço: Av. Antônio Carlos Rodrigues, 453 - Porto Seguro, Paranaguá - PR, 83215-750</p>
-                <p>Telefone: (41) 3300-0134</p>
-                <p>Email: sepae.paranagua@ifpr.edu.br</p>
-            </div>
-            <div class="footer-section">
-                <h4>Acompanhe:</h4>
-                <ul class="social-links">
-                    <li><a href="https://www.instagram.com/trilhas.ifpr?igsh=ZXozejc1cmdra2Nm"><i class="fab fa-instagram"></i> Instagram</a></li>
-                    <li><a href="https://w.app/BDigQJ"><i class="fab fa-whatsapp"></i> WhatsApp</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2025 Projeto Trilhas IFPR. Todos os direitos reservados.</p>
-        </div>
-    </footer>
+    @include('components.footer')
 </body>
 </html>

@@ -15,6 +15,17 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    position: relative; /* Add this */
+    height: 100vh; /* Add this */
+    overflow-x: hidden; /* Add this */
+}
+
+main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0; /* Add this */
+    padding-bottom: 0; /* Add this */
 }
 
 header {
@@ -238,7 +249,7 @@ header ul a:hover {
     padding: 20px 0;
     background-color: #444; /* Fundo escuro */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-bottom: 40px;
+    margin-bottom: 0; /* Change from 40px to 0 */
 }
 
 video {
@@ -296,8 +307,10 @@ video {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    height: 420px;
-    overflow: hidden;
+    height: auto;
+    min-height: 450px;
+    padding-bottom: 80px; /* Space for buttons */
+    position: relative;
 }
 
 .card:hover {
@@ -365,10 +378,9 @@ video {
 }
 
 .card-content {
-    position: relative;
+    position: static; /* Changed from relative */
     display: flex;
     flex-direction: column;
-    flex: 1;
     height: 100%;
 }
 
@@ -376,6 +388,8 @@ video {
     flex: 1;
     display: flex;
     flex-direction: column;
+    height: 100%;
+    padding-bottom: 1rem; /* Add padding to prevent content from touching button */
 }
 
 /* Card Text Content */
@@ -410,8 +424,9 @@ video {
 
 .description-wrapper {
     position: relative;
-    margin-bottom: 4rem;
+    margin-bottom: 1rem;
     flex: 1;
+    overflow: hidden;
 }
 
 .description {
@@ -445,6 +460,7 @@ video {
     justify-content: center;
     gap: 0.3rem;
     transition: all 0.3s ease;
+    margin-bottom: 60px; /* Space for the button row */
 }
 
 .button-row {
@@ -499,7 +515,7 @@ video {
     justify-content: center;
     align-items: center;
     gap: 0.3rem !important;
-    padding-top: 0.5rem;
+    padding: 1rem 0; /* Increased padding for better spacing */
     margin-bottom: 0.5rem;
 }
 
@@ -879,13 +895,14 @@ video {
 
 footer {
     background-color: #222; /* Cor escura para o footer */
-    padding: 40px 0; /* Aumenta o padding do footer */
+    padding: 0; /* Remove padding completely */
     color: #e0e0e0;
     width: 100%;
     box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
     font-size: 18px; /* Aumenta o tamanho da fonte do footer */
     box-sizing: border-box; /* Inclui padding e border na largura total */
-    margin-top: auto;
+    display: flex;
+    flex-direction: column;
 }
 
 .footer-container {
@@ -894,7 +911,7 @@ footer {
     flex-wrap: nowrap;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 15px;
+    padding: 20px 15px; /* Move padding here */
     text-align: center;
     box-sizing: border-box; /* Inclui padding e border na largura total */
 }
@@ -1009,6 +1026,7 @@ footer {
     border-top: 2px solid #50a050;
     width: 100%; /* Garante que o footer-bottom ocupe toda a largura */
     box-sizing: border-box; /* Inclui padding e border na largura total */
+    margin-bottom: 0; /* Add this */
 }
 
 .action-button-container {
@@ -1128,7 +1146,8 @@ footer {
 .container {
     flex: 1;
     padding-top: 0.5rem;
-    padding-bottom: 2rem;
+    padding-bottom: 0; /* Changed from 2rem */
+    margin-bottom: 0;
 }
 
 /* Override and enhance button styles */
@@ -1398,4 +1417,98 @@ a.btn i {
 .user-course {
     font-size: 0.7rem;
     color: #bbb;
+}
+
+html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+/* Footer Styles */
+.main-footer {
+    background-color: #1a1a1a;
+    color: #ffffff;
+    padding: 2rem 0 0; /* Changed to only have top padding */
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 2rem;
+}
+
+.footer-section {
+    flex: 1;
+    min-width: 250px;
+}
+
+.footer-heading {
+    color: #4CAF50;
+    margin-bottom: 1.5rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.contact-details .contact-item {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 1rem;
+}
+
+.contact-item i {
+    color: #4CAF50;
+    margin-top: 5px;
+}
+
+.social-links {
+    list-style: none;
+    padding: 0;
+}
+
+.social-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #ffffff;
+    text-decoration: none;
+    padding: 8px 0;
+    transition: color 0.3s ease;
+}
+
+.social-link:hover {
+    color: #4CAF50;
+}
+
+.social-link i {
+    font-size: 1.5rem;
+}
+
+.footer-bottom {
+    text-align: center;
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid #333;
+}
+
+@media (max-width: 768px) {
+    .footer-container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .contact-details .contact-item {
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .social-link {
+        justify-content: center;
+    }
 }

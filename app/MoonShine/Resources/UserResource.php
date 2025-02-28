@@ -2,7 +2,6 @@
 
 namespace App\MoonShine\Resources;
 
-// Remove Column import as it's not needed
 use App\Models\User;
 use MoonShine\Laravel\Resources\ModelResource;
 use MoonShine\UI\Fields\ID;
@@ -13,8 +12,8 @@ use MoonShine\UI\Fields\Select;
 use MoonShine\UI\Fields\Date;
 use MoonShine\Actions\DeleteAction;
 use MoonShine\UI\Components\Layout\Grid;
+use MoonShine\UI\Components\Layout\Column;
 use MoonShine\Contracts\Core\DependencyInjection\FieldsContract;
-
 
 class UserResource extends ModelResource 
 {
@@ -40,36 +39,30 @@ class UserResource extends ModelResource
     {
         return [
             Grid::make([
-                [
-                    'xs' => 12,
-                    'md' => 6,
-                    'component' => Text::make('Nome')
+                Column::make([
+                    Text::make('Nome')
                         ->required()
                         ->default(fn($item) => optional($item)->nome),
-                ],
-                [
-                    'xs' => 12,
-                    'md' => 6,
-                    'component' => Email::make('Email')
+                 ])->columnSpan(6),
+                
+                Column::make([
+                    Email::make('Email')
                         ->required()
                         ->default(fn($item) => optional($item)->email),
-                ],
+                ])->columnSpan(6),
             ]),
 
             Grid::make([
-                [
-                    'xs' => 12,
-                    'md' => 6,
-                    'component' => Password::make('Password')
+                Column::make([
+                    Password::make('Password')
                         ->eye()
                         ->nullable()
                         ->customAttributes(['autocomplete' => 'new-password'])
                         ->hint('Leave empty to keep current password'),
-                ],
-                [
-                    'xs' => 12,
-                    'md' => 6,
-                    'component' => Select::make('Role', 'role_id')
+                 ])->columnSpan(6),
+                
+                Column::make([
+                    Select::make('Role', 'role_id')
                         ->required()
                         ->searchable()
                         ->default(fn($item) => optional($item)->role_id)
@@ -78,7 +71,7 @@ class UserResource extends ModelResource
                                 ->pluck('name', 'id')
                                 ->toArray()
                         ),
-                ],
+                 ])->columnSpan(6),
             ])
         ];
     }
@@ -96,7 +89,11 @@ class UserResource extends ModelResource
             'password' => $item->exists 
                 ? ['nullable', 'string', 'min:8']
                 : ['required', 'string', 'min:8'],
-            'role_id' => ['required', 'integer', 'in:0,1,2']
+            'role_id' => [
+                'required', 
+                'integer',
+                'exists:roles,id'
+            ]
         ];
     }
 
