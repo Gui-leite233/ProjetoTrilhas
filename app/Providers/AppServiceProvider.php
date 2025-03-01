@@ -27,15 +27,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Enable view caching in production
         if (!app()->isLocal()) {
             View::cache();
         }
         
-        ResetPassword::createUrlUsing(function (object $notifiable, string $token) {
-            return config('app.frontend_url')."/password-reset/$token?email={$notifiable->getEmailForPasswordReset()}";
-        });
-
-        // Cache expensive queries
+        // Enable query logging for debugging
         DB::enableQueryLog();
         
         // Add global scope for soft deletes performance
@@ -45,6 +42,10 @@ class AppServiceProvider extends ServiceProvider
 
         // Cache configuration settings
         Config::set('cache.ttl', env('CACHE_TTL', 3600));
+
+        ResetPassword::createUrlUsing(function (object $notifiable, string $token) {
+            return config('app.frontend_url')."/password-reset/$token?email={$notifiable->getEmailForPasswordReset()}";
+        });
 
         Blade::component('layouts.guest-error', 'guest-error-layout');
     }
