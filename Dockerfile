@@ -17,6 +17,9 @@ RUN apt-get update && apt-get install -y \
 # Install PHP extensions
 RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
 
+# Install Redis extension
+RUN pecl install redis && docker-php-ext-enable redis
+
 # Set working directory
 WORKDIR /var/www/html
 
@@ -52,7 +55,6 @@ RUN composer install --prefer-dist --no-interaction
 # Now run artisan commands
 RUN php artisan key:generate --force
 RUN php artisan config:clear
-RUN php artisan cache:clear
 RUN php artisan view:clear
 
 # Configure PHP
@@ -112,6 +114,8 @@ RUN echo '#!/bin/bash\n\
 mkdir -p /var/run\n\
 touch /var/run/php-fpm.sock\n\
 chown -R www-data:www-data /var/run/php-fpm.sock\n\
+cd /var/www/html\n\
+php artisan cache:clear\n\
 nginx\n\
 php-fpm\n\
 ' > /start.sh && chmod +x /start.sh
