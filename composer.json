@@ -9,6 +9,7 @@
         "barryvdh/laravel-dompdf": "^3.0",
         "blade-ui-kit/blade-heroicons": "^2.4",
         "blade-ui-kit/blade-zondicons": "^1.5",
+        "genealabs/laravel-caffeine": "*",
         "google/apiclient": "^2.18",
         "laravel/framework": "^11.9",
         "laravel/sanctum": "^4.0",
@@ -26,8 +27,7 @@
         "laravel/sail": "^1.32",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.0",
-        "pestphp/pest": "^3.6",
-        "pestphp/pest-plugin-laravel": "^3.0"
+        "pestphp/pest": "^3.6"
 
     },
     "autoload": {

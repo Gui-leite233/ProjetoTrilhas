@@ -113,6 +113,8 @@
         justify-content: space-between;
         align-items: center;
         margin-top: 2rem;
+        padding: 0;
+        position: relative;
     }
 
     .btn {

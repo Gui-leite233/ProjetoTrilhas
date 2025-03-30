@@ -75,7 +75,7 @@
 
 @section('additional_css')
 <style>
-    // ...existing card container and basic card styles...
+    
 
     .participants-badge {
         background: linear-gradient(135deg, #4a90e2, #357abd);

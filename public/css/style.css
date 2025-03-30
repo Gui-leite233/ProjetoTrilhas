@@ -17,7 +17,12 @@ body {
     color: white;
     font-family: poppinsregular;
 }
-
+html, body{
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
 /* Updated header styles */
 header {
     display: flex;
@@ -317,7 +322,8 @@ form [type="submit"]:hover {
 
 footer {
     background-color: #222; /* Cor escura para o footer */
-    padding: 40px 0; /* Aumenta o padding do footer */
+    padding: 20px;
+    padding-bottom: 0; /* Aumenta o padding do footer */
     color: #e0e0e0;
     width: 100%;
     box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);

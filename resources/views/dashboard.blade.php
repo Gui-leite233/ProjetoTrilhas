@@ -95,20 +95,21 @@
         }
 
         .card {
-            background: white;
-            border-radius: 10px;
-            padding: 2rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            flex: 1;
-            text-align: center;
-            cursor: pointer;
-            transform-style: preserve-3d;
-            animation: fadeInUp 0.6s ease-out forwards;
-            opacity: 0;
-            position: relative;
-            text-decoration: none; /* Add this */
-            display: block; /* Add this */
+        background: white;
+        border-radius: 10px;
+        padding: 1.5rem; /* Reduced padding */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        flex: 1;
+        text-align: center;
+        cursor: pointer;
+        transform-style: preserve-3d;
+        animation: fadeInUp 0.6s ease-out forwards;
+        opacity: 0;
+        position: relative;
+        text-decoration: none;
+        display: block;
+        min-height: 200px;
         }
 
         .card:hover {
