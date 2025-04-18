@@ -12,4 +12,14 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    build: {
+        manifest: true,
+        outDir: 'public/build',
+    },
+    server: {
+        host: '0.0.0.0',
+        hmr: {
+            host: 'localhost'
+        }
+    }
 });
